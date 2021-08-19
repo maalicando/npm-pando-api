@@ -1,0 +1,24 @@
+{
+  "name": "npm-pando-grpc",
+  "version": "1.4.8",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "build.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maalicando/pando-grpc.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/maalicando/pando-grpc/issues"
+  },
+  "homepage": "https://github.com/maalicando/pando-grpc#readme",
+  "dependencies": {
+    "google-protobuf": "^3.14.0-rc.3",
+    "grpc-web": "^1.2.1"
+  }
+}

@@ -1,0 +1,30 @@
+﻿syntax = "proto3";
+
+package central_station_template;
+
+// DO NOT CHANGE THE NAMESPACE
+option csharp_namespace = "Pando.Api.Alarm.V0.CentralStation.Template";
+
+// Add Messages here
+// Messages are model contracts
+// Protobuf will maintain backwards compatibility with old clients if the field numbers remain consistent
+// You may add or delete rows from a Message as long as you do not reuse field number
+// https://developers.google.com/protocol-buffers/docs/proto3
+
+message Model {
+	string central_station_template_guid = 1;
+	string client_central_station_guid = 2;
+	string panel_code = 3;
+	string template_value = 10;
+	bool is_ecv = 4;
+	bool is_active = 5;
+	bool flag_1 = 6;
+	bool flag_2 = 7;
+	string value_1 = 8;
+	string value_2 = 9;
+}
+
+message ModelList {
+	string client_central_station_guid = 1;
+	repeated Model models = 2;
+}

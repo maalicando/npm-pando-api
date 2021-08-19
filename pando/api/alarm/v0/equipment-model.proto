@@ -1,0 +1,60 @@
+﻿syntax = "proto3";
+
+// Circular dependencies are forbidden in protobuf
+// this file is to facilitate multiple packages using
+// the equipment models without circular references
+
+package equipment;
+
+// DO NOT CHANGE THE NAMESPACE
+option csharp_namespace = "Pando.Api.Alarm.V0.Equipment";
+
+// Add Messages here
+// Messages are model contracts
+// Protobuf will maintain backwards compatibility with old clients if the field numbers remain consistent
+// You may add or delete rows from a Message as long as you do not reuse field number
+// https://developers.google.com/protocol-buffers/docs/proto3
+
+message Model {
+	string equipment_guid = 1;
+	string part_number = 2;
+	string display_name = 3;
+	string description = 4;
+	string manufacturer = 5;
+	double cost = 6;
+	double retail_price = 7;
+	bool is_active = 8;
+	string date_created = 9;
+	string date_last_updated = 10;
+	bool allow_existing = 11;
+	double shipping_weight_lbs = 12;
+	bool is_programmable = 13;
+}
+
+message Extension {
+	string column_name = 1;
+	string column_type = 2;
+	string column_description = 3;
+	bool is_active = 4;
+	string default_value = 5;
+}
+
+message ExtensionValue {
+	string equipment_guid = 1;
+	string column_name = 2;
+	string column_value = 3;
+	bool is_active = 4;
+}
+
+message ModelList {
+	repeated Model equipment_list = 1;
+}
+
+message ExtensionList {
+	repeated Extension extensions = 2;
+}
+
+message ExtensionValueList {
+	string equipment_guid = 1;
+	repeated ExtensionValue extension_values = 2;
+}

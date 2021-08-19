@@ -1,0 +1,40 @@
+﻿syntax = "proto3";
+
+// Circular dependencies are forbidden in protobuf
+// this file is to facilitate multiple packages using
+// the panel models without circular references
+
+package zonelocation;
+
+// DO NOT CHANGE THE NAMESPACE
+option csharp_namespace = "Pando.Api.Alarm.V0.ZoneLocation";
+
+// Messages go here
+// Messages are model contracts
+// Protobuf will maintain backwards compatibility with old clients if the field numbers remain consistent
+// You may add or delete rows from a Message as long as you do not reuse field number
+// https://developers.google.com/protocol-buffers/docs/proto3
+
+message Model {
+	string zone_location_guid = 1;
+	string zone_location_expression = 2;
+	int32 first_number = 3;
+	string panel_code = 4;
+	bool is_active = 5;
+	string name_lookup = 6;
+	string zone_type_start_value = 7;
+}
+
+message DeviceType {
+	string device_type_code = 1;
+	string display_name = 2;
+	bool is_active = 3;
+}
+
+message ModelList {
+	repeated Model models = 1;
+}
+
+message DeviceTypeList {
+	repeated DeviceType device_types = 1;
+}

@@ -1,0 +1,68 @@
+﻿syntax = "proto3";
+
+// Circular dependencies are forbidden in protobuf
+// this file is to facilitate multiple packages using
+// the panel models without circular references
+
+package panel;
+
+// DO NOT CHANGE THE NAMESPACE
+option csharp_namespace = "Pando.Api.Alarm.V0.Panel";
+
+service PanelModelService {
+	// please don't put anything here
+}
+
+// Add Messages here
+// Messages are model contracts
+// Protobuf will maintain backwards compatibility with old clients if the field numbers remain consistent
+// You may add or delete rows from a Message as long as you do not reuse field number
+// https://developers.google.com/protocol-buffers/docs/proto3
+
+message Type {
+	string panel_code = 1;
+	string display_name = 2;
+	string manufacturer = 3;
+	bool is_active = 4;
+	bool allow_diy = 5;
+	bool allow_existing = 6;
+}
+
+message Configuration {
+	string panel_code = 1;
+	string panel_configuration_guid = 2;
+	string central_station_code = 3;
+	string interactive_provider_code = 4;
+	bool is_active = 5;
+}
+
+message PanelEquipment {
+	reserved 4, 5;
+	string panel_code = 1;
+	string equipment_guid = 2;
+	string panel_configuration_guid = 3;
+	string display_name = 6;
+	string group_code = 7;
+}
+
+message PanelEquipmentGroup {
+	string group_code = 1;
+	string display_name = 2;
+	bool is_active = 3;
+}
+
+message TypeList {
+	repeated Type types = 1;
+}
+
+message ConfigurationList {
+	repeated Configuration configurations = 1;
+}
+
+message PanelEquipmentList {
+	repeated PanelEquipment panel_equipments = 1;
+}
+
+message PanelEquipmentGroupList {
+	repeated PanelEquipmentGroup panel_equipment_groups = 1;
+}

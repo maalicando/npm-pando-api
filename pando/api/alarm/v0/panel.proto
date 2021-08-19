@@ -1,0 +1,70 @@
+﻿syntax = "proto3";
+
+package panel_service;
+
+import "pando/api/alarm/v0/equipment-model.proto";
+import "pando/api/alarm/v0/panel-model.proto";
+import "pando/api/extensions.proto";
+import "pando/api/shared.proto";
+
+// DO NOT CHANGE THE NAMESPACE
+option csharp_namespace = "Pando.Api.Alarm.V0.Panel";
+
+service PanelService {
+	option (pando.api.service).required_scope = "equipment_service";
+
+	// This is the Service Contract; Add Endpoints Contracts Here
+	rpc GetAllTypes (pando.api.Empty) returns (panel.TypeList);
+	rpc GetType (GetPanelTypeRequest) returns (panel.Type);
+	rpc GetConfiguration (GetPanelConfigurationRequest) returns (panel.Configuration);
+	rpc GetConfigurationFromGuildList (GetPanelConfigurationGuidListRequest) returns (panel.ConfigurationList);
+	rpc GetConfigurationList (GetPanelTypeRequest) returns (panel.ConfigurationList);
+	rpc GetPanelEquipmentList (GetPanelTypeRequest) returns (panel.PanelEquipmentList);
+	rpc GetCompatibleEquipmentList (GetPanelTypeRequest) returns (equipment.ModelList);
+	rpc GetPanelEquipmentGroups (GetPanelEquipmentGroupsRequest) returns (panel.PanelEquipmentGroupList);
+	rpc CreateType (panel.Type) returns (panel.TypeList);
+	rpc UpdateType (panel.Type) returns (panel.TypeList);
+	rpc CreateConfiguration (panel.Configuration) returns (panel.ConfigurationList);
+	rpc UpdateConfiguration (panel.Configuration) returns (panel.ConfigurationList);
+	rpc AddPanelCompatibleEquipment (EditCompatibleEquipmentRequest) returns (equipment.ModelList);
+	rpc RemovePanelCompatibleEquipment (EditCompatibleEquipmentRequest) returns (equipment.ModelList);
+	rpc AddPanelEquipment (EditPanelEquipmentRequest) returns (panel.PanelEquipmentList);
+	rpc RemovePanelEquipment (EditPanelEquipmentRequest) returns (panel.PanelEquipmentList);
+	rpc CreatePanelEquipmentGroup (panel.PanelEquipmentGroup) returns (panel.PanelEquipmentGroupList);
+	rpc UpdatePanelEquipmentGroup (panel.PanelEquipmentGroup) returns (panel.PanelEquipmentGroupList);
+}
+
+// Messages go here
+// Messages are model contracts
+// Protobuf will maintain backwards compatibility with old clients if the field numbers remain consistent
+// You may add or delete rows from a Message as long as you do not reuse field number
+// https://developers.google.com/protocol-buffers/docs/proto3
+
+message GetPanelTypeRequest {
+	string panel_code = 1;
+	bool include_inactive = 2;
+}
+
+message GetPanelConfigurationRequest {
+	string panel_configuration_guid = 1;
+	bool include_inactive = 2;
+}
+
+message GetPanelEquipmentGroupsRequest {
+	repeated string group_codes = 1;
+	bool include_inactive = 2;
+}
+
+message GetPanelConfigurationGuidListRequest {
+	repeated string panel_configuration_guids = 1;
+	bool include_inactive = 2;
+}
+
+message EditCompatibleEquipmentRequest {
+	string panel_code = 1;
+	repeated string equipment_guids = 2;
+}
+
+message EditPanelEquipmentRequest {
+	repeated panel.PanelEquipment panel_equipment_list = 1;
+}

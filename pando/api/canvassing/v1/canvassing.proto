@@ -1,0 +1,474 @@
+syntax = "proto3";
+
+// do not change the package name
+package pando.api.canvassing.v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+import "pando/api/extensions.proto";
+import "pando/api/shared.proto";
+
+// these must be the same in all 'pando.api.canvassing.v1' proto files
+option csharp_namespace = "Pando.Api.Canvassing.V1";
+option java_multiple_files = true;
+option java_package = "com.pando.api.canvassing.v1";
+option ruby_package = "Pando::Api::Canvassing::V1";
+
+service CanvassingService {
+    option (pando.api.service).required_scope = "canvassing";
+
+    rpc CreateArea(CreateAreaRequest) returns (Area){
+        option (pando.api.method).required_claim = "canvassing:area,write";
+        option (google.api.http) = {
+            post: "/api/v1/canvassing/area",
+            body: "*"
+        };
+    }
+
+    rpc DeleteArea(AreaIdRequest) returns (pando.api.Empty){
+        option (pando.api.method).required_claim = "canvassing:area,delete";
+        option (google.api.http) = {
+            delete: "/api/v1/canvassing/area"
+        };
+    }
+
+    rpc GetArea(AreaIdRequest) returns (Area){
+        option (google.api.http) = {
+            get: "/api/v1/canvassing/area"
+        };
+    }
+
+    rpc UpdateArea(UpdateAreaRequest) returns (Area){
+        option (pando.api.method).required_claim = "canvassing:area,write";
+        option (google.api.http) = {
+            patch: "/api/v1/canvassing/area",
+            body: "area"
+        };
+    }
+
+    rpc ExecAssignAreaMember(AssignMemberRequest) returns (AreaMember){
+        option (pando.api.method).required_claim = "canvassing:area,write";
+        option (google.api.http) = {
+            put: "/api/v1/canvassing/area/member"
+        };
+    }
+
+    rpc ExecUnassignAreaMember(AssignMemberRequest) returns (pando.api.Empty){
+        option (pando.api.method).required_claim = "canvassing:area,write";
+        option (google.api.http) = {
+            delete: "/api/v1/canvassing/area/member"
+        };
+    }
+
+    rpc CreateAreaNote(CreateAreaNoteRequest) returns (AreaNote){
+        option (google.api.http) = {
+            post: "/api/v1/canvassing/area/note",
+            body: "*"
+        };
+    }
+    
+    rpc GetAreaNoteList(AreaIdRequest) returns (AreaNoteList){
+        option (google.api.http) = {
+            get: "/api/v1/canvassing/area/note/list"
+        };
+    }
+
+    rpc DeleteAreaNote(NoteIdRequest) returns (pando.api.Empty){
+        option (pando.api.method).required_claim = "canvassing:area:note,delete";
+        option (google.api.http) = {
+            delete: "/api/v1/canvassing/area/note"
+        };
+    }
+
+    rpc CreateLead(CreateLeadRequest) returns (Lead){
+        option (google.api.http) = {
+            post: "/api/v1/canvassing/lead",
+            body: "*"
+        };
+    }
+
+    rpc UpdateLead(UpdateLeadRequest) returns (Lead){
+        option (google.api.http) = {
+            patch: "/api/v1/canvassing/lead",
+            body: "*"
+        };
+    }
+
+    rpc GetLead(LeadIdRequest) returns (Lead){
+        option (google.api.http) = {
+            get: "/api/v1/canvassing/lead"
+        };
+    }
+
+    rpc DeleteLead(LeadIdRequest) returns (pando.api.Empty){
+        option (pando.api.method).required_claim = "canvassing:lead,delete";
+        option (google.api.http) = {
+            delete: "/api/v1/canvassing/lead"
+        };
+    }
+
+    rpc ExecSetLeadType(SetLeadTypeRequest) returns (Lead){
+        option (google.api.http) = {
+            post: "/api/v1/canvassing/lead/set-type"
+        };
+    }
+
+    rpc CreateLeadNote(CreateLeadNoteRequest) returns (LeadNote){
+        option (google.api.http) = {
+            post: "/api/v1/canvassing/lead/note",
+            body: "*"
+        };
+    }
+
+    rpc DeleteLeadNote(LeadNoteIdRequest) returns (pando.api.Empty){
+        option (pando.api.method).required_claim = "canvassing:lead:note,delete";
+        option (google.api.http) = {
+            delete: "/api/v1/canvassing/lead/note"
+        };
+    }
+
+    rpc GetLeadNoteList(LeadIdRequest) returns (LeadNoteList){
+        option (google.api.http) = {
+            get: "/api/v1/canvassing/lead/note/list"
+        };
+    }
+
+    rpc CreateLeadType(CreateLeadTypeRequest) returns (LeadType){
+        option (google.api.http) = {
+            post: "/api/v1/canvassing/lead/type",
+            body: "*"
+        };
+    }
+
+    rpc GetLeadType(LeadTypeIdRequest) returns (LeadType){
+        option (google.api.http) = {
+            get: "/api/v1/canvassing/lead/type"
+        };
+    }
+
+    rpc GetLeadTypeList(LeadTypeListRequest) returns (LeadTypeList){
+        option (google.api.http) = {
+            get: "/api/v1/canvassing/lead/type/list"
+        };
+    }
+
+    rpc UpdateLeadType(UpdateLeadTypeRequest) returns (LeadType){
+        option (google.api.http) = {
+            patch: "/api/v1/canvassing/lead/type",
+            body: "*"
+        };
+    }
+
+    rpc DeleteLeadType(LeadTypeIdRequest) returns (pando.api.Empty){
+        option (google.api.http) = {
+            delete: "/api/v1/canvassing/lead/type"
+        };
+    }
+
+    rpc GetAreasWithinBounds(BoundsRequest) returns (AreaBoundsResponse){
+        option (google.api.http) = {
+            get: "/api/v1/canvassing/area/bounds"
+        };
+    }
+
+    rpc GetLeadsWithinBounds(BoundsRequest) returns (LeadBoundsResponse){
+        option (google.api.http) = {
+            get: "/api/v1/canvassing/lead/bounds"
+        };
+    }
+
+    rpc CreateLeadAttribute(CreateLeadAttributeRequest) returns (LeadAttribute){
+        option (google.api.http) = {
+            post: "/api/v1/canvassing/lead/attribute",
+            body: "*"
+        };
+    }
+
+    rpc UpdateLeadAttribute(UpdateLeadAttributeRequest) returns (LeadAttribute){
+        option (google.api.http) = {
+            patch: "/api/v1/canvassing/lead/attribute",
+            body: "*"
+        };
+    }
+
+    rpc DeleteLeadAttribute(LeadAttributeIdRequest) returns (pando.api.Empty){
+        option (google.api.http) = {
+            delete: "/api/v1/canvassing/lead/attribute"
+        };
+    }
+
+    rpc GetLeadAttributeList(ListLeadAttributeRequest) returns (LeadAttributeList){
+        option (google.api.http) = {
+            get: "/api/v1/canvassing/lead/attribute/list"
+        };
+    }
+}
+
+message LeadAttributeList{
+    repeated LeadAttribute attributes = 1;
+}
+
+message LeadAttributeIdRequest{
+    int32 lead_attribute_id = 1;
+}
+
+message ListLeadAttributeRequest{
+    string organization_code = 1;
+    bool include_inactive = 2;
+}
+
+enum LeadAttributeType{
+    STRING = 0;
+    NUMBER = 1;
+    DATE = 2;
+}
+
+message CreateLeadAttributeRequest{
+    string organization_code = 1;
+    string name = 2;
+    LeadAttributeType type = 3;
+    bool active = 4;
+}
+
+message UpdateLeadAttributeRequest{
+    int32 id = 1;
+    string active = 2;
+}
+
+message LeadAttribute{
+    int32 id = 1;
+    string organization_code = 2;
+    string name = 3;
+    LeadAttributeType type = 4;
+    bool active = 5;
+}
+
+message LeadAttributeValue{
+    int32 attribute_id = 1;
+    string value = 2;
+}
+
+message LeadTypeListRequest{
+    string organization_code = 1;
+}
+
+message LeadTypeList{
+    repeated LeadType lead_types = 1;
+}
+
+// Deprecated in favor of UpdateLead
+message SetLeadTypeRequest{
+    int32 lead_id = 1 [deprecated = true]; 
+    int32 type_id = 2 [deprecated = true];
+}
+
+message LeadNoteList{
+    repeated LeadNote notes = 1;
+}
+
+message Group{
+    int32 count = 1;
+    Coordinate coordinate = 2;
+}
+
+message AreaBoundsResponse{
+    repeated AreaBoundsResponseItem items = 1;
+}
+
+message AreaBoundsResponseItem{
+    oneof item {
+        AreaShort area = 1;
+        Group group = 2;
+    }
+}
+
+message LeadBoundsResponse{
+    repeated LeadBoundsResponseItem items = 1;
+}
+
+message LeadBoundsResponseItem{
+    oneof item {
+        LeadShort lead = 1;
+        Group group = 2;
+    }
+}
+
+message LeadShort{
+    int32 id = 1;
+    int32 type_id = 2;
+    Coordinate coordinate = 3;
+}
+
+message BoundsRequest{
+    string organization_code = 1;
+    repeated Coordinate coordinates = 2;
+    google.protobuf.Timestamp date_start = 3;
+    google.protobuf.Timestamp date_end = 4;
+}
+
+message AreaShort{
+    int32 id = 1;
+    string name = 2;
+    string color = 3;
+    repeated Coordinate coordinates = 4;
+    Coordinate center = 5;
+}
+
+message UpdateLeadTypeRequest{
+    LeadType lead_type = 1;
+    google.protobuf.FieldMask update_mask = 2;
+}
+
+message LeadTypeIdRequest{
+    int32 lead_type_id = 1;
+}
+
+message CreateLeadTypeRequest{
+    string organization_code = 1;
+    string name = 2;
+    string description = 3;
+    string icon_color = 4;
+    string label = 5;
+    string label_color = 6;
+    bool is_assignable = 7;
+    bool is_displayed = 8;
+}
+
+message LeadType{
+    int32 id = 1;
+    string organization_code = 2;
+    string created_by_id = 3;
+    google.protobuf.Timestamp date_created = 4;
+    string updated_by_id = 5;
+    google.protobuf.Timestamp date_updated = 6;
+    string name = 7;
+    string description = 8;
+    string icon_color = 9;
+    string label = 10;
+    string label_color = 11;
+    bool is_assignable = 12;
+    bool is_displayed = 13;
+}
+
+message LeadNoteIdRequest{
+    int32 id = 1;
+    int32 lead_id = 2;
+}
+
+message LeadNote{
+    int32 id = 1;
+    int32 lead_id = 2;
+    string created_by_id = 3;
+    google.protobuf.Timestamp date_created = 4;
+    string text = 5;
+}
+
+message CreateLeadNoteRequest{
+    int32 lead_id = 1;
+    string text = 2;
+}
+
+message LeadIdRequest{
+    int32 lead_id = 1;
+}
+
+message CreateLeadRequest{
+    string organization_code = 1;
+    int32 lead_type_id = 2;
+    Coordinate coordinate = 3;
+    repeated LeadAttributeValue attribute_values = 4;
+}
+
+message UpdateLeadRequest{
+    Lead lead = 1;
+    google.protobuf.FieldMask update_mask = 2;
+}
+
+message Lead{
+    int32 id = 1;
+    string organization_code = 2;
+    string created_by_id = 3;
+    google.protobuf.Timestamp date_created = 4;
+    string updated_by_id = 5;
+    google.protobuf.Timestamp date_updated = 6;
+    int32 lead_type_id = 7;
+    Coordinate coordinate = 8;
+    repeated LeadAttributeValue attribute_values = 9;
+}
+
+message NoteIdRequest{
+    int32 area_id = 1;
+    int32 note_id = 2;
+}
+
+message AreaNoteList{
+    repeated AreaNote notes = 1;
+}
+
+message CreateAreaNoteRequest{
+    int32 area_id = 1;
+    string text = 2;
+}
+
+message AreaNote{
+    int32 id = 1;
+    int32 area_id = 2;
+    string created_by_id = 3;
+    google.protobuf.Timestamp date_created = 4;
+    string text = 5;
+}
+
+message AssignMemberRequest{
+    int32 area_id = 1;
+    string user_id = 2;
+}
+
+message UpdateAreaRequest{
+    Area area = 1;
+    google.protobuf.FieldMask update_mask = 2;
+}
+
+message AreaIdRequest{
+    int32 area_id = 1;
+}
+
+message CreateAreaRequest{
+    string organization_code = 1;
+    string name = 2;
+    string color = 3;
+    repeated Coordinate coordinates = 4;
+    google.protobuf.Timestamp date_start = 5;
+    google.protobuf.Timestamp date_end = 6;
+    repeated AreaMember members = 7;
+}
+
+message Area {
+    int32 id = 1;
+    string organization_code = 2;
+    string created_by_id = 3;
+    google.protobuf.Timestamp date_created = 4;
+    string updated_by_id = 5;
+    google.protobuf.Timestamp date_updated = 6;
+
+    string name = 7;
+    string color = 8;
+    google.protobuf.Timestamp date_start = 9;
+    google.protobuf.Timestamp date_end = 10;
+    repeated Coordinate coordinates = 11;
+    Coordinate center = 12;
+    repeated AreaMember members = 13;
+}
+
+message Coordinate{
+    double latitude = 1;
+    double longitude = 2;
+}
+
+message AreaMember {
+    int32 id = 1;
+    int32 area_id = 2;
+    string user_id = 3;
+    google.protobuf.Timestamp date_assigned = 4;
+    google.protobuf.Timestamp date_unassigned = 5;
+}

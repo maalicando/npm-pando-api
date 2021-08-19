@@ -1,0 +1,73 @@
+/*
+    This file exists in two repositories:
+        pando.common (in Pando.Api.Internal)
+        public-api
+
+    Any changes to this file must be made in both repositories; they should be identical.
+*/
+
+syntax = "proto3";
+
+import "google/protobuf/descriptor.proto";
+
+// these must be the same in all 'pando.api' proto files
+package pando.api;
+option csharp_namespace = "Pando.Api";
+option java_multiple_files = true;
+option java_package = "com.pando.api";
+option ruby_package = "Pando::Api";
+
+// This file does not define a Service
+
+extend google.protobuf.ServiceOptions {
+    ServiceMetadata service = 84057;
+}
+
+extend google.protobuf.MethodOptions {
+    ServiceMetadata method = 84057;
+}
+
+extend google.protobuf.MessageOptions {
+    MessageMetadata message = 84057;
+}
+
+extend google.protobuf.FieldOptions {
+    MessageMetadata field = 84057;
+}
+
+extend google.protobuf.OneofOptions {
+    MessageMetadata oneof = 84057;
+}
+
+message ServiceMetadata {
+    repeated string required_scope = 1;
+    repeated string required_claim = 2;
+    bool require_user_auth = 3;
+    bool require_client_auth = 4;
+    repeated ScopeMetadata optional_scope = 5;
+    repeated ClaimMetadata optional_claim = 6;
+}
+
+message MessageMetadata {
+    bool personal_info = 1;
+    bool sensitive_info = 2;
+
+    // "true" means that requests should not use this message/field; it is only used for responses
+    bool response_only = 3;
+
+    // "true" means that responses do not use this message/field; it is only used for requests
+    bool request_only = 4;
+
+    // "true" means that requests with this message must contain this field
+    bool request_required = 5;
+}
+
+message ScopeMetadata {
+    string scope = 1;
+    string note = 2;
+}
+
+message ClaimMetadata {
+    string claim = 1;
+    string note = 2;
+}

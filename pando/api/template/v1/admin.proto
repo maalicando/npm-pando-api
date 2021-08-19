@@ -1,0 +1,210 @@
+syntax = "proto3";
+
+// do not change the package name
+package pando.api.template.v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+import "pando/api/extensions.proto";
+import "pando/api/shared.proto";
+
+// these must be the same in all 'pando.template.v1' proto files
+option csharp_namespace = "Pando.Api.Template.V1";
+option java_multiple_files = true;
+option java_package = "com.pando.api.template.v1";
+option ruby_package = "Pando::Api::Template::v1";
+
+service TemplateAdminService {
+    option (pando.api.service).required_scope = "template:admin";
+
+    rpc GetTemplate(TemplateRequest) returns (Template) {
+        option (pando.api.method).required_claim = "template,read";
+        option (google.api.http) = {
+            get: "/api/v1/document/template"
+        };
+    }
+
+    rpc GetTemplateList(TemplateListRequest) returns (TemplateList) {
+        option (pando.api.method).required_claim = "template,read";
+        option (google.api.http) = {
+            get: "/api/v1/document/template/list"
+        };
+    }
+
+    rpc GetTemplateVariables(TemplateVariablesRequest) returns (TemplateVariables) {
+        option (pando.api.method).required_claim = "template,read";
+        option (google.api.http) = {
+            get: "/api/v1/document/template/variables"
+        };
+    }
+
+    rpc GetTemplateVariablesWithType(TemplateVariablesWithTypeRequest) returns (TemplateVariablesWithTypeResponse) {
+        option (pando.api.method).required_claim = "template,read";
+        option (google.api.http) = {
+            get: "/api/v1/document/template/variables-with-type"
+        };
+    }
+
+    rpc GetVariables(GetVariableItemsRequest) returns (VariableItemList) {
+        option (pando.api.method).required_claim = "template,read";
+        option (google.api.http) = {
+            get: "/api/v1/document/template/variables-with-type"
+        };
+    }
+
+    rpc GetVariable(GetVariableItemRequest) returns (VariableItem) {
+        option (pando.api.method).required_claim = "template,read";
+        option (google.api.http) = {
+            get: "/api/v1/template/variable"
+        };
+    }
+
+    rpc CreateOrUpdateTemplate (CreateOrUpdateTemplateRequest) returns (Template){
+        option (pando.api.method).required_claim = "template,write";
+        option (google.api.http) = {
+            post: "/api/v1/document/template",
+            body: "*"
+          };
+    }
+
+    rpc CreateVariable(VariableItem) returns (VariableItem) {
+        option (pando.api.method).required_claim = "template,write";
+        option (google.api.http) = {
+            post: "/api/v1/template/variable",
+            body: "*"
+        };
+    }
+
+    rpc UpdateVariable(UpdateVariableItemRequest) returns (VariableItem) {
+        option (pando.api.method).required_claim = "template,write";
+        option (google.api.http) = {
+            patch: "/api/v1/template/variable",
+            body: "*"
+        };
+    }
+
+    rpc DeleteTemplate(TemplateRequest) returns (pando.api.Empty) {
+        option (pando.api.method).required_claim = "template,delete";
+        option (google.api.http) = {
+            delete: "/api/v1/document/template"
+        };
+    }
+
+    rpc DeleteVariable(DeleteVariableItemRequest) returns (pando.api.Empty) {
+        option (pando.api.method).required_claim = "template,delete";
+        option (google.api.http) = {
+            delete: "/api/v1/template/variable"
+        };
+    }
+}
+
+message CreateOrUpdateTemplateRequest {
+    Template template = 1;
+    google.protobuf.FieldMask update_mask = 2;
+}
+
+message TemplateListRequest {
+    string organization_code = 1;
+}
+
+message TemplateList {
+    repeated TemplateShort templates = 1;
+}
+
+message TemplateShort {
+    string template_id = 1;
+    repeated TemplateVersion template_versions = 2;
+    string name = 3;
+    string description = 4;
+}
+
+message TemplateVersion {
+    string version_id = 1;
+    google.protobuf.Timestamp date = 2;
+}
+
+message TemplateRequest{
+    oneof template {
+        string template_id = 1;
+        string template_version_id = 2;
+    }
+}
+
+message Template {
+    string template_id = 1;
+    string name = 2;
+    string description = 3;
+    string organization_code = 4;
+    string template_html = 5;
+    repeated TemplateVariable variables = 6;
+}
+
+message TemplateVariable {
+    string key = 1;
+    bool is_required = 2;
+}
+
+message TemplateVariablesRequest {
+    repeated string template_version_guids = 1;
+    FileType data_format = 2;  // Only JSON, YAML, XML, and CSV are allowed. 
+}
+
+message TemplateVariables {
+    string data = 1;
+}
+
+message VariableItem {
+    string guid = 1 [(pando.api.field).response_only = true];
+    string organization_code = 2;
+    VariableType type = 3;
+    string key_name = 4;
+    bool is_deleted = 5;
+}
+
+message VariableItemList {
+    option (pando.api.message).response_only = true;
+    repeated VariableItem variables = 1;
+    PaginationResult pagination = 100;
+}
+
+message GetVariableItemsRequest {
+    string organization_code = 1;
+    string filter = 2;
+    bool include_deleted = 3;
+    int32 page = 100;
+	int32 results_per_page = 101;
+}
+
+message GetVariableItemRequest {
+    string guid = 1;
+}
+
+message UpdateVariableItemRequest {
+    string guid = 1 [(pando.api.field).response_only = true];
+    string organization_code = 2;
+    VariableType type = 3;
+    string key_name = 4;
+    bool is_deleted = 5;
+}
+
+message DeleteVariableItemRequest {
+    string guid = 1;
+}
+
+message TemplateVariablesWithTypeRequest {
+    repeated string template_version_guids = 1;
+    int32 page = 100;
+	int32 results_per_page = 101;
+}
+
+message TemplateVariableWithType{
+    string name = 1;
+    bool is_required = 2;
+    VariableType field_type = 3;
+}
+
+message TemplateVariablesWithTypeResponse {
+    repeated TemplateVariableWithType template_variables = 1;
+    PaginationResult pagination = 100;
+}

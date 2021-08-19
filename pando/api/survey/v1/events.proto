@@ -1,0 +1,251 @@
+syntax = "proto3";
+
+// do not change the package name
+package pando.api.survey.v1.events;
+
+import "pando/api/survey/v1/shared.proto";
+import "pando/api/shared.proto";
+
+// these must be the same in all 'pando.survey.v1.events' proto files
+option csharp_namespace = "Pando.Api.Survey.V1.Events";
+option java_multiple_files = true;
+option java_package = "com.pando.api.survey.v1.events";
+option ruby_package = "Pando::Api::TPV::Survey::V1::Events";
+
+/* This file does not define a service */
+
+/*
+    Pando events conform to the CloudEvents specification (https://github.com/cloudevents/spec)
+
+    These messages define the event Data, which is the payload a consumer may expect.
+
+    Some Data payloads are repetitive; this is to allow for future expansion.
+*/
+
+/* Survey Execution and Playback */
+
+message SendSurveyRequest{
+    string user_id = 1;
+    string instance_guid = 2;
+    ContactType contact_type = 3;
+    string contact_info = 4;
+    bool contact_overridden = 5;
+    UserMetadata requested_by = 6;
+}
+
+message SurveyCompleted {
+    string survey_id = 1;
+    CompletionType completion_type = 2;
+    UserMetadata user_data = 1000;
+}
+
+message SurveyMediaAccessed {
+    string survey_id = 1;
+    string media_id = 2;
+    UserMetadata user_data = 1000;
+}
+
+message SurveyInstanceAccessed {
+    string instance_id = 1;
+    UserMetadata user_data = 1000;
+}
+
+message SurveyInstanceCreated {
+    string instance_id = 1;
+    UserMetadata user_data = 1000;
+}
+
+message SurveyInstanceClaimed {
+    string instance_id = 1;
+    UserMetadata user_data = 1000;
+}
+
+message SurveyAttemptStarted {
+    string attempt_id = 1;
+    UserMetadata user_data = 1000;
+}
+
+message SurveyAttemptCompleted {
+    string attempt_id = 1;
+    CompletionType completion_type = 2;
+    UserMetadata user_data = 1000;
+}
+
+message SurveyAnswerMediaAccessed {
+    string answer_id = 1;
+    UserMetadata user_data = 1000;
+}
+
+message SurveyAnswerSaved {
+    string answer_id = 1;
+    string answer_text = 2;
+    AnswerType answer_type = 3;
+    AnswerAction answer_action = 4;
+    UserMetadata user_data = 1000;
+}
+
+// event triggered when an individual Survey Answer media file is uploaded.
+message SurveyAnswerMediaUploaded {
+    string answer_id = 1;
+    string media_id = 2;
+    UserMetadata user_data = 1000;
+}
+
+// event triggered when all Survey Answer media files for a survey attempt have been uploaded.
+message SurveyAnswerUploadCompleted {
+    string attempt_id = 1;
+    CompletionType attempt_completion_type = 2;
+    UserMetadata user_data = 1000;
+}
+
+/* Survey Administration Tools */
+
+// "Accessed" events fire when accessed via the Tools UI only.
+
+message SurveyAccessed {
+    string survey_id = 1;
+    UserMetadata user_data = 1000;
+}
+
+message SurveyCreated {
+    string survey_id = 1;
+    UserMetadata user_data = 1000;
+}
+
+message SurveyChanged {
+    string survey_id = 1;
+    Survey old_model = 2;
+    Survey new_model = 3;
+    UserMetadata user_data = 1000;
+}
+
+message SurveyDeleted {
+    string survey_id = 1;
+    UserMetadata user_data = 1000;
+}
+
+message SurveyQuestionAccessed {
+    string question_id = 1;
+    UserMetadata user_data = 1000;
+}
+
+message SurveyQuestionCreated {
+    string question_id = 1;
+    UserMetadata user_data = 1000;
+}
+
+message SurveyQuestionChanged {
+    string question_id = 1;
+    Question old_model = 2;
+    Question new_model = 3;
+    UserMetadata user_data = 1000;
+}
+
+message SurveyQuestionDeleted {
+    string question_id = 1;
+    UserMetadata user_data = 1000;
+}
+
+message SurveyQuestionDestinationAccessed {
+    string survey_question_destination_id = 1;
+    UserMetadata user_data = 1000;
+}
+
+message SurveyQuestionDestinationCreated {
+    string survey_question_destination_id = 1;
+    UserMetadata user_data = 1000;
+}
+
+message SurveyQuestionDestinationChanged {
+    string survey_question_destination_id = 1;
+    SurveyQuestionDestination old_model = 2;
+    SurveyQuestionDestination new_model = 3;
+    UserMetadata user_data = 1000;
+}
+
+message SurveyQuestionDestinationDeleted {
+    string survey_question_destination_id = 1;
+    UserMetadata user_data = 1000;
+}
+
+message AnswerOptionAccessed {
+    string answer_option_id = 1;
+    UserMetadata user_data = 1000;
+}
+
+message AnswerOptionCreated {
+    string answer_option_id = 1;
+    UserMetadata user_data = 1000;
+}
+
+message AnswerOptionChanged {
+    string answer_option_id = 1;
+    SurveyQuestionDestination old_model = 2;
+    SurveyQuestionDestination new_model = 3;
+    UserMetadata user_data = 1000;
+}
+
+message AnswerOptionDeleted {
+    string answer_option_id = 1;
+    UserMetadata user_data = 1000;
+}
+
+message SurveyMediaUploaded {
+    string survey_media_id = 1;
+    string media_id = 2;
+    UserMetadata user_data = 1000;
+}
+
+message SurveyMediaDeleted {
+    string survey_media_id = 1;
+    string media_id = 2;
+    UserMetadata user_data = 1000;
+}
+
+message PlaybackDataAccessed {
+    string playback_data_id = 1;
+    string question_id = 2;
+    UserMetadata user_data = 1000;
+}
+
+message PlaybackDataCreated {
+    string playback_data_id = 1;
+    string question_id = 2;
+    UserMetadata user_data = 1000;
+}
+
+message PlaybackDataChanged {
+    string playback_data_id = 1;
+    string question_id = 2;
+    PlaybackData old_model = 3;
+    PlaybackData new_model = 4;
+    UserMetadata user_data = 1000;
+}
+
+message PlaybackDataDeleted {
+    string question_id = 1;
+    string playback_data_id = 2;
+    UserMetadata user_data = 1000;
+}
+
+message SurveyVariableAccessed {
+    string variable_id = 1;
+    UserMetadata user_data = 1000;
+}
+
+message SurveyVariableCreated {
+    string variable_id = 1;
+    UserMetadata user_data = 1000;
+}
+
+message SurveyVariableChanged {
+    string variable_id = 1;
+    Variable old_model = 2;
+    Variable new_model = 3;
+    UserMetadata user_data = 1000;
+}
+
+message SurveyVariableDeleted {
+    string variable_id = 1;
+    UserMetadata user_data = 1000;
+}

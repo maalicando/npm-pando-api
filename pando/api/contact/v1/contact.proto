@@ -1,0 +1,356 @@
+syntax = "proto3";
+
+// do not change the package name
+package pando.api.contact.v1;
+
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+import "pando/api/extensions.proto";
+import "pando/api/shared.proto";
+
+// these must be the same in all 'pando.api.contact.v1' proto files
+option csharp_namespace = "Pando.Api.Contact.V1";
+option java_multiple_files = true;
+option java_package = "com.pando.api.contact.v1";
+option ruby_package = "Pando::Api::Contact::V1";
+
+service ContactService {
+	option (pando.api.service).required_scope = "contact";
+
+	rpc CreateAccount(Account) returns (Account) {
+		option (pando.api.method).required_claim = "contact:account,write";
+		option (google.api.http) = {
+			post: "/api/v1/contact/account",
+			body: "*"
+		};
+	}
+
+	rpc CreateAddress(Address) returns (Address) {
+		option (pando.api.method).required_claim = "contact:address,write";
+		option (google.api.http) = {
+			post: "/api/v1/contact/address",
+			body: "*"
+		};
+	}
+
+	rpc CreateContact(Contact) returns (Contact) {
+		option (pando.api.method).required_claim = "contact,write";
+		option (google.api.http) = {
+			post: "/api/v1/contact/contact",
+			body: "*"
+		};
+	}
+
+	rpc GetAccount(GetAccountRequest) returns (Account) {
+		option (pando.api.method).required_claim = "contact:account,read";
+		option (google.api.http) = {
+			get: "/api/v1/contact/account"
+		};
+	}
+
+	rpc GetAddress(GetAddressRequest) returns (Address) {
+		option (pando.api.method).required_claim = "contact:address,read";
+		option (google.api.http) = {
+			get: "/api/v1/contact/address"
+		};
+	}
+
+	rpc GetContact(GetContactRequest) returns (Contact) {
+		option (pando.api.method).required_claim = "contact,read";
+		option (google.api.http) = {
+			get: "/api/v1/contact/contact"
+		};
+	}
+
+	rpc GetAccounts(GetAccountsRequest) returns (GetAccountsResponse) {
+		option (pando.api.method).required_claim = "contact:account,read";
+		option (google.api.http) = {
+			get: "/api/v1/contact/accounts"
+		};
+	}
+
+	rpc GetAddresses(GetAddressesRequest) returns (GetAddressesResponse) {
+		option (pando.api.method).required_claim = "contact:address,read";
+		option (google.api.http) = {
+			get: "/api/v1/contact/addresses"
+		};
+	}
+
+	rpc GetContacts(GetContactsRequest) returns (GetContactsResponse) {
+		option (pando.api.method).required_claim = "contact,read";
+		option (google.api.http) = {
+			get: "/api/v1/contact/contacts"
+		};
+	}
+
+	rpc GetCountries(GetCountriesRequest) returns (GetCountriesResponse) {
+		option (google.api.http) = {
+			get: "/api/v1/contact/countries"
+		};
+	}
+
+	rpc GetStates(GetStatesRequest) returns (GetStatesResponse) {
+		option (google.api.http) = {
+			get: "/api/v1/contact/states"
+		};
+	}
+
+	rpc UpdateAccount(UpdateAccountRequest) returns (Account) {
+		option (pando.api.method).required_claim = "contact:account,write";
+		option (google.api.http) = {
+			patch: "/api/v1/contact/account",
+			body: "*"
+		};
+	}
+
+	rpc UpdateContact(UpdateContactRequest) returns (Contact) {
+		option (pando.api.method).required_claim = "contact,write";
+		option (google.api.http) = {
+			patch: "/api/v1/contact/contact",
+			body: "*"
+		};
+	}
+
+	rpc DeleteAccount(DeleteAccountRequest) returns (pando.api.Empty) {
+		option (pando.api.method).required_claim = "contact:account,delete";
+		option (google.api.http) = {
+			delete: "/api/v1/contact/account"
+		};
+	}
+
+	rpc DeleteAddress(DeleteAddressRequest) returns (pando.api.Empty) {
+		option (pando.api.method).required_claim = "contact:address,delete";
+		option (google.api.http) = {
+			delete: "/api/v1/contact/address"
+		};
+	}
+
+	rpc DeleteContact(DeleteContactRequest) returns (pando.api.Empty) {
+		option (pando.api.method).required_claim = "contact,delete";
+		option (google.api.http) = {
+			delete: "/api/v1/contact/contact"
+		};
+	}
+
+	rpc ExecVerifyAddress(ExecVerifyAddressRequest) returns (ExecVerifyAddressResponse) {
+		option (pando.api.method).required_claim = "contact:exec_verify_address";
+		option (google.api.http) = {
+			post: "/api/v1/contact/address/verify",
+			body: "*"
+		};
+	}
+
+	rpc ExecQualifyContact(ExecQualifyContactRequest) returns (ExecQualifyContactResponse) {
+		option (pando.api.method).required_claim = "contact:exec_qualify_contact";
+		option (google.api.http) = {
+			post: "/api/v1/contact/contact/qualify",
+			body: "*"
+		};
+	}
+}
+
+message Account {
+	string account_guid = 1;
+	string organization_code = 2;
+	string primary_contact_guid = 3;
+	string primary_address_guid = 4;
+	string organization_account_id = 5;
+	string created_by_user_id = 6;
+	repeated string contact_guids = 7;
+	repeated string address_guids = 8;
+}
+
+message Address {
+	string address_guid = 1;
+	string address1 = 2;
+	string address2 = 3;
+	string city = 4;
+	string county = 5;
+	string postal_code = 6;
+	string state_code = 7;
+	string country_code = 8;
+	string created_by_user_id = 9;
+	repeated AddressVerification address_verification = 10;
+	repeated AddressType address_types = 11;
+	string organization_code = 12;
+}
+
+message AddressVerification {
+	string address_guid = 1;
+	AddressVerificationType address_verification_type = 2;
+	string external_id = 3;
+	google.protobuf.Timestamp date_created = 4;
+	string created_by_user_id = 5;
+	bool is_verified = 6;
+	string error = 7;
+}
+
+message AddressType {
+	string address_type_guid = 1;
+	string organization_code = 2;
+	string name = 3;
+	string description = 4;
+}
+
+message Contact {
+	string contact_guid = 1;
+	string first_name = 2;
+	string last_name = 3;
+	string preferred_contact_method_guid = 4;
+	string created_by_user_id = 5;
+	map<string, string> secure_data = 6;
+	repeated ContactMethod contact_methods = 8;
+	repeated ContactQualification contact_qualifications = 9;
+	repeated ContactType contact_types = 10;
+	string organization_code = 11;
+}
+
+message ContactType {
+	string contact_type_guid = 1;
+	string organization_code = 2;
+	string name = 3;
+	string description = 4;
+}
+
+message ContactMethod {
+	string contact_method_guid = 1;
+	string contact_guid = 2;
+	pando.api.ContactType contact_method_type = 3;
+	string value = 4;
+}
+
+message ContactQualification {
+	string contact_guid = 1;
+	ContactQualificationType contact_qualification_type = 2;
+	google.protobuf.Timestamp date_created = 3;
+	string created_by_user_id = 4;
+	int32 credit_score = 5;
+	string error = 6;
+	map<string, string> secure_data = 7;
+}
+
+message Country {
+	string code = 1;
+	string name = 2;
+}
+
+message State {
+	string code = 1;
+	string name = 2;
+	string country_code = 3;
+	string country_name = 4;
+}
+
+message GetAccountRequest {
+	string account_guid = 1;
+}
+
+message GetAddressRequest {
+	string address_guid = 1;
+}
+
+message GetContactRequest {
+	string contact_guid = 1;
+}
+
+message GetAccountsRequest {
+	string user_id = 1; // if left empty, use the user_id of the authenticated token
+	google.protobuf.Timestamp start = 2;
+	google.protobuf.Timestamp end = 3;
+	string organization_code = 4;
+	string filter = 5;
+	int32 page = 100;
+	int32 results_per_page = 101;
+}
+
+message GetAddressesRequest {
+	string account_guid = 1;
+}
+
+message GetContactsRequest {
+	string account_guid = 1;
+}
+
+message UpdateAccountRequest {
+	Account account = 1;
+	google.protobuf.FieldMask update_mask = 2;
+}
+
+message UpdateContactRequest {
+	Contact contact = 1;
+	google.protobuf.FieldMask update_mask = 2;
+}
+
+message DeleteAccountRequest {
+	string account_guid = 1;
+}
+
+message DeleteAddressRequest {
+	string address_guid = 1;
+}
+
+message DeleteContactRequest {
+	string contact_guid = 1;
+}
+
+message ExecVerifyAddressRequest {
+	oneof requested_address {
+		string address_guid = 1;
+		Address address = 2;
+	}
+}
+
+message ExecVerifyAddressResponse {
+	oneof verified {
+		AddressVerification address_verification = 1; // Returned if the address fails verification
+		Address updated_address = 2; // Returned if the address passed verification or if it's been automatically corrected
+	}
+}
+
+message ExecQualifyContactRequest {
+	oneof requested_contact {
+		string contact_guid = 1;
+		Contact contact = 2;
+	}
+}
+
+message ExecQualifyContactResponse {
+	ContactQualification contact_qualification = 1;
+}
+
+message GetAccountsResponse {
+	repeated Account accounts = 1;
+}
+
+message GetAddressesResponse {
+	repeated Address addresses = 1;
+}
+
+message GetContactsResponse {
+	repeated Contact contacts = 1;
+}
+
+message GetCountriesRequest {
+	string organization_code = 1;
+}
+
+message GetStatesRequest {
+	string country_code = 1;
+}
+
+message GetCountriesResponse {
+	repeated Country countries = 1;
+}
+
+message GetStatesResponse {
+	repeated State states = 1;
+}
+
+enum AddressVerificationType {
+	MELISSA = 0;
+}
+
+enum ContactQualificationType {
+	ORGANIZATION = 0;
+}

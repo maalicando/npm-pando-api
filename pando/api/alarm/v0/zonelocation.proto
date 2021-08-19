@@ -1,0 +1,54 @@
+﻿syntax = "proto3";
+
+package zonelocation_service;
+
+import "pando/api/alarm/v0/zonelocation-model.proto";
+import "pando/api/extensions.proto";
+import "pando/api/shared.proto";
+
+// DO NOT CHANGE THE NAMESPACE
+option csharp_namespace = "Pando.Api.Alarm.V0.ZoneLocation";
+
+service ZoneLocationService {
+	option (pando.api.service).required_scope = "equipment_service";
+
+	// This is the Service Contract; Add Endpoints Contracts Here
+	rpc GetAllModels (pando.api.Empty) returns (zonelocation.ModelList);
+	rpc GetModel (GetModelRequest) returns (zonelocation.Model);
+	rpc GetModelList (GetModelListRequest) returns (zonelocation.ModelList);
+	rpc GetAllDeviceTypes (pando.api.Empty) returns (zonelocation.DeviceTypeList);
+	rpc GetDeviceTypeList (GetDeviceTypeListRequest) returns (zonelocation.DeviceTypeList);
+	rpc GetModelsFromDeviceType (GetModelByDeviceTypeRequest) returns (zonelocation.ModelList);
+	rpc FindModelsByZoneLocation (FindModelsByZoneLocationRequest) returns (zonelocation.ModelList);
+}
+
+// Messages go here
+// Messages are model contracts
+// Protobuf will maintain backwards compatibility with old clients if the field numbers remain consistent
+// You may add or delete rows from a Message as long as you do not reuse field number
+// https://developers.google.com/protocol-buffers/docs/proto3
+
+message GetModelRequest {
+	string zone_location_guid = 1;
+	bool include_inactive = 2;
+}
+
+message GetModelListRequest {
+	repeated string zone_location_guids = 1;
+	bool include_inactive = 2;
+}
+
+message FindModelsByZoneLocationRequest {
+	string zone_location_expression = 1;
+	bool include_inactive = 2;
+}
+
+message GetModelByDeviceTypeRequest {
+	string device_type_code = 1;
+	bool include_inactive = 2;
+}
+
+message GetDeviceTypeListRequest {
+	repeated string device_type_codes = 1;
+	bool include_inactive = 2;
+}

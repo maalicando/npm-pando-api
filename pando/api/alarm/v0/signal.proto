@@ -1,0 +1,45 @@
+﻿syntax = "proto3";
+
+package signal_service;
+
+import "pando/api/alarm/v0/equipment-model.proto";
+import "pando/api/alarm/v0/signal-model.proto";
+import "pando/api/extensions.proto";
+import "pando/api/shared.proto";
+
+// DO NOT CHANGE THE NAMESPACE
+option csharp_namespace = "Pando.Api.Alarm.V0.Signal";
+
+service SignalService {
+	option (pando.api.service).required_scope = "equipment_service";
+
+	// This is the Service Contract; Add Endpoints Contracts Here
+	rpc GetAllTypes (pando.api.Empty) returns (signal.TypeList);
+	rpc GetType (GetTypeRequest) returns (signal.Type);
+	rpc GetTypeList (GetTypeListRequest) returns (signal.TypeList);
+	rpc GetTypeListFromEquipmentGuid (GetTypeListFromEquipmentGuidRequest) returns (signal.EquipmentTypeList);
+	rpc GetEquipmentModelList (GetTypeRequest) returns (equipment.ModelList);
+	rpc CreateType (signal.Type) returns (signal.TypeList);
+	rpc UpdateType (signal.Type) returns (signal.TypeList);
+}
+
+// Add Messages here
+// Messages are model contracts
+// Protobuf will maintain backwards compatibility with old clients if the field numbers remain consistent
+// You may add or delete rows from a Message as long as you do not reuse field number
+// https://developers.google.com/protocol-buffers/docs/proto3
+
+message GetTypeRequest {
+	string signal_type_guid = 1;
+	bool include_inactive = 2;
+}
+
+message GetTypeListRequest {
+	repeated string signal_type_guids = 1;
+	bool include_inactive = 2;
+}
+
+message GetTypeListFromEquipmentGuidRequest {
+	repeated string equipment_guids = 1;
+	bool include_inactive = 2;
+}

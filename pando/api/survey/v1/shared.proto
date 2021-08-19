@@ -1,0 +1,323 @@
+syntax = "proto3";
+
+// do not change the package name
+package pando.api.survey.v1;
+
+import "google/protobuf/timestamp.proto";
+import "pando/api/shared.proto";
+import "pando/api/extensions.proto";
+
+// these must be the same in all 'pando.survey.v1' proto files
+option csharp_namespace = "Pando.Api.Survey.V1";
+option java_multiple_files = true;
+option java_package = "com.pando.api.survey.v1";
+option ruby_package = "Pando::Api::Survey::V1";
+
+// this file does not define a service
+
+enum MediaLocation {
+    LOCAL = 0;
+    NETWORK = 1;
+    URL = 2;
+}
+
+enum Status {
+    PENDING = 0;
+    IN_PROGRESS = 1;
+    SUCCESS = 2;
+    FAILED = 3;
+}
+
+enum Action {
+    STOP = 0;
+    START = 1;
+    PAUSE = 2;
+    RESUME = 3;
+}
+
+enum SelectionType {
+    SINGLE_ANSWER = 0;
+    MULTI_ANSWER = 1;
+}
+
+enum CompletionType {
+    INCOMPLETE = 0;
+    UNACCEPTABLE = 1;
+    ACCEPTABLE = 2;
+}
+
+enum AnswerType {
+    VOCAL = 0;
+    BUTTON = 1;
+}
+
+enum AnswerAction {
+    ADD = 0;
+    DELETE = 1;
+}
+
+message AnswerMediaUploadRequest {
+    oneof request {
+        AnswerMediaMetadata meta = 1;
+        pando.api.FileChunk data = 2;
+    }
+}
+
+message AnswerMediaMetadata {
+    string answer_guid = 1;
+    MediaInfo info = 2;
+}
+
+message SurveyMediaMetadata {
+    string survey_media_guid = 1;
+    Status status = 2;
+    MediaInfo info = 3;
+}
+
+message Media {
+    string guid = 1 [(pando.api.field).response_only = true];
+    FileType type = 2;
+    string name = 3;
+    MediaLocation location = 4;
+    string path = 5;
+}
+
+message MediaInfo {
+    string name = 1;
+    FileType type = 2;
+}
+
+message Survey {
+    string guid = 1 [(pando.api.field).response_only = true];
+    string organization_code = 2 [(pando.api.field).request_required = true];
+    string name = 3 [(pando.api.field).request_required = true];
+    string description = 4;
+    string pre_survey_text = 5;
+    string first_question_guid = 6;
+    bool is_deleted = 7 [(pando.api.field).response_only = true];
+    string organization_name = 8 [(pando.api.field).response_only = true];
+    string version_guid = 9;
+    int32 number_of_instances = 10;
+    google.protobuf.Timestamp date_published = 11;
+
+}
+
+message SurveyList {
+    option (pando.api.message).response_only = true;
+    repeated Survey surveys = 1;
+    PaginationResult pagination = 100;
+}
+
+message PlaybackData {
+    string guid = 1 [(pando.api.field).response_only = true];
+    string question_guid = 2;
+    Action type = 3;
+    reserved 4;
+    string media_guid = 5;
+    reserved 6;
+    int32 timestamp = 7;
+    bool is_deleted = 8;
+    FileType file_type = 9;
+}
+
+message Question {
+    string guid = 1 [(pando.api.field).response_only = true];
+    string survey_guid = 2;
+    string name = 3;
+    string description = 4;
+    string text = 5;
+    SelectionType selection_type = 6;
+    repeated AnswerOption answer_options = 7;
+    bool is_deleted = 8;
+    bool is_optional = 9;
+}
+
+message SurveyQuestionList {
+    option (pando.api.message).response_only = true;
+    repeated Question survey_questions = 1;
+    PaginationResult pagination = 100;
+}
+
+message QuestionWithPlaybackData {
+    option (pando.api.message).response_only = true;
+
+    string guid = 1;
+    string survey_guid = 2;
+    string name = 3;
+    string description = 4;
+    string text = 5;
+    repeated PlaybackData playback_data = 6;
+    reserved 7;
+    repeated AnswerOption answer_options = 8;
+    SelectionType selection_type = 9;
+    reserved 10;
+    int64 facial_recognition_interval = 11 [(pando.api.field).response_only = true];
+    int64 no_answer_wait_timeout = 12 [(pando.api.field).response_only = true];
+    int64 total_questions = 13 [(pando.api.field).response_only = true];
+    int64 current_question = 14 [(pando.api.field).response_only = true];
+}
+
+message Answer {
+    string guid = 1 [(pando.api.field).response_only = true];
+    string attempt_guid = 2;
+    string device_id = 3;
+    string text = 4;
+    google.protobuf.Timestamp timestamp = 5;
+    repeated string media_guids = 6;
+    string question_guid = 7;
+}
+
+message AnswerTimestamp {
+    string answer_guid = 1;
+    AnswerType answer_type = 2;
+    AnswerAction answer_action = 3;
+    string answer_option_guid = 4;
+    string answer_text = 5;
+    int32 timestamp = 6;
+}
+
+message SurveyQuestionDestination {
+    string question_guid = 1;
+    string destination_question_guid = 2;
+    string condition = 3;
+    int32 priority = 4;
+    string guid = 5 [(pando.api.field).response_only = true];
+    bool is_deleted = 6;
+}
+
+message Instance {
+    string guid = 1 [(pando.api.field).response_only = true];
+    string survey_guid = 2 [(pando.api.field).request_required = true];
+    reserved 3;
+    ContactType contact_type = 4 [(pando.api.field).request_required = true];
+    string contact_info = 5 [(pando.api.field).request_required = true];
+    Attempt current = 6 [(pando.api.field).response_only = true];
+    repeated string attempt_guids = 7 [(pando.api.field).response_only = true];
+    reserved 8;
+    repeated string question_guids = 9 [(pando.api.field).response_only = true];
+    repeated string media_guids = 10 [(pando.api.field).response_only = true];
+    bool is_deleted = 11 [(pando.api.field).response_only = true];
+    string data = 12 [(pando.api.field).request_only = true];
+    FileType data_format = 13 [(pando.api.field) = {request_only: true, request_required: true}];  // Only JSON, YAML, XML, and CSV are allowed.
+    string respondent_name = 14 [(pando.api.field).request_required = true];
+    string organization_name = 15 [(pando.api.field).response_only = true];
+    CompletionType completion_type = 16 [(pando.api.field).response_only = true];
+    google.protobuf.Timestamp date_completed = 17 [(pando.api.field).response_only = true];
+    string survey_name = 18 [(pando.api.field).response_only = true];
+    reserved 19;
+    reserved 20;
+    string pre_survey_text = 21 [(pando.api.field).response_only = true];
+    google.protobuf.Timestamp date_created = 22 [(pando.api.field).response_only = true];
+    reserved 23;
+    string signatory_guid = 24;
+    repeated string user_ids = 25;
+    string description = 26;
+}
+
+message Attempt {
+    string guid = 1;
+    string survey_instance_guid = 2;
+    CompletionType completion_type = 3 [(pando.api.field).response_only = true];
+    int32 total_answered = 4 [(pando.api.field).response_only = true];
+    int32 total_questions = 5 [(pando.api.field).response_only = true];
+}
+
+message InstanceList {
+    option (pando.api.message).response_only = true;
+
+    repeated Instance instances = 1;
+    PaginationResult pagination = 100;
+}
+
+message AttemptList {
+    option (pando.api.message).response_only = true;
+
+    repeated Attempt attempts = 1;
+    PaginationResult pagination = 100;
+}
+
+message AnswerOption {
+    string guid = 1  [(pando.api.field).response_only = true];
+    string name = 2;
+    string description = 3;
+    string organization_code = 4;
+    bool is_deleted = 5;
+    bool is_acceptable = 6;
+}
+
+message Variable {
+    VariableType variable_type = 1;
+    MaskType mask_type = 2;
+    string organization_Code = 3;
+    string name = 4;
+    string guid = 5 [(pando.api.field).response_only = true];
+    bool is_deleted = 6;
+}
+
+message VariableList {
+    option (pando.api.message).response_only = true;
+    repeated Variable variables = 1;
+    PaginationResult pagination = 100;
+}
+
+message AnswerOptionList {
+    option (pando.api.message).response_only = true;
+    repeated AnswerOption answer_options = 1;
+    PaginationResult pagination = 100;
+}
+
+message PlaybackDataList {
+    option (pando.api.message).response_only = true;
+
+    repeated PlaybackData playback_data_list = 1;
+    PaginationResult pagination = 100;
+}
+
+message SurveyQuestionDestinationList {
+    option (pando.api.message).response_only = true;
+
+    repeated SurveyQuestionDestination destinations = 1;
+    PaginationResult pagination = 100;
+}
+
+message MediaList {
+    option (pando.api.message).response_only = true;
+
+    repeated Media media_list = 1;
+    PaginationResult pagination = 100;
+}
+
+message SurveyDocumentList {
+    option (pando.api.message).response_only = true;
+
+    reserved 1;
+    repeated string template_guids = 2;
+    PaginationResult pagination = 100;
+}
+
+message Version {
+   string guid = 1;
+   google.protobuf.Timestamp date_published = 2;
+}
+
+message SurveyDetail{
+    string guid = 1 [(pando.api.field).response_only = true];
+    string organization_code = 2 [(pando.api.field).request_required = true];
+    string name = 3 [(pando.api.field).request_required = true];
+    string description = 4;
+    string pre_survey_text = 5;
+    string first_question_guid = 6;
+    bool is_deleted = 7 [(pando.api.field).response_only = true];
+    string organization_name = 8 [(pando.api.field).response_only = true];
+    string version_guid = 9;
+    int32 number_of_instances = 10;
+    google.protobuf.Timestamp date_published = 11;
+    bool is_current_survey_version = 12;
+    repeated Version versions = 13;
+}
+
+message SurveyDetailList{
+    option (pando.api.message).response_only = true;
+    repeated SurveyDetail surveys = 1;
+    PaginationResult pagination = 100;
+}

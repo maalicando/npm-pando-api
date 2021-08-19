@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+// do not change the package name
+package pando.api.localization.v1;
+
+import "google/api/annotations.proto";
+import "pando/api/localization/v1/services.proto";
+import "pando/api/localization/v1/labels.proto";
+import "pando/api/localization/v1/locales.proto";
+
+// these must be the same in all 'pando.localization.v1' proto files
+option csharp_namespace = "Pando.Api.Localization.V1";
+option java_multiple_files = true;
+option java_package = "com.pando.api.localization.v1";
+option ruby_package = "Pando::Api::Localization::V1";
+
+// /api/v1/localization
+service LocalizationService {
+    // this service just requires an authenticated pando id token
+    rpc GetLocalizedTextsFromServices(GetTextsFromServicesRequest) returns (GetLocalizedTextResponse){
+        option (google.api.http) = {
+            post: "/api/v1/localization",
+            body: "*"
+        };
+    }
+
+    rpc GetLocalizedTextsFromLabels(GetTextsFromLabelsRequest) returns (GetLocalizedTextResponse){
+        option (google.api.http) = {
+            post: "/api/v1/localization",
+            body: "*"
+        };
+    }
+}
+
+enum CharacterEncoding {
+    UTF_8 = 0;
+    UTF_16 = 1;
+    UTF_32 = 2;
+}
+
+message LocalizedText {
+    string text = 1;
+}
+
+message GetTextsFromServicesRequest {
+    repeated Service services = 1;
+}
+
+message GetTextsFromLabelsRequest {
+    repeated Label labels = 1;
+}
+
+message GetLocalizedTextResponse {
+    CharacterEncoding encoding = 1;
+    Locale locale = 2;
+    repeated LocalizedText localized_texts = 3;
+}

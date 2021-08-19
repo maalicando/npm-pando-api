@@ -1,0 +1,140 @@
+syntax = "proto3";
+
+// do not change the package name
+package pando.api.esign.v1;
+
+import "google/protobuf/timestamp.proto";
+import "pando/api/extensions.proto";
+import "pando/api/shared.proto";
+
+// these must be the same in all 'pando.api.esign.v1' proto files
+option csharp_namespace = "Pando.Api.ESign.V1";
+option java_multiple_files = true;
+option java_package = "com.pando.api.esign.v1";
+option ruby_package = "Pando::Api::ESign::V1";
+
+// this file does not define a service
+
+enum ESignStatus {
+    INCOMPLETE = 0;
+    UNACCEPTABLE = 1;
+    ACCEPTABLE = 2;
+}
+
+enum ESignType {
+    ACKNOWLEDGEMENT = 0;
+    OPT_IN = 1;
+    SIGNATURE = 2;
+}
+
+enum SignatureType {
+    GENERATED = 0;
+    HANDWRITTEN = 1;
+    NOT_SET = 2;
+}
+
+message DocumentOrTemplate {
+    oneof data {
+        string template_guid = 1;
+        string document_guid = 2;
+    }
+}
+
+message Document {
+    option (pando.api.message).response_only = true;
+
+    string guid = 1;
+    string template_guid = 2;
+    string record_guid = 3;
+    string name = 4;
+    string organization_code = 5;
+    ESignStatus status = 6;
+    ESignType type = 7;
+    bool is_required = 8;
+    string rendered_html = 9;
+    string signatory_guid = 10;
+    string signatory_name = 11;
+    string vault_document_guid = 12;
+    string status_name = 13;
+    string action_type_name = 14;
+    google.protobuf.Timestamp date_created_utc = 15;
+    google.protobuf.Timestamp date_completed_utc = 16;
+    google.protobuf.Timestamp date_action_utc = 17;
+}
+
+message DocumentListItem {
+    option (pando.api.message).response_only = true;
+
+    string guid = 1;
+    string template_guid = 2;
+    string record_guid = 3;
+    string name = 4;
+    string organization_code = 5;
+    ESignStatus status = 6;
+    ESignType type = 7;
+    bool is_required = 8;
+    string signatory_guid = 9;
+    string signatory_name = 10;
+    google.protobuf.Timestamp date_created_utc = 11;
+    string vault_document_guid = 12;
+}
+
+message DocumentList {
+    repeated DocumentListItem documents = 1;
+    PaginationResult pagination = 100;
+}
+
+message ESignRequest {
+    option (pando.api.message).response_only = true;
+
+    string guid = 1;
+    string organization_code = 2;
+    google.protobuf.Timestamp date_created = 3;
+    ESignStatus status = 4;
+    repeated string signatory_guids = 5;
+    repeated string document_guids = 6;
+    bool is_deleted = 7;
+    google.protobuf.Timestamp date_completed = 8;
+    repeated string document_names = 9;
+    repeated string signatory_names = 10;
+}
+
+message ESignRequestList {
+    option (pando.api.message).response_only = true;
+
+    repeated ESignRequest esign_requests = 1;
+}
+
+message Template {
+    string guid = 1 [(pando.api.field).response_only = true];
+    string template_svc_template_version_guid = 2;
+    string organization_code = 3;
+    string name = 4;
+    bool is_deleted = 5;
+    ESignType esign_type = 6;
+}
+
+message TemplateList {
+    repeated Template templates = 1;
+}
+
+message SignatoryInfo {
+    reserved 2;
+    string name = 1;
+    ContactInfo contact_info = 3;
+    string user_id = 4; // if blank, generates a new user
+    bool is_required = 5;
+}
+
+message Signatory {
+    oneof detail {
+        SignatoryInfo signatory_info = 2;
+        string signatory_guid = 3;
+    }
+}
+
+message ChartData {
+    string survey_name = 1;
+    int32 complete_count = 2;
+    int32 incomplete_count = 3;
+}

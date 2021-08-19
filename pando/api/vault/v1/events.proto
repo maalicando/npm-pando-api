@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+// do not change the package name
+package pando.api.vault.v1.events;
+
+import "pando/api/shared.proto";
+
+// these must be the same in all 'pando.vault.v1' proto files
+option csharp_namespace = "Pando.Api.Vault.V1.Events";
+option java_multiple_files = true;
+option java_package = "com.pando.api.vault.v1.events";
+option ruby_package = "Pando::Api::Vault::v1::Events";
+
+enum Events{
+    DOCUMENT_RETRIEVED = 0;
+    DOCUMENT_UPLOADED = 1;
+    CHECK_HASH_CHAIN = 2;
+    CHECK_DOCUMENT_HASHES = 3;
+    HASH_CHAIN_CHECKED = 4;
+    DOCUMENT_HASHES_CHECKED = 5;
+}
+
+message DocumentAccessed{
+    string document_guid = 1;
+    UserMetadata user_data = 1000;
+}
+message HashChecked{
+    bool is_valid = 1;
+    string failed_id = 2;
+}

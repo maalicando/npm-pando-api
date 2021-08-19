@@ -1,0 +1,67 @@
+syntax = "proto3";
+
+// do not change the package name
+package pando.api.template.v1;
+
+import "google/api/annotations.proto";
+import "pando/api/extensions.proto";
+import "pando/api/shared.proto";
+
+// these must be the same in all 'pando.template.v1' proto files
+option csharp_namespace = "Pando.Api.Template.V1";
+option java_multiple_files = true;
+option java_package = "com.pando.api.template.v1";
+option ruby_package = "Pando::Api::Template::v1";
+
+service TemplateService {
+    option (pando.api.service).required_scope = "template";
+
+    rpc ExecValidateData (RenderTemplateRequest) returns (pando.api.Empty){
+        option (google.api.http) = {
+            post: "/api/v1/document/template/validate",
+            body: "*"
+        };
+    }
+
+    rpc ExecRenderHtml (RenderTemplateRequest) returns (RenderedHtml){
+        option (pando.api.method).optional_claim = {
+            claim: "personal_info,read",
+            note: "required when accessing a vault record"
+        };
+        option (google.api.http) = {
+            post: "/api/v1/document/template/html",
+            body: "*"
+        };
+    }
+
+    rpc ExecRenderPdf (RenderTemplateRequest) returns (RenderedPdf){
+        option (pando.api.method).optional_claim = {
+            claim: "personal_info,read",
+            note: "required when accessing a vault record"
+        };
+        option (google.api.http) = {
+          post: "/api/v1/document/template/pdf",
+          body: "*"
+        };
+    }
+}
+
+message RenderTemplateRequest {
+    oneof template {
+        string template_id = 1;
+        string template_version_id = 2;
+    }
+    // dot_notation_data overrides values from the vault_record
+    string vault_record_id = 3;
+    map<string,string> dot_notation_data = 4;
+    bool store_in_vault = 5;
+}
+
+message RenderedHtml {
+    string html = 1;
+}
+
+message RenderedPdf {
+    bytes bytes = 1;
+    string vault_id = 2;
+}

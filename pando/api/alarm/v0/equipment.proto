@@ -1,0 +1,59 @@
+﻿syntax = "proto3";
+
+package equipment_service;
+
+import "pando/api/alarm/v0/equipment-model.proto";
+import "pando/api/alarm/v0/signal-model.proto";
+import "pando/api/extensions.proto";
+import "pando/api/shared.proto";
+
+// DO NOT CHANGE THE NAMESPACE
+option csharp_namespace = "Pando.Api.Alarm.V0.Equipment";
+
+service EquipmentService { // Please name this with the convention "PackageName" when the package includes "service"
+	option (pando.api.service).required_scope = "equipment_service";
+
+	// This is the Service Contract; Add Endpoints Contracts Here
+	rpc GetAllModels (pando.api.Empty) returns (equipment.ModelList);
+	rpc GetExtensionList (pando.api.Empty) returns (equipment.ExtensionList);
+	rpc GetModel (GetRequest) returns (equipment.Model);
+	rpc GetModelList (GetModelListRequest) returns (equipment.ModelList);
+	rpc GetSignalList (GetRequest) returns (signal.TypeList);
+	rpc GetExtensionValueList (GetRequest) returns (equipment.ExtensionValueList);
+	rpc CreateModel (equipment.Model) returns (equipment.ModelList);
+	rpc UpdateModel (equipment.Model) returns (equipment.ModelList);
+	rpc CreateExtension (equipment.Extension) returns (equipment.ExtensionList);
+	rpc UpdateExtension (equipment.Extension) returns (equipment.ExtensionList);
+	rpc UpdateExtensionValue (equipment.ExtensionValue) returns (equipment.ExtensionValueList);
+	rpc AddSignal (EditSignalsRequest) returns (signal.TypeList);
+	rpc RemoveSignal (EditSignalsRequest) returns (signal.TypeList);
+    rpc GetEquipmentByExtension (GetEquipmentByExtensionRequest) returns (equipment.ModelList);
+}
+
+// Add Messages here
+// Messages are model contracts
+// Protobuf will maintain backwards compatibility with old clients if the field numbers remain consistent
+// You may add or delete rows from a Message as long as you do not reuse field number
+// https://developers.google.com/protocol-buffers/docs/proto3
+
+message GetRequest {
+	string equipment_guid = 1;
+	bool include_inactive = 2;
+}
+
+message GetModelListRequest {
+	bool include_inactive = 2;
+	repeated string equipment_guids = 1;
+}
+
+message EditSignalsRequest {
+	string equipment_guid = 1;
+	bool include_inactive = 3;
+	repeated string signal_type_guids = 2;
+}
+
+message GetEquipmentByExtensionRequest {
+	string extenstion_name = 1;
+	string extenstion_value = 2;
+	bool include_inactive = 3;
+}

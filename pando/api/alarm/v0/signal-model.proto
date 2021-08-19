@@ -1,0 +1,39 @@
+﻿syntax = "proto3";
+
+// Circular dependencies are forbidden in protobuf
+// this file is to facilitate multiple packages using
+// the panel models without circular references
+
+package signal;
+
+// DO NOT CHANGE THE NAMESPACE
+option csharp_namespace = "Pando.Api.Alarm.V0.Signal";
+
+// Messages go here
+// Messages are model contracts
+// Protobuf will maintain backwards compatibility with old clients if the field numbers remain consistent
+// You may add or delete rows from a Message as long as you do not reuse field number
+// https://developers.google.com/protocol-buffers/docs/proto3
+
+message Type {
+	string signal_type_guid = 1;
+	string signal_type_name = 2;
+	string signal_type_description = 3;
+	bool is_active = 4;
+}
+
+message TypeList {
+	repeated Type types = 1;
+}
+
+message EquipmentType {
+	string signal_type_guid = 1;
+	string signal_type_name = 2;
+	string signal_type_description = 3;
+	bool is_active = 4;
+	repeated string equipment_guids = 5;
+}
+
+message EquipmentTypeList {
+	repeated EquipmentType signal_type_equipment = 1;
+}

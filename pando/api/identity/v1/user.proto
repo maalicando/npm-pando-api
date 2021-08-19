@@ -1,0 +1,96 @@
+syntax = "proto3";
+
+// do not change the package name
+package pando.api.identity.v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/field_mask.proto";
+import "pando/api/extensions.proto";
+import "pando/api/shared.proto";
+
+// these must be the same in all 'pando.api.identity.v1' proto files
+option csharp_namespace = "Pando.Api.Identity.V1";
+option java_multiple_files = true;
+option java_package = "com.pando.api.identity.v1";
+option ruby_package = "Pando::Api::Identity::V1";
+
+service UserService {
+    rpc CreateUserClaim(ClaimRequest) returns (Claim) {
+        option (google.api.http) = {
+            post: "/api/v1/identity/users/claims"
+        };
+    };
+
+    rpc DeleteUserClaim(ClaimRequest) returns (pando.api.Empty) {
+        option (google.api.http) = {
+            delete: "/api/v1/identity/users/claims"
+        };
+    };
+
+    rpc UpdateUserInfo(UserInfoRequest) returns (UserInfo) {
+        option (pando.api.method).require_user_auth = true;
+        option (pando.api.method).required_scope = "profile:write";
+        option (pando.api.method).required_scope = "profile";
+        option (google.api.http) = {
+            patch: "/api/v1/identity/users"
+        };
+    }
+
+    rpc CreateUser(CreateUserRequest) returns (CreateUserRequest) {
+        option (google.api.http) = {
+            post: "/api/v1/identity/users"
+        };
+    }
+
+    rpc ExecSendEmailLoginLink(SendEmailLoginLinkRequest) returns (pando.api.Empty) {
+        // No HTTP proxy as that would result in incorrect login URL
+    }
+
+    rpc ExecValidateLoginCode(ValidateLoginCodeRequest) returns (ValidateLoginCodeResponse) {
+        option (google.api.http) = {
+            post: "/api/v1/identity/users/validate-login-code"
+        };
+    };
+}
+
+message ValidateLoginCodeRequest{
+    string user_id = 1;
+    string login_code = 2;
+}
+
+message ValidateLoginCodeResponse{
+    bool valid = 1;
+}
+
+message SendEmailLoginLinkRequest {
+    string user_id = 1;
+}
+
+message Claim {
+    string type = 1;
+    string value = 2;
+}
+
+message ClaimRequest {
+    string user_id = 1;
+    Claim claim = 2;
+}
+
+message UserInfo {
+    string email = 1;
+    string phone_number = 2;
+    string given_name = 3;
+    string family_name = 4;
+    string nickname = 5;
+    string user_id = 100;
+}
+
+message UserInfoRequest {
+    UserInfo user_info = 1;
+    google.protobuf.FieldMask update_mask = 100;
+}
+
+message CreateUserRequest {
+    UserInfo user = 1;
+    repeated Claim claims = 2;
+}

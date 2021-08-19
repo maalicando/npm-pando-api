@@ -1,0 +1,116 @@
+/*
+    This file exists in two repositories:
+        pando.common (in Pando.Api.Internal)
+        public-api
+
+    Any changes to this file must be made in both repositories; they should be identical.
+*/
+
+syntax = "proto3";
+
+// these must be the same in all 'pando.api' proto files
+package pando.api;
+option csharp_namespace = "Pando.Api";
+option java_multiple_files = true;
+option java_package = "com.pando.api";
+option ruby_package = "Pando::Api";
+
+// This file does not define a Service
+
+message Empty {}
+
+enum FileType {
+    MP4 = 0;
+    MOV = 1;
+    M4A = 100;
+    WAV = 101;
+    JS = 102;
+    JSON = 103;
+    YAML = 104;
+    XML = 105;
+    CSV = 106;
+}
+
+enum VariableType {
+    STRING = 0;
+    INT = 1;
+    FLOAT = 2;
+    BOOL = 3;
+    DATETIME = 4;
+}
+
+enum MaskType {
+    NONE = 0;
+    CREDIT_CARD_NUMBER = 1;
+    BANK_ACCOUNT_NUMBER = 2;
+    SOCIAL_SECURITY_NUMBER = 3;
+}
+
+enum ContactType {
+    PHONE = 0;
+    EMAIL = 1;
+}
+
+message FileChunk {
+    oneof response {
+        FileMetadata metadata = 1;
+        Chunk chunk = 2;
+    }
+}
+
+message FileMetadata {
+    string name = 1;
+    int64 size = 2;
+    FileType type = 3;
+    string guid = 4;
+}
+
+message Chunk{
+    bytes bytes = 1;
+}
+
+message UserMetadata {
+    string id = 1;
+    string client_id = 2;
+    string device_id = 3;
+    string longitude = 4;
+    string latitude = 5;
+}
+
+//Creating a custom decimal type for Protobuf
+//Name "DecimalValue" prevents conflict with C# Decimal type
+//Other developers can then implement conversion to and from the equivalent type in their own language or framework.
+message DecimalValue {
+  // The whole units of the amount.
+  int64 units = 1;
+
+  // Number of nano (10^-9) units of the amount.
+  // The value must be between -999,999,999 and +999,999,999 inclusive.
+  // If `units` is positive, `nanos` must be positive or zero.
+  // If `units` is zero, `nanos` can be positive, zero, or negative.
+  // If `units` is negative, `nanos` must be negative or zero.
+  // For example $-1.75 is represented as `units`=-1 and `nanos`=-750,000,000.
+  sfixed32 nanos = 2;
+}
+
+message DataRecord {
+    FileType format = 1; // Only JSON, YAML, XML, and CSV are allowed.
+    string text = 2;
+}
+
+message ContactInfo {
+    ContactType contact_type = 1;
+    string contact_info = 2;
+}
+
+message UserContactInfo {
+  string user_id = 1;
+  ContactInfo contact_info = 2;
+}
+
+message PaginationResult {
+    int32 current_page = 1;
+    int32 current_result_count = 2;
+    int32 total_page_count = 3;
+    int32 total_result_count = 4;
+}

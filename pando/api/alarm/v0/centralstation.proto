@@ -1,0 +1,98 @@
+﻿syntax = "proto3";
+
+package central_station;
+
+import "pando/api/alarm/v0/centralstationtemplate-model.proto";
+import "pando/api/extensions.proto";
+import "pando/api/shared.proto";
+
+// DO NOT CHANGE THE NAMESPACE
+option csharp_namespace = "Pando.Api.Alarm.V0";
+
+service CentralStationService { // Please name this with the convention "PackageNameService"
+	option (pando.api.service).required_scope = "equipment_service";
+
+	// This is the Service Contract; Add Endpoints Contracts Here
+	rpc GetAllTypes (pando.api.Empty) returns (TypeList);
+	rpc GetAllConfigurations (pando.api.Empty) returns (ConfigurationList);
+	rpc GetType (GetTypeRequest) returns (Type);
+	rpc GetTemplateList (GetConfigurationRequest) returns (central_station_template.ModelList);
+	rpc GetConfiguration (GetConfigurationRequest) returns (Configuration);
+	rpc GetConfigurationList (GetConfigurationListRequest) returns (ConfigurationList);
+	rpc GetConfigurationsFromType (GetTypeRequest) returns (ConfigurationList);
+	rpc CreateType (Type) returns (TypeList);
+	rpc UpdateType (Type) returns (TypeList);
+	rpc CreateSetting (Setting) returns (SettingList);
+	rpc UpdateSetting (Setting) returns (SettingList);
+	rpc UpdateSettingValue (SettingValue) returns (Configuration);
+	rpc CreateTemplate (central_station_template.Model) returns (central_station_template.ModelList);
+	rpc UpdateTemplate (central_station_template.Model) returns (central_station_template.ModelList);
+}
+
+// Add Messages here
+// Messages are model contracts
+// Protobuf will maintain backwards compatibility with old clients if the field numbers remain consistent
+// You may add or delete rows from a Message as long as you do not reuse field number
+// https://developers.google.com/protocol-buffers/docs/proto3
+
+message GetTypeRequest {
+	string central_station_code = 1;
+	bool include_inactive = 2;
+}
+
+message GetConfigurationRequest {
+	string client_central_station_guid = 1;
+	bool include_inactive = 2;
+}
+
+message GetConfigurationListRequest {
+	repeated string client_central_station_guids = 1;
+	bool include_inactive = 2;
+}
+
+message Type {
+	string central_station_code = 1;
+	string display_name = 2;
+	bool is_active = 3;
+	string date_created = 4;
+	string date_last_updated = 5;
+}
+
+message TypeList {
+	repeated Type types = 1;
+}
+
+message Setting {
+	string central_station_code = 1;
+	string setting_code = 2;
+	string description = 3;
+	string data_type = 4;
+	string date_created = 5;
+	string date_last_updated = 6;
+	string default_value = 7;
+}
+
+message SettingValue {
+	string client_central_station_guid = 1;
+	string setting_code = 2;
+	string data_type = 3;
+	string setting_value = 4;
+	string date_last_updated = 5;
+}
+
+message Configuration {
+	string central_station_code = 1;
+	string client_central_station_guid = 2;
+	string description = 3;
+	bool is_active = 4;
+	repeated SettingValue setting_values = 5;
+}
+
+message ConfigurationList {
+	repeated Configuration configurations = 1;
+}
+
+message SettingList {
+	string central_station_code = 1;
+	repeated Setting settings = 2;
+}

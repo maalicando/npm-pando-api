@@ -1,0 +1,21 @@
+﻿syntax = "proto3";
+
+// Circular dependencies are forbidden in protobuf
+// this file is to facilitate multiple packages using
+// the zonetype models without circular references
+
+package ping_service;
+
+import "pando/api/shared.proto";
+
+// DO NOT CHANGE THE NAMESPACE
+option csharp_namespace = "Pando.Api.Alarm.V0.Utility";
+
+service UtilityService {
+	rpc Ping (pando.api.Empty) returns (OkResult);
+	rpc ClearCache (pando.api.Empty) returns (OkResult);
+}
+
+message OkResult {
+	bool is_ok = 1;
+}

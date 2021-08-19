@@ -1,0 +1,33 @@
+﻿syntax = "proto3";
+
+// Circular dependencies are forbidden in protobuf
+// this file is to facilitate multiple packages using
+// the zonetype models without circular references
+
+package zonetype;
+
+// DO NOT CHANGE THE NAMESPACE
+option csharp_namespace = "Pando.Api.Alarm.V0.ZoneType";
+
+// Messages go here
+// Messages are model contracts
+// Protobuf will maintain backwards compatibility with old clients if the field numbers remain consistent
+// You may add or delete rows from a Message as long as you do not reuse field number
+// https://developers.google.com/protocol-buffers/docs/proto3
+
+message Model {
+	string zone_type_guid = 1;
+	string zone_type_name = 2;
+	string zone_type_description = 3;
+	string zone_type_value = 4;
+	string event_code = 5;
+	string central_station_code = 6;
+	bool is_active = 7;
+	string value_1 = 8;
+	string value_2 = 9;
+}
+
+message ModelList {
+	string central_station_code = 1;
+	repeated Model models = 2;
+}

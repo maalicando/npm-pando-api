@@ -1,0 +1,330 @@
+syntax = "proto3";
+
+// do not change the package name
+package pando.api.survey.v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+import "pando/api/extensions.proto";
+import "pando/api/shared.proto";
+import "pando/api/survey/v1/shared.proto";
+
+// these must be the same in all 'pando.survey.v1' proto files
+option csharp_namespace = "Pando.Api.Survey.V1";
+option java_multiple_files = true;
+option java_package = "com.pando.api.survey.v1";
+option ruby_package = "Pando::Api::Survey::V1";
+
+// /api/v1/survey
+service SurveyService {
+    option (pando.api.service).required_scope = "survey";
+    option (pando.api.service).required_scope = "personal_info";
+    option (pando.api.service).optional_scope = {
+        scope: "esign",
+        note: "Required if the Survey has ESign Documents attached to it"
+    };
+
+    // Create
+    rpc CreateAnswer(Answer) returns (Answer) {
+        option (pando.api.method).required_claim = "survey:instance,write";
+        option (google.api.http) = {
+            post: "/api/v1/survey/instance/attempt/question/answer",
+            body: "*"
+        };
+    }
+
+    rpc CreateAttempt(Attempt) returns (Attempt) {
+        option (pando.api.method).required_claim = "survey:instance,write";
+        option (google.api.http) = {
+            post: "/api/v1/survey/instance/attempt",
+            body: "*"
+        };
+    }
+
+    rpc UploadAnswerMedia(stream FileChunk) returns (UploadAnswerMediaResponse) {
+        option (pando.api.method).required_claim = "survey:instance,write";
+        // No HTTP route is available for streaming RPCs
+    }
+
+    // Read
+    rpc GetInstance(GetInstanceRequest) returns (Instance) {
+        option (pando.api.method).required_claim = "survey:instance,read";
+        option (google.api.http) = {
+            get: "/api/v1/survey/instance"
+        };
+    }
+
+    rpc GetInstances(GetInstancesRequest) returns (InstanceList) {
+        option (pando.api.method).required_claim = "survey:instance,read";
+        option (google.api.http) = {
+            get: "/api/v1/survey/instance/list"
+        };
+    }
+
+    rpc GetAttempt(GetAttemptRequest) returns (Attempt) {
+        option (pando.api.method).required_claim = "survey:instance,read";
+        option (google.api.http) = {
+            get: "/api/v1/survey/instance/attempt"
+        };
+    }
+
+    rpc GetAttempts(GetAttemptsRequest) returns (AttemptList) {
+        option (pando.api.method).required_claim = "survey:instance,read";
+        option (google.api.http) = {
+            get:  "/api/v1/survey/instance/attempt/list"
+        };
+    }
+
+    rpc GetSurveyMedia(GetMediaRequest) returns (stream FileChunk) {
+        option (pando.api.method).required_claim = "survey:instance,read";
+        // No HTTP route is available for streaming RPCs
+    }
+
+    rpc GetAnswerMedia(GetMediaRequest) returns (stream FileChunk) {
+        option (pando.api.method).required_claim = "survey:instance,read";
+        // No HTTP route is available for streaming RPCs
+    }
+
+    rpc GetNextQuestion(GetNextQuestionRequest) returns (GetNextQuestionResponse) {
+        option (pando.api.method).required_claim = "survey:instance,read";
+        option (google.api.http) = {
+            get: "/api/v1/survey/question/next"
+        };
+    }
+
+    // Update
+    rpc SaveAnswer(SaveAnswerRequest) returns (Answer) {
+        option (pando.api.method).required_claim = "survey:instance,write";
+        option (google.api.http) = {
+            post: "/api/v1/survey/instance/answer/text",
+            body: "*"
+        };
+    }
+
+    // Exec
+    rpc ExecCompleteSurvey(CompleteSurveyRequest) returns (Attempt) {
+        option (pando.api.method).required_claim = "survey:instance,write";
+        option (google.api.http) = {
+            post: "/api/v1/survey/instance/complete-survey",
+            body: "*"
+        };
+    }
+
+    rpc ExecFacialRecognition(FacialRecognitionRequest) returns (FacialRecognitionResponse){
+        option (google.api.http) = {
+            post: "/api/v1/survey/facial-recognition",
+            body: "*"
+        };
+    }
+
+    rpc ExecSpeechRecognition(stream SpeechRecognitionRequest) returns (stream SpeechRecognitionResponse){
+        option (pando.api.method).required_claim = "survey:instance,write";
+        // No HTTP route is available for streaming RPCs
+    }
+
+    rpc ExecCompleteQuestion(ExecCompleteQuestionRequest) returns (ExecCompleteQuestionResponse){
+        option (pando.api.method).required_claim = "survey:instance,write";
+        option (google.api.http) = {
+            post: "/api/v1/survey/instance/answer/complete",
+            body: "*"
+        };
+    }
+
+    // the authenticated user must own the Instance
+    // this endpoint will grant ownership over the Instance to the users indicated
+    rpc ExecAddInstanceOwner(ExecAddInstanceOwnerRequest) returns(pando.api.Empty){
+        option (pando.api.method).required_claim = "survey:instance,write";
+        option (pando.api.method).required_claim = "personal_info,write";
+        option (pando.api.method).optional_claim = {
+            claim: "esign:signatory,write",
+            note: "Required if the Survey Instance has an ESign Signatory attached to it"
+        };
+        option (google.api.http) = {
+            post: "/api/v1/survey/instance/add-owner",
+            body: "*"
+        };
+    }
+
+    // the authenticated user must own the Instance
+    // this endpoint will remove the authenticated user's ownership over the Instance
+    rpc ExecRemoveInstanceOwner(ExecRemoveInstanceOwnerRequest) returns(pando.api.Empty){
+        option (pando.api.method).required_claim = "survey:instance,write";
+        option (pando.api.method).required_claim = "personal_info,write";
+        option (pando.api.method).optional_claim = {
+            claim: "esign:signatory,write",
+            note: "Required if the Survey Instance has an ESign Signatory attached to it"
+        };
+        option (google.api.http) = {
+            post: "/api/v1/survey/instance/remove-owner",
+            body: "*"
+        };
+    }
+
+    // these endpoints are helpers for the mobile app UI
+    rpc GetIncompleteSurveyInstances(GetSurveyInstanceListRequest) returns (InstanceList) {
+        option (pando.api.method).required_claim = "survey:instance,read";
+        option (google.api.http) = {
+            get: "/api/v1/survey/instance/list/incomplete"
+        };
+    }
+
+    rpc GetCompletedSurveyInstances(GetSurveyInstanceListRequest) returns (InstanceList) {
+        option (pando.api.method).required_claim = "survey:instance,read";
+        option (google.api.http) = {
+            get: "/api/v1/survey/instance/list/completed"
+        };
+    }
+
+    rpc GetRecentlyCompletedSurveyInstances(GetSurveyInstanceListRequest) returns (InstanceList) {
+        option (pando.api.method).required_claim = "survey:instance,read";
+        option (google.api.http) = {
+            get: "/api/v1/survey/instance/list/recently-completed"
+        };
+    }
+
+    rpc GetSurveyInstancesToDo(GetSurveyInstanceListRequest) returns (InstanceList) {
+        option (pando.api.method).required_claim = "survey:instance,read";
+        option (google.api.http) = {
+            get: "/api/v1/survey/instance/list/todo"
+        };
+    }
+
+    rpc GetAttemptQuestions(GetAttemptQuestionsRequest) returns (GetAttemptQuestionsResponse) {
+        option (pando.api.method).required_claim = "survey:instance,read";
+        option (google.api.http) = {
+            get: "/api/v1/survey/attempt/questions"
+        };
+    }
+
+    rpc GetQuestionWithAnswerTimestamps(GetQuestionWithAnswerTimestampsRequest) returns (GetQuestionWithAnswerTimestampsResponse) {
+        option (pando.api.method).required_claim = "survey:instance,read";
+        option (google.api.http) = {
+            get: "/api/v1/survey/attempt/question/answer-timestamps"
+        };
+    }
+}
+
+message UploadAnswerMediaResponse {
+    string media_answer_guid = 1;
+}
+
+// Could request specific byte range
+message GetMediaRequest{
+    string media_guid = 1;
+}
+
+message SpeechRecognitionRequest{
+    bytes bytes = 1;
+}
+
+message SpeechRecognitionResponse{
+    bool recognized = 1;
+    string recognized_text = 2;
+    bool is_yes = 3;
+    bool is_no = 4;
+}
+
+message FacialRecognitionRequest{
+    string base64_img = 1;
+}
+
+message FacialRecognitionResponse{
+    bool face_in_frame = 1;
+}
+
+message GetInstancesRequest {
+    string user_id = 1;
+    bool include_completed = 2;
+    google.protobuf.Timestamp start = 3;
+    google.protobuf.Timestamp end = 4;
+    bool include_deleted = 5;
+    int32 page = 100;
+    int32 results_per_page = 101;
+}
+
+message SaveAnswerRequest {
+    string answer_guid = 1;
+    string text = 2;
+    AnswerType answer_type = 3;
+    AnswerAction answer_action = 4;
+    int32 timestamp = 5;
+}
+
+message CompleteSurveyRequest {
+    string survey_attempt_guid = 1;
+    reserved 2;
+}
+
+message GetAttemptRequest {
+    string guid = 1;
+}
+
+message GetAttemptsRequest {
+    string instance_guid = 1;
+}
+
+message GetNextQuestionRequest {
+    string attempt_guid = 1;
+}
+
+message GetInstanceRequest {
+    string guid = 1;
+}
+
+message GetNextQuestionResponse {
+    oneof response {
+        QuestionWithPlaybackData question = 1;
+        NoMoreQuestionsResponse message = 2;
+    }
+}
+
+message NoMoreQuestionsResponse {
+    // this is only here to indicate that there are no more questions retuned
+}
+
+message ExecCompleteQuestionRequest {
+    string answer_guid = 1;
+}
+
+message ExecCompleteQuestionResponse {
+    CompletionType completion_type = 1;
+    string message = 2;
+    google.protobuf.Timestamp timestamp = 3;
+    int32 relative_timestamp = 4;
+}
+
+message ExecAddInstanceOwnerRequest {
+    string instance_guid = 1;
+    repeated string user_ids = 2;
+}
+
+message ExecRemoveInstanceOwnerRequest {
+    string instance_guid = 1;
+}
+
+message GetSurveyInstanceListRequest {
+    reserved 1;
+    google.protobuf.Timestamp start = 2;
+    google.protobuf.Timestamp end = 3;
+    int32 page = 100;
+    int32 results_per_page = 101;
+}
+
+message GetAttemptQuestionsRequest {
+    string survey_attempt_guid = 1 [(pando.api.field).request_required = true];
+}
+
+message GetQuestionWithAnswerTimestampsRequest {
+    string survey_attempt_guid = 1;
+    string question_guid = 2;
+}
+
+message GetAttemptQuestionsResponse {
+    repeated string question_guids = 1;
+}
+
+message GetQuestionWithAnswerTimestampsResponse {
+    QuestionWithPlaybackData question = 1;
+    repeated AnswerTimestamp answer_timestamps = 2;
+    string answer_media_guid = 3;
+}

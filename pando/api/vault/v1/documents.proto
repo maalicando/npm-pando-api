@@ -1,0 +1,77 @@
+syntax = "proto3";
+
+// do not change the package name
+package pando.api.vault.v1;
+
+import "google/api/annotations.proto";
+import "pando/api/extensions.proto";
+import "pando/api/shared.proto";
+
+// these must be the same in all 'pando.vault.v1' proto files
+option csharp_namespace = "Pando.Api.Vault.V1";
+option java_multiple_files = true;
+option java_package = "com.pando.api.vault.v1";
+option ruby_package = "Pando::Api::Vault::v1";
+
+service DocumentService {
+    option (pando.api.service).required_scope = "personal_info";
+
+    rpc GetDocument (GetDocumentRequest) returns (GetDocumentResponse){
+        option (pando.api.method).required_claim = "personal_info,read";
+        option (google.api.http) = {
+            get: "/api/v1/vault/document"
+        };
+    }
+
+    rpc UploadDocument (Document) returns (Document){
+        option (pando.api.method).required_claim = "personal_info,write";
+        option (google.api.http) = {
+          post: "/api/v1/vault/document",
+          body: "*"
+        };
+    }
+
+    // the authenticated user must own the Document
+    // this endpoint will grant ownership over the Document to the users indicated
+    rpc ExecAddDocumentOwner (ExecAddDocumentOwnerRequest) returns (pando.api.Empty){
+        option (pando.api.method).required_claim = "personal_info,write";
+        option (google.api.http) = {
+            post: "/api/v1/vault/document/add-owner",
+            body: "*"
+        };
+    }
+
+    // the authenticated user must own the Document
+    // this endpoint will remove the authenticated user's ownership over the Document
+    rpc ExecRemoveDocumentOwnership (ExecRemoveDocumentOwnershipRequest) returns (pando.api.Empty){
+        option (pando.api.method).required_claim = "personal_info,write";
+        option (google.api.http) = {
+            post: "/api/v1/vault/document/remove-owner",
+            body: "*"
+        };
+    }
+}
+
+message GetDocumentRequest {
+    string document_id = 1;
+}
+
+message GetDocumentResponse{
+    Document document = 1;
+}
+
+message Document{
+    string document_id = 1 [(pando.api.field).response_only = true];
+    bytes file = 2;
+    string media_type = 3; // This will be things like application/pdf
+    string organization_code = 4;
+}
+
+message ExecAddDocumentOwnerRequest {
+    string document_guid = 1;
+    repeated string user_ids = 2;
+}
+
+message ExecRemoveDocumentOwnershipRequest {
+    string document_guid = 1;
+}

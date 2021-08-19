@@ -1,0 +1,113 @@
+syntax = "proto3";
+
+// do not change the package name
+package pando.api.localization.v1;
+
+// these must be the same in all 'pando.localization.v1' proto files
+option csharp_namespace = "Pando.Api.Localization.V1";
+option java_multiple_files = true;
+option java_package = "com.pando.api.localization.v1";
+option ruby_package = "Pando::Api::Localization::V1";
+
+/*
+    This file does not define a service.
+
+    This file defines all text labels/messages that may be returned by the Localization Service.
+
+    These labels are grouped in the enum definition by Service and Execution vs Tools.
+*/
+
+enum Label {
+    NO_LABEL = 0;
+
+/*
+    The following pattern is used to group labels and messages from the same source:
+        AAABBCC
+            AAA -> Three digit code for the Service or Website
+                Examples: TPV Tools labels are all 100XXXX, Survey Service labels are all 101XXXX
+            BB  -> Two digit sub-code for grouping within a Service or Website
+                Examples: TPV Survey App Menu labels are all 10111XX, TPV Tools Side Menu labels are all 10010XX
+            CC  -> Last two digits increment by 1 for each label in the sub-code grouping
+                Examples: TPV Survey App's "Completed Surveys" Header is 1011300
+
+    These are all in a single Enum so it can be used as a request parameter for a more generic endpoint definition.
+
+    The numbers are organzied strictly so that one can programmatically determine the source of a label based on the enum value.
+
+    CRITICAL NOTE: THESE TEXT MESSAGES ARE PUBLIC AND SHOULD NOT CONTAIN SENSITIVE INFORMATION.
+*/
+
+/*  TPV Tools (Shared)                                    100XXXX */
+    // Side Menu                                          10010XX
+    TPV_TOOLS_SIDE_MENU_USERS                           = 1001000;
+    TPV_TOOLS_SIDE_MENU_SURVEYS                         = 1001001;
+    TPV_TOOLS_SIDE_MENU_DOCUMENTS                       = 1001002;
+
+/*  TPV Survey Service                                    101XXXX */
+    // General                                            10110XX
+    TPV_SURVEY_APP_SURVEY                               = 1011000;
+    TPV_SURVEY_APP_DOCUMENT                             = 1011001;
+    TPV_SURVEY_APP_POWERED_BY_PANDO                     = 1011002;
+
+    // App Menus                                          10111XX
+    TPV_SURVEY_APP_SIDE_MENU_HOME                       = 1011100;
+    TPV_SURVEY_APP_SIDE_MENU_SURVEYS                    = 1011101;
+    TPV_SURVEY_APP_SIDE_MENU_DOCUMENTS                  = 1011102;
+    TPV_SURVEY_APP_SIDE_MENU_COMPLETE                   = 1011103;
+    TPV_SURVEY_APP_SIDE_MENU_SIGNED                     = 1011104;
+    TPV_SURVEY_APP_SIDE_MENU_UNSIGNED                   = 1011105;
+    TPV_SURVEY_APP_SIDE_MENU_PROMOTIONS                 = 1011106;
+    TPV_SURVEY_APP_SIDE_MENU_ABOUT_US                   = 1011107;
+    TPV_SURVEY_APP_SIDE_MENU_LOGOUT                     = 1011108;
+
+    // Home View                                          10112XX
+    TPV_SURVEY_APP_HOME_TODO                            = 1011201;
+    TPV_SURVEY_APP_HOME_RECENTLY_COMPLETED              = 1011202;
+    TPV_SURVEY_APP_HOME_BOTTOM_MENU_OFFERS              = 1011203;
+    TPV_SURVEY_APP_HOME_BOTTOM_MENU_ABOUT               = 1011204;
+
+    // Completed Surveys View                             10113XX
+    TPV_SURVEY_APP_COMPLETED_SURVEYS_HEADER             = 1011300;
+
+    // Survey Replay View                                 10114XX
+    TPV_SURVEY_APP_REPLAY_SURVEY_VIEW_PLAY_ALL          = 1011400;
+
+    // Survey Execution View                              10115XX
+    TPV_SURVEY_APP_SURVEY_VIEW_STOP                     = 1011500;
+    TPV_SURVEY_APP_SURVEY_VIEW_REPLAY                   = 1011501;
+    TPV_SURVEY_APP_SURVEY_VIEW_WAITING_MEDIA_DOWNLOAD   = 1011502;
+    TPV_SURVEY_APP_SURVEY_VIEW_RESTART_OR_RESUME        = 1011503;
+    TPV_SURVEY_APP_SURVEY_VIEW_RESTART_CONFIRM          = 1011504;
+    TPV_SURVEY_APP_SURVEY_VIEW_FACE_NOT_VISIBLE         = 1011505;
+    TPV_SURVEY_APP_SURVEY_VIEW_PLEASE_ANSWER            = 1011506;
+    TPV_SURVEY_APP_SURVEY_VIEW_PLEASE_REPEAT_ANSWER     = 1011507;
+    TPV_SURVEY_APP_SURVEY_VIEW_BAD_ANSWER               = 1011508;
+
+    // Incomplete Surveys View                            10116XX
+    TPV_SURVEY_APP_INCOMPLETE_SURVEYS_HEADER            = 1011600;
+    TPV_SURVEY_APP_INCOMPLETE_SURVEYS_RESTART           = 1011601;
+    TPV_SURVEY_APP_INCOMPLETE_SURVEYS_RESUME            = 1011602;
+
+    // Signed Documents View                              10117XX
+    TPV_SURVEY_APP_SIGNED_DOCUMENTS_HEADER              = 1011700;
+
+    // Unsigned Documents View                            10118XX
+    TPV_SURVEY_APP_UNSIGNED_DOCUMENTS_HEADER            = 1011800;
+
+    // ESign Execution View                               10119XX
+    TPV_SURVEY_APP_ESIGN_NEXT                           = 1011900;
+    TPV_SURVEY_APP_ESIGN_BACK                           = 1011901;
+    TPV_SURVEY_APP_ESIGN_NEXT_SIGNATURE                 = 1011902;
+    TPV_SURVEY_APP_ESIGN_DECLINE                        = 1011903;
+    TPV_SURVEY_APP_ESIGN_SIGN                           = 1011904;
+    TPV_SURVEY_APP_ESIGN_TYPE_SIGNATURE                 = 1011905;
+    TPV_SURVEY_APP_ESIGN_DRAW_SIGNATURE                 = 1011906;
+    TPV_SURVEY_APP_ESIGN_SIGNATURE_INSTRUCTION          = 1011907;
+    TPV_SURVEY_APP_ESIGN_SIGNATURE_PREVIEW              = 1011908;
+    TPV_SURVEY_APP_ESIGN_CHANGE_FONT                    = 1011909;
+    TPV_SURVEY_APP_ESIGN_ADOPT_SIGNATURE                = 1011910;
+    TPV_SURVEY_APP_ESIGN_CANCEL                         = 1011911;
+    TPV_SURVEY_APP_ESIGN_DECLINE_CONFIRM                = 1011912;
+    TPV_SURVEY_APP_ESIGN_DECLINED_MESSAGE               = 1011913;
+    TPV_SURVEY_APP_ESIGN_ACCEPT                         = 1011914;
+}

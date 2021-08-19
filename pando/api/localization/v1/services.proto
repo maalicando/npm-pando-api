@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+// do not change the package name
+package pando.api.localization.v1;
+
+// these must be the same in all 'pando.localization.v1' proto files
+option csharp_namespace = "Pando.Api.Localization.V1";
+option java_multiple_files = true;
+option java_package = "com.pando.api.localization.v1";
+option ruby_package = "Pando::Api::Localization::V1";
+
+/*
+    This file does not define a service.
+
+    This file defines all Websites or Services which have Localizable Text,
+    and for which you can call GetLocalizedText.
+*/
+
+enum Service {
+    TPV_TOOLS = 0;
+    TPV_SURVEY = 1;
+    DOCUMENTS = 2;
+    USERS = 3;
+}

@@ -1,0 +1,202 @@
+syntax = "proto3";
+
+// do not change the package name
+package pando.api.esign.v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+import "pando/api/extensions.proto";
+import "pando/api/shared.proto";
+import "pando/api/esign/v1/shared.proto";
+
+// these must be the same in all 'pando.api.esign.v1' proto files
+option csharp_namespace = "Pando.Api.ESign.V1";
+option java_multiple_files = true;
+option java_package = "com.pando.api.esign.v1";
+option ruby_package = "Pando::Api::ESign::V1";
+
+/* ESignAdminService contains Administrative APIs for managing eSign Requests and Templates */
+
+service ESignAdminService {
+    option (pando.api.service).required_scope = "esign:admin";
+
+    rpc CreateRequest(CreateESignRequest) returns (ESignRequest){
+        option (pando.api.method).required_claim = "esign:request,write";
+        option (pando.api.method).required_claim = "personal_info,write";
+        option (google.api.http) = {
+            post: "/api/v1/esign/admin/request",
+            body: "*"
+        };
+    }
+
+    rpc CreateOrUpdateTemplate(CreateOrUpdateTemplateRequest) returns (Template){
+        option (pando.api.method).required_claim = "esign:template,write";
+        option (google.api.http) = {
+            post: "/api/v1/esign/admin/template",
+            body: "*"
+        };
+    }
+
+    rpc GetRequest(GetESignRequest) returns (ESignRequest){
+        option (pando.api.method).required_claim = "esign:request,read";
+        option (google.api.http) = {
+            get: "/api/v1/esign/admin/request",
+        };
+    }
+
+    rpc GetRequestList(GetESignRequestList) returns (ESignRequestList){
+        option (pando.api.method).required_claim = "esign:request,read";
+        option (google.api.http) = {
+            get: "/api/v1/esign/admin/request/list"
+        };
+    }
+
+    rpc GetTemplate(GetTemplateRequest) returns (Template) {
+        option (pando.api.method).required_claim = "esign:template,read";
+        option (google.api.http) =  {
+            get: "/api/v1/esign/admin/template"
+        };
+    }
+
+    rpc GetTemplateList(GetTemplateListRequest) returns (TemplateList) {
+        option (pando.api.method).required_claim = "esign:template,read";
+        option (google.api.http) = {
+            get: "/api/v1/esign/admin/template/list"
+        };
+    }
+
+    rpc GetTemplateReports(GetTemplateReportsRequest) returns (GetTemplateReportsResponse){
+        option (pando.api.method).required_claim = "esign:request,read";
+        option (google.api.http) = {
+            get: "/api/v1/esign/admin/request/get-template-reports",
+            body: "*"
+        };
+    }
+
+    rpc DeleteRequest(GetESignRequest) returns (pando.api.Empty) {
+        option (pando.api.method).required_claim = "esign:request,delete";
+        option (google.api.http) =  {
+            delete: "/api/v1/esign/admin/request"
+        };
+    }
+
+    rpc DeleteTemplate(GetTemplateRequest) returns (pando.api.Empty) {
+        option (pando.api.method).required_claim = "esign:template,delete";
+        option (google.api.http) =  {
+            delete: "/api/v1/esign/admin/template"
+        };
+    }
+
+    // for adding/removing info from an existing ESign Request
+    rpc ExecAddSignatory(ExecSignatoryRequest) returns (ESignRequest){
+        option (pando.api.method).required_claim = "esign:request,write";
+        option (google.api.http) = {
+            post: "/api/v1/esign/admin/request/add-signatory",
+            body: "*"
+        };
+    }
+
+    rpc ExecRemoveSignatory(ExecSignatoryRequest) returns (ESignRequest){
+        option (pando.api.method).required_claim = "esign:request,write";
+        option (google.api.http) = {
+            post: "/api/v1/esign/admin/request/remove-signatory",
+            body: "*"
+        };
+    }
+
+    rpc ExecAddDocument(ExecDocumentRequest) returns (ESignRequest){
+        option (pando.api.method).required_claim = "esign:request,write";
+        option (google.api.http) = {
+            post: "/api/v1/esign/admin/request/add-document",
+            body: "*"
+        };
+    }
+
+    rpc ExecRemoveDocument(ExecDocumentRequest) returns (ESignRequest){
+        option (pando.api.method).required_claim = "esign:request,write";
+        option (google.api.http) = {
+            post: "/api/v1/esign/admin/request/remove-document",
+            body: "*"
+        };
+    }
+}
+
+message CreateESignRequest {
+    repeated ESignDocument documents = 1 [(pando.api.field).request_required = true];
+    repeated SignatoryInfo signatories = 2 [(pando.api.field).request_required = true];
+    oneof data_source {
+        option (pando.api.oneof).request_required = true;
+        DataRecord record = 3;
+        string record_guid = 4;
+    }
+    bool send_link = 5;
+    string organization_code = 6 [(pando.api.field).request_required = true];
+}
+
+message CreateOrUpdateTemplateRequest {
+    Template template = 1;
+    google.protobuf.FieldMask update_mask = 2;
+}
+
+message GetTemplateRequest {
+    string template_guid = 1;
+}
+
+message GetTemplateListRequest {
+    string organization_code = 1;
+    bool include_deleted = 2;
+    int32 page = 100;
+    int32 results_per_page = 101;
+}
+
+message GetESignRequest {
+    string esign_request_guid = 1;
+}
+
+message GetESignRequestList {
+    string user_id = 1;
+    string organization_code = 2;
+    bool include_completed = 3;
+    bool include_deleted = 4;
+    google.protobuf.Timestamp start = 5;
+    google.protobuf.Timestamp end = 6;
+    int32 page = 100;
+    int32 results_per_page = 101;
+}
+
+message UpdateESignRequest {
+    ESignRequest request = 1 [(pando.api.field).request_required = true];
+    google.protobuf.FieldMask update_mask = 100;
+}
+
+message ExecSignatoryRequest {
+    string request_guid = 1;
+    repeated Signatory signatories = 2;
+}
+
+message ExecDocumentRequest {
+    string request_guid = 1;
+    repeated DocumentOrTemplate documents = 2;
+}
+
+message ESignDocument {
+    string template_guid = 1;
+    bool is_requred = 2;
+}
+
+message GetTemplateReportsRequest{
+    string organization_code = 1;
+    bool include_completed = 2;
+    bool include_incomplete = 3;
+    int32 page = 4;
+    int32 results_per_page = 5;
+    google.protobuf.Timestamp start = 6;
+    google.protobuf.Timestamp end = 7;
+}
+
+message GetTemplateReportsResponse{
+    repeated Document documents = 1;
+    ChartData chart_data = 2;
+    PaginationResult pagination = 3;
+}

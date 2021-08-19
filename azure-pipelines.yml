@@ -1,0 +1,111 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+name: $(SourceBranchName)_$(date:yyyyMMdd)$(rev:.r)
+
+trigger:
+- develop
+- master
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+  solution: '**/*.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+
+  # Branch to push packages from. Keep refs/heads/ in front.
+  # Other branches will be built, but not deployed
+  stagingDeploymentBranch: 'refs/heads/develop'
+  stagingDeploymentBranchAlt: 'develop'
+  productionDeploymentBranch: 'refs/heads/master'
+  productionDeploymentBranchAlt: 'master'
+
+steps:
+# This misses a LOT of files the Client needs. Look into it and fix later.
+# - bash:
+#    curl -OL https://github.com/google/protobuf/releases/download/v3.6.1/protoc-3.6.1-linux-x86_64.zip
+#    && unzip protoc-3.6.1-linux-x86_64.zip -d protoc3
+#    && sudo mv protoc3/bin/* /usr/local/bin/
+#    && sudo mv protoc3/include/* /usr/local/include/
+#    && sudo chown $USER /usr/local/bin/protoc
+#    && sudo chown -R $USER /usr/local/include/google
+#   displayName: 'Setup Proto Compiler'
+
+# - bash:
+#    protoc --version
+#   displayName: 'Check Protoc Version'
+
+# - bash: |
+#    mkdir -p out/csharp/google/api
+#    mkdir -p out/csharp/pando/api
+#    mkdir -p out/csharp/pando/api/events
+#    mkdir -p out/csharp/pando/api/tpv/survey/v1
+#    mkdir -p out/csharp/pando/api/vault/v0
+#    mkdir -p out/csharp/pando/api/vault/v1
+#   displayName: 'Set up Directories'
+
+# # Compile Files
+# - bash: |
+#    protoc -I . --csharp_out=out/csharp/google/api $(find google/api -maxdepth 1 -iname *.proto)
+#    protoc -I . --csharp_out=out/csharp/pando/api $(find pando/api -maxdepth 1 -iname *.proto)
+#    protoc -I . --csharp_out=out/csharp/pando/api/tpv/survey/v1 $(find pando/api/tpv/survey/v1 -maxdepth 1 -iname *.proto)
+#    protoc -I . --csharp_out=out/csharp/pando/api/vault/v0 $(find pando/api/vault/v0 -maxdepth 1 -iname *.proto)
+#    protoc -I . --csharp_out=out/csharp/pando/api/vault/v1 $(find pando/api/vault/v1 -maxdepth 1 -iname *.proto)
+#   displayName: 'Compile C# Files'
+
+- task: NuGetToolInstaller@1
+  displayName: Install NuGet tools
+
+- task: NuGetCommand@2
+  displayName: Restore solution
+  inputs:
+    command: 'restore'
+    restoreSolution: 'package/nuget/Pando.Api.sln'
+    feedsToUse: 'select'
+    vstsFeed: '58dedc95-363b-415f-a9aa-aae3ba824cc5'
+
+- task: VSBuild@1
+  displayName: Build
+  inputs:
+    solution: 'package/nuget/Pando.Api.sln'
+    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:PackageLocation="$(build.artifactStagingDirectory)"'
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
+
+- task: DotNetCoreCLI@2
+  displayName: 'Create NuGet packages'
+  inputs:
+    command: pack
+    projects: 'package/nuget/Pando.Api.sln'
+    arguments: '--no-build --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+
+- task: CopyFiles@2
+  displayName: Copy snupkg to publish
+  inputs:
+    sourceFolder: $(Build.ArtifactStagingDirectory)
+    contents: '*.snupkg'
+    targetFolder: $(Build.ArtifactStagingDirectory)/SymbolPackages
+
+- task: NuGetCommand@2
+  displayName: 'Push packages'
+  condition: and(succeeded(),or(eq(variables['Build.SourceBranch'], variables['stagingDeploymentBranch']),eq(variables['Build.SourceBranch'], variables['productionDeploymentBranch']),eq(variables['Build.SourceBranch'], variables['stagingDeploymentBranchAlt']),eq(variables['Build.SourceBranch'], variables['productionDeploymentBranchAlt'])))
+  inputs:
+    command: 'push'
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+    nuGetFeedType: 'internal'
+    publishVstsFeed: '58dedc95-363b-415f-a9aa-aae3ba824cc5'
+    allowPackageConflicts: true
+
+- task: NuGetCommand@2
+  displayName: Push symbols
+  condition: and(succeeded(),or(eq(variables['Build.SourceBranch'], variables['stagingDeploymentBranch']),eq(variables['Build.SourceBranch'], variables['productionDeploymentBranch']),eq(variables['Build.SourceBranch'], variables['stagingDeploymentBranchAlt']),eq(variables['Build.SourceBranch'], variables['productionDeploymentBranchAlt'])))
+  inputs:
+    command: 'push'
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/SymbolPackages/**/*.snupkg'
+    nuGetFeedType: 'internal'
+    publishVstsFeed: '58dedc95-363b-415f-a9aa-aae3ba824cc5'
+    allowPackageConflicts: true

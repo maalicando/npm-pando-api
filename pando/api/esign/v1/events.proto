@@ -1,0 +1,108 @@
+syntax = "proto3";
+
+// do not change the package name
+package pando.api.esign.v1.events;
+
+import "pando/api/shared.proto";
+
+// these must be the same in all 'pando.api.esign.v1.events' proto files
+option csharp_namespace = "Pando.Api.ESign.V1.Events";
+option java_multiple_files = true;
+option java_package = "com.pando.api.esign.v1.events";
+option ruby_package = "Pando::Api::ESign::V1::Events";
+
+/* This file does not define a service */
+
+/*
+    Pando events conform to the CloudEvents specification (https://github.com/cloudevents/spec)
+
+    These messages define the event Data, which is the payload a consumer may expect.
+
+    Some Data payloads are repetitive; this is to allow for future expansion.
+*/
+
+enum Events {
+    // RequestAccessed
+    REQUEST_CREATED = 0;
+    REQUEST_RETRIEVED = 1;
+    REQUEST_DELETED = 2;
+    REQUEST_COMPLETED = 3;
+
+    // RequestUpdated
+    REQUEST_UPDATED = 10;
+
+    // TemplateAcessed
+    TEMPLATE_CREATED = 20;
+    TEMPLATE_RETRIEVED = 21;
+    TEMPLATE_UPDATED = 22;
+    TEMPLATE_DELETED = 23;
+
+    // SignatoryInfoAccessed
+    SIGNATURE_ADOPTED = 30;
+
+    // SignatoryUserChanged
+    SIGNATORY_USER_ADDED = 40;
+    SIGNATORY_USER_REMOVED = 41;
+
+    // DocumentActionTaken
+    DOCUMENT_SIGNED = 50; // "signed"
+    DOCUMENT_DECLINED = 51; // "declined"
+    DOCUMENT_ACKNOWLEDGED = 52; // "acknowledged"
+    DOCUMENT_OPT_IN = 53; // "opted_in"
+    DOCUMENT_OPT_OUT = 54; // "opted_out"
+    DOCUMENT_RETRIEVED = 55; // "retrieved"
+
+    // SendRequestLink
+    SEND_REQUEST_LINK = 60;
+}
+
+message RequestAccessed {
+    string request_guid = 1;
+    UserMetadata user_data = 1000;
+}
+
+message RequestUpdated {
+    string request_guid = 1;
+    RequestUpdatedModel before = 2;
+    RequestUpdatedModel after = 3;
+    UserMetadata user_data = 1000;
+}
+
+message TemplateAcessed {
+    string template_guid = 1;
+    UserMetadata user_data = 1000;
+}
+
+message SignatoryInfoAccessed {
+    string signatory_guid = 1;
+    UserMetadata user_data = 1000;
+}
+
+message SignatoryUserChanged {
+    string signatory_guid = 1;
+    repeated string changed_user_ids = 2;
+    UserMetadata user_data = 1000;
+}
+
+message DocumentActionTaken {
+    string document_guid = 1;
+    string signatory_guid = 2;
+    string request_guid = 3;
+    UserMetadata user_data = 1000;
+}
+
+message SendRequestLink {
+    string user_id = 1;
+    string signatory_guid = 2;
+    ContactType contact_type = 3;
+    string contact_info = 4;
+    bool contact_overridden = 5;
+    UserMetadata requested_by = 6;
+}
+
+message RequestUpdatedModel {
+    string request_guid = 1;
+    repeated string signatory_guids = 2;
+    repeated string document_guids = 3;
+    UserMetadata user_data = 1000;
+}

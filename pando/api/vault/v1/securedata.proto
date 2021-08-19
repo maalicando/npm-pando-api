@@ -1,0 +1,125 @@
+syntax = "proto3";
+
+// do not change the package name
+package pando.api.vault.v1;
+
+import "google/api/annotations.proto";
+import "pando/api/extensions.proto";
+import "pando/api/shared.proto";
+
+// these must be the same in all 'pando.vault.v1' proto files
+option csharp_namespace = "Pando.Api.Vault.V1";
+option java_multiple_files = true;
+option java_package = "com.pando.api.vault.v1";
+option ruby_package = "Pando::Api::Vault::v1";
+
+service SecureDataService {
+    option (pando.api.service).required_scope = "personal_info";
+
+    rpc UploadSecureData (UploadSecureDataRequest) returns (UploadSecureDataResponse){
+        option (pando.api.method).required_claim = "personal_info,write";
+        option (google.api.http) = {
+          post: "/api/v1/vault/securedata"
+          body: "*"
+        };
+    }
+
+    rpc AppendSecureData (AppendSecureDataRequest) returns (AppendSecureDataResponse){
+        option (pando.api.method).required_claim = "personal_info,write";
+        option (google.api.http) = {
+          put: "/api/v1/vault/securedata"
+          body: "*"
+        };
+    }
+
+    rpc GetSecureData (GetSecureDataRequest) returns (SecureDataModel){
+        option (pando.api.method).required_claim = "personal_info,read";
+        option (google.api.http) = {
+            get: "/api/v1/vault/securedata"
+        };
+    }
+
+    rpc DeleteSecureData (DeleteSecureDataRequest) returns (pando.api.Empty){
+        option (pando.api.method).required_claim = "personal_info,delete";
+        option (google.api.http) = {
+            delete: "/api/v1/vault/securedata"
+        };
+    }
+
+    // the authenticated user must own the Record
+    // this endpoint will grant ownership over the Record to the users indicated
+    rpc ExecAddRecordOwner (ExecAddRecordOwnerRequest) returns (pando.api.Empty){
+        option (pando.api.method).required_claim = "personal_info,write";
+        option (google.api.http) = {
+            post: "/api/v1/vault/securedata/record/add-owner",
+            body: "*"
+        };
+    }
+
+    // the authenticated user must own the Record
+    // this endpoint will remove the authenticated user's ownership over the Record
+    rpc ExecRemoveRecordOwnership (ExecRemoveRecordOwnershipRequest) returns (pando.api.Empty){
+        option (pando.api.method).required_claim = "personal_info,write";
+        option (google.api.http) = {
+            post: "/api/v1/vault/securedata/record/remove-owner",
+            body: "*"
+        };
+    }
+}
+
+message SecureDataModel {
+    string record_id = 1;
+    repeated Data data = 2;
+    string organization_code = 3;
+}
+
+message Data {
+    string key_id = 1;
+    string value = 2;
+    reserved 3;
+}
+
+message UploadSecureDataRequest {
+    reserved 1, 3, 4, 5;
+    string organization_code = 2 [(pando.api.field).request_required = true];
+    repeated string user_ids = 6 [(pando.api.field).request_required = true];
+    oneof data {
+        DataRecord data_record = 7 [(pando.api.field).request_required = true];
+        KeyValueMap data_key_values = 8 [(pando.api.field).request_required = true];
+    }
+}
+
+message KeyValueMap {
+    map<string, string> key_values = 1;
+}
+
+message GetSecureDataRequest {
+    string guid = 1 [(pando.api.field).request_required = true];
+    repeated string key_ids = 2;
+}
+
+message DeleteSecureDataRequest {
+    string guid = 1 [(pando.api.field).request_required = true];
+}
+
+message ExecAddRecordOwnerRequest {
+    string record_guid = 1;
+    repeated string user_ids = 2;
+}
+
+message ExecRemoveRecordOwnershipRequest {
+    string record_guid = 1;
+}
+
+message UploadSecureDataResponse {
+    string record_id = 1;
+}
+
+message AppendSecureDataRequest {
+    string guid = 1 [(pando.api.field).request_required = true];
+    map<string, string> key_values = 2 [(pando.api.field).request_required = true]; 
+}
+
+message AppendSecureDataResponse {
+    string guid = 1;
+}

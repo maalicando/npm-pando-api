@@ -1,0 +1,104 @@
+syntax = "proto3";
+
+// do not change the package name
+package pando.api.canvassing.v1.events;
+
+import "pando/api/shared.proto";
+import "google/protobuf/timestamp.proto";
+
+// these must be the same in all 'pando.api.canvassing.v1.events' proto files
+option csharp_namespace = "Pando.Api.Canvassing.V1.Events";
+option java_multiple_files = true;
+option java_package = "com.pando.api.canvassing.v1.events";
+option ruby_package = "Pando::Api::Canvassing::V1::Events";
+
+/* This file does not define a service */
+
+/*
+    Pando events conform to the CloudEvents specification (https://github.com/cloudevents/spec)
+
+    These messages define the event Data, which is the payload a consumer may expect.
+
+    Some Data payloads are repetitive; this is to allow for future expansion.
+*/
+
+enum Events {
+    NO_TYPE = 0;
+
+    // Area
+    CANVASSING_AREA_CREATED = 1;
+    CANVASSING_AREA_UPDATED = 2;
+    CANVASSING_AREA_DELETED = 3;
+    CANVASSING_AREA_ASSIGNED = 4;
+    CANVASSING_AREA_UNASSIGNED = 5;
+    CANVASSING_AREA_NOTE_CREATED = 6;
+    CANVASSING_AREA_NOTE_DELETED = 7;
+
+    // Lead
+    CANVASSING_LEAD_CREATED = 10;
+    CANVASSING_LEAD_DELETED = 11;
+    CANVASSING_LEAD_UPDATED = 12;
+    CANVASSING_LEAD_NOTE_CREATED = 13;
+    CANVASSING_LEAD_NOTE_DELETED = 14;
+
+    
+    // LeadType
+    CANVASSING_LEAD_TYPE_CREATED = 20;
+    CANVASSING_LEAD_TYPE_UPDATED = 21;
+    CANVASSING_LEAD_TYPE_DELETED = 22;
+}
+
+message EventArea{
+    int32 id = 1;
+    string name = 2;
+    string color = 3;
+    google.protobuf.Timestamp date_start = 4;
+    google.protobuf.Timestamp date_end = 5;
+}
+
+message EventLead{
+    int32 id = 1;
+    int32 lead_type_id = 2;
+}
+
+message EventLeadType{
+    int32 id = 1;
+    string name = 2;
+    string description = 3;
+    string icon_color = 4;
+    string label = 5;
+    string label_color = 6;
+    bool is_assignable = 7;
+    bool is_displayed = 8;
+}
+
+message EventNote{
+    int32 id = 1;
+    string text = 2;
+}
+
+message NoteModified {
+    EventNote note = 1;
+    UserMetadata user_data = 1000;
+}
+
+message AreaModified {
+    EventArea area = 1;
+    UserMetadata user_data = 1000;
+}
+
+message AreaAssignmentChange {
+    int32 area_id = 1;
+    string changed_assignee_user_id = 2;
+    UserMetadata user_data = 1000;
+}
+
+message LeadModified {
+    EventLead lead = 1;
+    UserMetadata user_data = 1000;
+}
+
+message LeadTypeModified {
+    EventLeadType lead_type = 1;
+    UserMetadata user_data = 1000;
+}

@@ -1,0 +1,666 @@
+syntax = "proto3";
+
+// do not change the package name
+package pando.api.survey.v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/field_mask.proto";
+import "pando/api/extensions.proto";
+import "pando/api/shared.proto";
+import "pando/api/survey/v1/shared.proto";
+
+// these must be the same in all 'pando.survey.v1' proto files
+option csharp_namespace = "Pando.Api.Survey.V1";
+option java_multiple_files = true;
+option java_package = "com.pando.api.survey.v1";
+option ruby_package = "Pando::Api::Survey::V1";
+
+/* SurveyAdminService contains Administrative APIs for managing Surveys */
+
+// /api/v1/survey
+service SurveyAdminService {
+    option (pando.api.service).required_scope = "survey:admin";
+
+    // Create
+    rpc CreateSurvey(Survey) returns (Survey) {
+        option (pando.api.method).required_claim = "survey:template,write";
+        option (google.api.http) = {
+            post: "/api/v1/survey",
+            body: "*"
+        };
+    }
+
+    rpc CreateQuestion(Question) returns (Question) {
+        option (pando.api.method).required_claim = "survey:template,write";
+        option (google.api.http) = {
+            post: "/api/v1/survey/question",
+            body: "*"
+        };
+    }
+
+    rpc CreatePlaybackData(PlaybackData) returns (PlaybackData) {
+        option (pando.api.method).required_claim = "survey:template,write";
+        option (google.api.http) = {
+            post: "/api/v1/survey/question/playback-data",
+            body: "*"
+        };
+    }
+
+    rpc CreateSurveyQuestionDestination(SurveyQuestionDestination) returns (SurveyQuestionDestination) {
+        option (pando.api.method).required_claim = "survey:template,write";
+        option (google.api.http) = {
+            post: "/api/v1/survey/question/destination",
+            body: "*"
+        };
+    }
+
+    rpc CreateSurveyVariable(SurveyVariable) returns (SurveyVariable) {
+        option (pando.api.method).required_claim = "survey:template,write";
+        option (google.api.http) = {
+            post: "/api/v1/survey/survey-variable",
+            body: "*"
+        };
+    }
+
+    rpc CreateVariable(Variable) returns (Variable) {
+        option (pando.api.method).required_claim = "survey:template,write";
+        option (google.api.http) = {
+            post: "/api/v1/survey/variable",
+            body: "*"
+        };
+    }
+
+    rpc CreateVariables(CreateVariablesRequest) returns (VariableList) {
+        option (pando.api.method).required_claim = "survey:template,write";
+        option (google.api.http) = {
+            post: "/api/v1/survey/variable/bulk",
+            body: "*"
+        };
+    }
+
+    rpc UploadSurveyMedia(stream FileChunk) returns (UploadSurveyMediaResponse) {
+        option (pando.api.method).required_claim = "survey:template,write";
+        // No HTTP route is available for streaming RPCs
+    }
+
+    rpc UploadVariableMedia(stream FileChunk) returns (UploadVariableMediaResponse) {
+        option (pando.api.method).required_claim = "survey:template,write";
+        // No HTTP route is available for streaming RPCs
+    }
+
+    rpc CreateInstance(CreateInstanceRequest) returns (Instance) {
+        option (pando.api.method).required_claim = "survey:request,write";
+        option (pando.api.method).required_claim = "personal_info,write";
+        option (google.api.http) = {
+            post: "/api/v1/survey/instance",
+            body: "*"
+        };
+    }
+
+    rpc CreateAnswerOption(AnswerOption) returns (AnswerOption) {
+        option (pando.api.method).required_claim = "survey:template,write";
+        option (google.api.http) = {
+            post: "/api/v1/survey/answer-option",
+            body: "*"
+        };
+    }
+
+    rpc CreateSurveyVersion(CreateSurveyVersionRequest) returns (Survey) {
+        option (pando.api.method).required_claim = "survey:template,write";
+        option (google.api.http) = {
+            post: "/api/v1/survey/version",
+            body: "*"
+        };
+    }
+
+    // Read
+    rpc GetSurvey(GetSurveyRequest) returns (Survey) {
+        option (pando.api.method).required_claim = "survey:template,read";
+        option (google.api.http) = {
+            get: "/api/v1/survey"
+        };
+    }
+
+    rpc GetSurveys(GetSurveysRequest) returns (SurveyDetailList) {
+        option (pando.api.method).required_claim = "survey:template,read";
+        option (google.api.http) = {
+            get: "/api/v1/survey/list"
+        };
+    }
+
+    rpc GetQuestion(GetQuestionRequest) returns (Question) {
+        option (pando.api.method).required_claim = "survey:template,read";
+        option (google.api.http) = {
+            get: "/api/v1/survey/question"
+        };
+    }
+
+    rpc GetQuestions(GetQuestionsRequest) returns (SurveyQuestionList) {
+        option (pando.api.method).required_claim = "survey:template,read";
+        option (google.api.http) = {
+            get: "/api/v1/survey/question/list"
+        };
+    }
+
+    rpc GetAnswerOption(GetAnswerOptionRequest) returns (AnswerOption) {
+        option (pando.api.method).required_claim = "survey:template,read";
+        option (google.api.http) = {
+            get: "/api/v1/survey/answer-option"
+        };
+    }
+
+    rpc GetAnswerOptions(GetAnswerOptionsRequest) returns (AnswerOptionList) {
+        option (pando.api.method).required_claim = "survey:template,read";
+        option (google.api.http) = {
+            get: "/api/v1/survey/answer-option/list"
+        };
+    }
+
+    rpc GetPlaybackDataList(GetPlaybackDataListRequest) returns (PlaybackDataList) {
+        option (pando.api.method).required_claim = "survey:template,read";
+        option (google.api.http) = {
+            get: "/api/v1/survey/question/playback-data/list"
+        };
+    }
+
+    rpc GetSurveyQuestionDestination(GetSurveyQuestionDestinationRequest) returns (SurveyQuestionDestination) {
+        option (pando.api.method).required_claim = "survey:template,read";
+        option (google.api.http) = {
+            get: "/api/v1/survey/question/destination"
+        };
+    }
+
+    rpc GetSurveyQuestionDestinations(GetSurveyQuestionDestinationsRequest) returns (SurveyQuestionDestinationList) {
+        option (pando.api.method).required_claim = "survey:template,read";
+        option (google.api.http) = {
+            get: "/api/v1/survey/question/destination/list"
+        };
+    }
+
+    rpc GetVariable(GetVariableRequest) returns (Variable) {
+        option (pando.api.method).required_claim = "survey:template,read";
+        option (google.api.http) = {
+            get: "/api/v1/survey/variable"
+        };
+    }
+
+    rpc GetVariables(GetVariablesRequest) returns (VariableList) {
+        option (pando.api.method).required_claim = "survey:template,read";
+        option (google.api.http) = {
+            get: "/api/v1/survey/variable/list"
+        };
+    }
+
+    rpc GetSurveyVariables(GetSurveyVariablesRequest) returns (VariableList) {
+        option (pando.api.method).required_claim = "survey:template,read";
+        option (google.api.http) = {
+            get: "/api/v1/survey/survey-variable/list"
+        };
+    }
+
+    rpc GetSurveyMediaList(GetSurveyMediaListRequest) returns (MediaList) {
+        option (pando.api.method).required_claim = "survey:template,read";
+        option (google.api.http) = {
+            get: "/api/v1/survey/media/list"
+        };
+    }
+
+    rpc GetVariableMediaList(GetVariableMediaListRequest) returns (MediaList) {
+        option (pando.api.method).required_claim = "survey:template,read";
+        option (google.api.http) = {
+            get: "/api/v1/survey/variable/media/list"
+        };
+    }
+
+    rpc GetSurveyVersions(GetSurveyVersionsRequest) returns (SurveyList) {
+        option (pando.api.method).required_claim = "survey:template,read";
+        option (google.api.http) = {
+            get: "/api/v1/survey/version/list"
+        };
+    }
+
+    rpc GetSurveyDocuments(GetSurveyDocumentsRequest) returns (SurveyDocumentList) {
+        option (pando.api.method).required_claim = "survey:template,read";
+        option (google.api.http) = {
+            get: "/api/v1/survey/documents/list"
+        };
+    }
+
+    rpc GetVariableTemplate(GetVariableTemplateRequest) returns (GetVariableTemplateResponse) {
+        option (pando.api.method).required_claim = "survey:template,read";
+        option (google.api.http) = {
+            get: "/api/v1/survey/variable/template",
+        };
+    }
+
+    // Update
+    rpc UpdateSurvey(UpdateSurveyRequest) returns (Survey) {
+        option (pando.api.method).required_claim = "survey:template,write";
+        option (google.api.http) = {
+            patch: "/api/v1/survey",
+            body: "*"
+        };
+    }
+
+    rpc UpdateQuestion(UpdateQuestionRequest) returns (Question) {
+        option (pando.api.method).required_claim = "survey:template,write";
+        option (google.api.http) = {
+            patch: "/api/v1/survey/question",
+            body: "*"
+        };
+    }
+
+    rpc UpdatePlaybackData(UpdatePlaybackDataRequest) returns (PlaybackData) {
+        option (pando.api.method).required_claim = "survey:template,write";
+        option (google.api.http) = {
+            patch: "/api/v1/survey/question/playback-data",
+            body: "*"
+        };
+    }
+
+    rpc UpdateSurveyQuestionDestination(UpdateSurveyQuestionDestinationRequest) returns (SurveyQuestionDestination) {
+        option (pando.api.method).required_claim = "survey:template,write";
+        option (google.api.http) = {
+            patch: "/api/v1/survey/question/destination",
+            body: "*"
+        };
+    }
+
+    rpc UpdateVariable(UpdateVariableRequest) returns (Variable) {
+        option (pando.api.method).required_claim = "survey:template,write";
+        option (google.api.http) = {
+            patch: "/api/v1/survey/variable",
+            body: "*"
+        };
+    }
+
+    rpc UpdateAnswerOption(UpdateAnswerOptionRequest) returns (AnswerOption) {
+        option (pando.api.method).required_claim = "survey:template,write";
+        option (google.api.http) = {
+            patch: "/api/v1/survey/answer-option",
+            body: "*"
+        };
+    }
+
+    // Delete
+    rpc DeleteSurvey(DeleteSurveyRequest) returns (pando.api.Empty) {
+        option (pando.api.method).required_claim = "survey:template,delete";
+        option (google.api.http) = {
+            delete: "/api/v1/survey"
+        };
+    }
+
+    rpc DeleteQuestion(DeleteQuestionRequest) returns (pando.api.Empty) {
+        option (pando.api.method).required_claim = "survey:template,delete";
+        option (google.api.http) = {
+            delete: "/api/v1/survey/question"
+        };
+    }
+
+    rpc DeletePlaybackData(DeletePlaybackDataRequest) returns (pando.api.Empty) {
+        option (pando.api.method).required_claim = "survey:template,delete";
+        option (google.api.http) = {
+            delete: "/api/v1/survey/question/playback-data"
+        };
+    }
+
+    rpc DeleteInstance(DeleteInstanceRequest) returns (pando.api.Empty) {
+        option (pando.api.method).required_claim = "survey:request,delete";
+        option (google.api.http) = {
+            delete: "/api/v1/survey/instance"
+        };
+    }
+
+    rpc DeleteMedia(DeleteMediaRequest) returns (pando.api.Empty) {
+        option (pando.api.method).required_claim = "survey:template,delete";
+        option (google.api.http) = {
+            delete: "/api/v1/survey/media"
+        };
+    }
+
+    rpc DeleteAnswerOption(DeleteAnswerOptionRequest) returns (pando.api.Empty) {
+        option (pando.api.method).required_claim = "survey:template,delete";
+        option (google.api.http) = {
+            delete: "/api/v1/survey/answer-option"
+        };
+    }
+
+    rpc DeleteSurveyMedia(DeleteSurveyMediaRequest) returns (pando.api.Empty) {
+        option (pando.api.method).required_claim = "survey:template,delete";
+        option (google.api.http) = {
+            delete: "/api/v1/survey/media"
+        };
+    }
+
+    rpc DeleteSurveyVariable(DeleteSurveyVariableRequest) returns (pando.api.Empty) {
+        option (pando.api.method).required_claim = "survey:template,delete";
+        option (google.api.http) = {
+            delete: "/api/v1/survey/variable"
+        };
+    }
+
+    rpc DeleteVariableMedia(DeleteVariableMediaRequest) returns (pando.api.Empty) {
+        option (pando.api.method).required_claim = "survey:template,delete";
+        option (google.api.http) = {
+            delete: "/api/v1/survey/variable/media"
+        };
+    }
+
+    rpc DeleteSurveyQuestionDestination(DeleteSurveyQuestionDestinationRequest) returns (pando.api.Empty) {
+        option (pando.api.method).required_claim = "survey:template,delete";
+        option (google.api.http) = {
+            delete: "/api/v1/survey/question/destination"
+        };
+    }
+
+    rpc DeleteSurveyVersion(DeleteSurveyVersionRequest) returns (pando.api.Empty) {
+        option (pando.api.method).required_claim = "survey:template,delete";
+        option (google.api.http) = {
+            delete: "/api/v1/survey/version"
+        };
+    }
+
+    rpc DeleteVariable(DeleteVariableRequest) returns (pando.api.Empty) {
+        option (pando.api.method).required_claim = "survey:template,delete";
+        option (google.api.http) = {
+            delete: "/api/v1/survey/variable"
+        };
+    }
+
+    // Exec
+    rpc ExecAddSurveyESignTemplate(SurveyESignTemplate) returns (SurveyESignTemplate) {
+        option (pando.api.method).required_claim = "survey:template,write";
+        option (google.api.http) = {
+            post: "/api/v1/survey/template/add"
+        };
+    }
+
+    rpc ExecRemoveSurveyESignTemplate(SurveyESignTemplate) returns (pando.api.Empty) {
+        option (pando.api.method).required_claim = "survey:template,delete";
+        option (google.api.http) = {
+            post: "/api/v1/survey/template/remove"
+        };
+    }
+
+    rpc ExecSendInstanceLink(SendInstanceLink) returns (SendInstanceLink){
+        option (pando.api.method).required_claim = "survey:request,write";
+        option (google.api.http) = {
+            post: "/api/v1/survey/instance/send-link"
+        };
+    }
+
+    rpc ExecAddSurveyInstanceESignSignatory(SurveyInstanceESignSignatory) returns (SurveyInstanceESignSignatory) {
+        option (pando.api.method).required_claim = "survey:request,write";
+        option (google.api.http) = {
+            post: "/api/v1/survey/instance/signatory/add"
+        };
+    }
+
+    rpc ExecRemoveSurveyInstanceESignSignatory(SurveyInstanceESignSignatory) returns (pando.api.Empty) {
+        option (pando.api.method).required_claim = "survey:request,delete";
+        option (google.api.http) = {
+            post: "/api/v1/survey/instance/signatory/remove"
+        };
+    }
+}
+
+message UploadSurveyMediaResponse {
+    string survey_media_guid = 1;
+}
+
+message UploadVariableMediaResponse {
+    string variable_media_guid = 1;
+}
+
+message DeleteInstanceRequest {
+    string guid = 1;
+}
+
+message CreateVariablesRequest {
+    string data = 1;
+    FileType data_format = 2;  // Only JSON, YAML, XML, and CSV are allowed.
+    string organization_code = 3;
+}
+
+message DeleteSurveyVariableRequest {
+    string survey_guid = 1;
+    string variable_guid = 2;
+}
+
+message GetVariablesRequest {
+    string organization_code = 1;
+    string filter = 2;
+    bool include_deleted = 3;
+    int32 page = 100;
+    int32 results_per_page = 101;
+}
+
+message GetAnswerOptionsRequest {
+    string filter = 1;
+    bool include_deleted = 2;
+    string organization_code = 3 [(pando.api.field).request_required = true]; 
+    int32 page = 100;
+    int32 results_per_page = 101;
+}
+
+message GetSurveysRequest {
+    string organization_code = 1;
+    string filter = 2;
+    bool include_deleted = 3;
+    bool include_old_versions = 4;
+    bool include_unpublished_versions = 5;
+    int32 page = 100;
+    int32 results_per_page = 101;
+}
+
+message GetSurveyVersionsRequest {
+    string survey_guid = 1;
+    string filter = 2;
+    bool include_deleted = 4;
+    int32 page = 100;
+    int32 results_per_page = 101;
+}
+
+message GetSurveyMediaListRequest {
+    string survey_guid = 1;
+    string filter = 2;
+    // If left empty, the media for the current published survey version will be returned.
+    string version_guid = 3;
+    bool include_deleted = 4;
+    int32 page = 100;
+    int32 results_per_page = 101;
+}
+
+message GetSurveyVariablesRequest {
+    string survey_guid = 1;
+    string filter = 2;
+    // If left empty, the variables for the current published survey version will be returned.
+    string version_guid = 3;
+    bool include_deleted = 4;
+    int32 page = 100;
+    int32 results_per_page = 101;
+}
+
+message GetQuestionsRequest {
+    string survey_guid = 1;
+    string filter = 2;
+    // If left empty, the variables for the current published survey version will be returned.
+    string version_guid = 3;
+    bool include_deleted = 4;
+    int32 page = 100;
+    int32 results_per_page = 101;
+}
+
+message GetVariableMediaListRequest {
+    string variable_guid = 1;
+    string filter = 2;
+    bool include_deleted = 3;
+    int32 page = 100;
+    int32 results_per_page = 101;
+}
+
+message DeleteSurveyMediaRequest {
+    string survey_guid = 1;
+    string media_guid = 2;
+}
+
+message DeleteVariableMediaRequest {
+    string variable_guid = 1;
+    string media_guid = 2;
+    string value = 3;
+}
+
+message UpdateSurveyRequest {
+    Survey survey = 1;
+    google.protobuf.FieldMask update_mask = 2;
+}
+
+message UpdateQuestionRequest {
+    Question question = 1;
+    google.protobuf.FieldMask update_mask = 2;
+}
+
+message UpdatePlaybackDataRequest {
+    PlaybackData playback_data = 1;
+    google.protobuf.FieldMask update_mask = 2;
+}
+
+message UpdateSurveyQuestionDestinationRequest {
+    SurveyQuestionDestination destination = 1;
+    google.protobuf.FieldMask update_mask = 2;
+}
+
+message UpdateVariableRequest {
+    Variable variable = 1;
+    google.protobuf.FieldMask update_mask = 2;
+}
+
+message UpdateAnswerOptionRequest {
+    AnswerOption answer_option = 1;
+    google.protobuf.FieldMask update_mask = 2;
+}
+
+message GetSurveyRequest {
+    string survey_guid = 1;
+    // If left empty, the current published survey version will be returned.
+    string version_guid = 2;
+}
+
+message DeleteSurveyRequest {
+    string guid = 1;
+}
+
+message GetQuestionRequest {
+    string guid = 1;
+}
+
+message DeleteQuestionRequest {
+    string guid = 1;
+}
+
+message GetAnswerOptionRequest {
+    string guid = 1;
+}
+
+message DeleteAnswerOptionRequest {
+    string guid = 1;
+}
+
+message GetPlaybackDataListRequest {
+    string question_guid = 1;
+}
+
+message GetSurveyQuestionDestinationRequest {
+    string guid = 1;
+}
+
+message GetSurveyQuestionDestinationsRequest {
+    string question_guid = 1;
+}
+
+message DeleteSurveyQuestionDestinationRequest {
+    string guid = 1;
+}
+
+message GetVariableRequest {
+    string guid = 1;
+}
+
+message DeleteVariableRequest {
+    string guid = 1;
+}
+
+message DeletePlaybackDataRequest {
+    string guid = 1;
+}
+
+message DeleteMediaRequest {
+    string guid = 1;
+}
+
+message CreateSurveyVersionRequest {
+    string survey_guid = 1;
+    string name = 2;
+    string description = 3;
+    string pre_survey_text = 4;
+    string first_question_guid = 5;
+}
+
+message DeleteSurveyVersionRequest {
+    string version_guid = 1;
+}
+
+message GetSurveyDocumentsRequest {
+    string survey_guid = 1 [(pando.api.field).request_required = true];
+}
+
+message SurveyVariable {
+    string survey_guid = 1;
+    string variable_guid = 2;
+    bool required = 3;
+}
+
+message CreateInstanceRequest {
+  string survey_guid = 1 [(pando.api.field).request_required = true];
+  oneof data_source {
+      option (pando.api.oneof).request_required = true;
+      DataRecord data = 2;
+      string record_guid = 3;
+  }
+  oneof user_info {
+      option (pando.api.oneof).request_required = true;
+      ContactInfo contact_info = 4;
+      UserContactInfo user_contact_info = 5;
+  }
+  string respondent_name = 6 [(pando.api.field).request_required = true];
+  bool send_link = 7;
+}
+
+message SurveyESignTemplate {
+    string survey_guid = 1;
+    string template_guid = 2;
+    bool is_required = 3;
+}
+
+message SendInstanceLink{
+    string instance_guid = 1;
+
+    // Optional, will use info on file if not specified
+    ContactType contact_type = 2;
+    string contact_info = 3;
+}
+
+message SurveyInstanceESignSignatory {
+    string instance_guid = 1;
+    string signatory_guid = 2;
+}
+
+message GetVariableTemplateRequest {
+    string survey_guid = 1;
+    string version_guid = 2;
+    FileType data_format = 3;
+}
+
+message GetVariableTemplateResponse {
+    string data = 1;
+}

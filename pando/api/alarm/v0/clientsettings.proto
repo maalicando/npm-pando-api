@@ -1,0 +1,53 @@
+﻿syntax = "proto3";
+
+package client_settings;
+
+// DO NOT CHANGE THE NAMESPACE
+option csharp_namespace = "Pando.Api.Alarm.V0.ClientSettings";
+
+service ClientSettingsService {
+	rpc GetClientEquipment (GetClientSettingsRequest) returns (GetClientEquipmentResponse);
+	rpc GetClientPanelType (GetClientSettingsRequest) returns (GetClientPanelTypeResponse);
+	rpc AddClientEquipment (ClientEquipment) returns (GetClientEquipmentResponse);
+	rpc UpdateClientEquipment (ClientEquipment) returns (GetClientEquipmentResponse);
+	rpc RemoveClientEquipment (ClientEquipment) returns (GetClientEquipmentResponse);
+	rpc AddClientPanelType (ClientPanelType) returns (GetClientPanelTypeResponse);
+	rpc UpdateClientPanelType (ClientPanelType) returns (GetClientPanelTypeResponse);
+	rpc RemoveClientPanelType (ClientPanelType) returns (GetClientPanelTypeResponse);
+}
+
+// Messages go here
+// Messages are model contracts
+// Protobuf will maintain backwards compatibility with old clients if the field numbers remain consistent
+// You may add or delete rows from a Message as long as you do not reuse field number
+// https://developers.google.com/protocol-buffers/docs/proto3
+
+message GetClientSettingsRequest {
+	string access_code = 1;
+}
+
+message GetClientEquipmentResponse {
+	repeated ClientEquipment equipment = 1;
+}
+
+message GetClientPanelTypeResponse {
+	repeated ClientPanelType types = 1;
+}
+
+message ClientEquipment {
+	string access_code = 1;
+	string equipment_guid = 2;
+	string display_name = 3;
+	string description = 4;
+	string part_number = 5;
+	string cost = 6; // a double amount (i.e. '52.16') or ''
+	string retail_price = 7; // a double amount (i.e. '52.16') or ''
+}
+
+message ClientPanelType {
+	string access_code = 1;
+	string panel_code = 2;
+	string display_name = 3;
+	string allow_diy = 4; // 'true', 'false', or ''
+	string allow_existing = 5; // 'true', 'false', or ''
+}

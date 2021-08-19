@@ -1,0 +1,28 @@
+/*
+    This file exists in two repositories:
+        pando.common (in Pando.Api.Internal)
+        public-api
+
+    Any changes to this file must be made in both repositories; they should be identical.
+*/
+
+syntax = "proto3";
+
+package pando.api.events;
+
+import "google/protobuf/descriptor.proto";
+
+option csharp_namespace = "Pando.Api.Events";
+option java_multiple_files = true;
+option java_package = "com.pando.api.events";
+option ruby_package = "Pando::Api.Events";
+
+// This file does not define a Service
+
+extend google.protobuf.MessageOptions {
+    EventMetadata event = 84058;
+}
+
+message EventMetadata {
+    string data_schema = 1;
+}

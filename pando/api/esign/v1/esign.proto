@@ -1,0 +1,214 @@
+syntax = "proto3";
+
+// do not change the package name
+package pando.api.esign.v1;
+
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+import "pando/api/extensions.proto";
+import "pando/api/esign/v1/shared.proto";
+import "pando/api/shared.proto";
+
+// these must be the same in all 'pando.api.esign.v1' proto files
+option csharp_namespace = "Pando.Api.ESign.V1";
+option java_multiple_files = true;
+option java_package = "com.pando.api.esign.v1";
+option ruby_package = "Pando::Api::ESign::V1";
+
+service ESignService {
+    option (pando.api.service).required_scope = "esign";
+    option (pando.api.service).required_scope = "personal_info";
+
+    rpc AdoptSignature(AdoptSignatureRequest) returns (SignatoryRequestDetail) {
+        option (pando.api.method).required_claim = "esign:signatory,write";
+        option (google.api.http) = {
+          post: "/api/v1/esign/signatory/adopt-signature"
+          body: "*"
+        };
+    }
+
+    rpc GetRequestDetail(GetESignRequestDetail) returns (SignatoryRequestDetail) {
+        option (pando.api.method).required_claim = "esign:signatory,read";
+        option (pando.api.method).required_claim = "personal_info,read";
+        option (google.api.http) = {
+            get: "/api/v1/esign/signatory/request-detail"
+        };
+    }
+
+    rpc GetDocument(GetDocumentRequest) returns (Document){
+        option (pando.api.method).required_claim = "esign:signatory,read";
+        option (pando.api.method).required_claim = "personal_info,read";
+        option (google.api.http) = {
+            get: "/api/v1/esign/document"
+        };
+    }
+
+    rpc GetDocumentList(GetDocumentListRequest) returns (DocumentList) {
+        option (pando.api.method).required_claim = "esign:signatory,read";
+        option (google.api.http) = {
+            get: "/api/v1/esign/request/document/list"
+        };
+    }
+
+    rpc GetToDoDocumentList(GetDocumentSummaryRequest) returns (DocumentList) {
+        option (pando.api.method).required_claim = "esign:signatory,read";
+        option (google.api.http) = {
+            get: "/api/v1/esign/document/todo/list"
+        };
+    }
+
+    rpc GetRecentlyCompletedDocumentList(GetDocumentSummaryRequest) returns (DocumentList) {
+        option (pando.api.method).required_claim = "esign:signatory,read";
+        option (google.api.http) = {
+            get: "/api/v1/esign/document/recently-completed/list"
+        };
+    }
+
+    rpc GetCompletedDocumentList(GetDocumentSummaryRequest) returns (DocumentList) {
+        option (pando.api.method).required_claim = "esign:signatory,read";
+        option (google.api.http) = {
+            get: "/api/v1/esign/document/completed/list"
+        };
+    }
+
+    rpc GetIncompleteDocumentList(GetDocumentSummaryRequest) returns (DocumentList) {
+        option (pando.api.method).required_claim = "esign:signatory,read";
+        option (google.api.http) = {
+            get: "/api/v1/esign/document/incomplete/list"
+        };
+    }
+
+    rpc ExecSignDocument(SignDocumentRequest) returns (ESignRequestShort){
+        option (pando.api.method).required_claim = "esign:signatory,write";
+        option (google.api.http) = {
+          post: "/api/v1/esign/signatory/document/sign"
+        };
+    }
+
+    rpc ExecAcknowledgeDocument(SignDocumentRequest) returns (ESignRequestShort){
+        option (pando.api.method).required_claim = "esign:signatory,write";
+        option (google.api.http) = {
+          post: "/api/v1/esign/signatory/document/acknowledge"
+        };
+    }
+
+    rpc ExecDeclineDocument(SignDocumentRequest) returns (ESignRequestShort){
+        option (pando.api.method).required_claim = "esign:signatory,write";
+        option (google.api.http) = {
+          post: "/api/v1/esign/signatory/document/decline"
+        };
+    }
+
+    rpc ExecOptInDocument(SignDocumentRequest) returns (ESignRequestShort){
+        option (pando.api.method).required_claim = "esign:signatory,write";
+        option (google.api.http) = {
+          post: "/api/v1/esign/signatory/document/opt-in"
+        };
+    }
+
+    rpc ExecOptOutDocument(SignDocumentRequest) returns (ESignRequestShort){
+        option (pando.api.method).required_claim = "esign:signatory,write";
+        option (google.api.http) = {
+          post: "/api/v1/esign/signatory/document/opt-out"
+        };
+    }
+
+    // the authenticated user must own the Signatory
+    // this endpoint will grant ownership over a Signatory to the users indicated
+    rpc ExecAddSignatoryOwner(ExecAddSignatoryOwnerRequest) returns (pando.api.Empty){
+        option (pando.api.method).required_claim = "esign:signatory,write";
+        option (pando.api.method).required_claim = "personal_info,write";
+        option (google.api.http) = {
+            post: "/api/v1/esign/signatory/add-owner",
+            body: "*"
+        };
+    }
+
+    // the authenticated user must own the Signatory
+    // this endpoint will remove the authenticated user's ownership over the Signatory
+    rpc ExecRemoveSignatoryOwner(ExecRemoveSignatoryOwnerRequest) returns(pando.api.Empty){
+        option (pando.api.method).required_claim = "esign:signatory,write";
+        option (pando.api.method).required_claim = "personal_info,write";
+        option (google.api.http) = {
+            post: "/api/v1/esign/signatory/remove-owner"
+        };
+    }
+}
+
+message AdoptSignatureRequest {
+    string signatory_guid = 1;
+    SignatureType type = 2;
+    bytes image = 3;
+}
+
+message GetESignRequestDetail {
+    string signatory_guid = 1;
+}
+
+message GetDocumentRequest {
+    string document_guid = 1;
+}
+
+message GetDocumentListRequest {
+    oneof detail {
+        string request_guid = 1;
+        DocumentGuidList document_guid_list = 2;
+        string user_id = 3;
+    }
+}
+
+message SignDocumentRequest {
+    string signatory_guid = 1;
+    string document_guid = 2;
+}
+
+message ExecAddSignatoryOwnerRequest {
+    string signatory_guid = 1;
+    repeated string user_ids = 2;
+}
+
+message ExecRemoveSignatoryOwnerRequest {
+    string signatory_guid = 1;
+}
+
+message SignatoryRequestDetail {
+    string request_guid = 1;
+    string signatory_guid = 2;
+    string organization_code = 3;
+    string signatory_name = 4;
+    bool signatory_is_required = 5;
+    google.protobuf.Timestamp date_created = 6;
+    repeated DocumentShort documents = 7;
+    SignatureType signature_type = 8;
+    bytes signature_image = 9;
+    ESignStatus request_status = 10;
+    ESignStatus signatory_status = 11;
+    int32 signature_index = 12;
+}
+
+message GetDocumentSummaryRequest {
+    string user_id = 1; // if left blank, uses the UserId in the JWT Token
+    int32 page = 2;
+    int32 results_per_page = 3;
+}
+
+message DocumentGuidList {
+    repeated string guids = 1;
+}
+
+message DocumentShort {
+    option (pando.api.message).response_only = true;
+
+    string guid = 1;
+    ESignStatus status = 2;
+    ESignType type = 3;
+    bool is_required = 4;
+}
+
+message ESignRequestShort {
+    string guid = 1;
+    reserved 2;
+    repeated DocumentShort documents = 3;
+    ESignStatus request_status = 4;
+    ESignStatus signatory_status = 5;
+}

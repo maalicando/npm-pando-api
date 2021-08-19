@@ -1,0 +1,74 @@
+syntax = "proto3";
+
+// do not change the package name
+package pando.api.contact.v1;
+
+import "pando/api/shared.proto";
+
+// these must be the same in all 'pando.api.contact.v1' proto files
+option csharp_namespace = "Pando.Api.Contact.V1";
+option java_multiple_files = true;
+option java_package = "com.pando.api.contact.v1";
+option ruby_package = "Pando::Api::Contact::V1";
+
+enum Events {
+    //Account
+    ACCOUNT_CREATED = 0;
+    ACCOUNT_RETRIEVED = 1;
+    ACCOUNTS_RETRIEVED = 2;
+    ACCOUNT_UPDATED = 3;
+    ACCOUNT_DELETED = 4;
+
+    //Address
+    ADDRESS_CREATED = 5;
+    ADDRESS_RETRIEVED = 6;
+    ADDRESSES_RETRIEVED = 7;
+    ADDRESS_UPDATED = 8;
+    ADDRESS_DELETED = 9;
+    ADDRESS_VERIFIED = 10;
+
+    //Contact
+    CONTACT_CREATED = 11;
+    CONTACT_RETRIEVED = 12;
+    CONTACTS_RETRIEVED = 13;
+    CONTACT_UPDATED = 14;
+    CONTACT_DELETED = 15;
+    CONTACT_QUALIFIED = 16;
+}
+
+message AccountAccessed {
+    string account_guid = 1;
+    UserMetadata user_data = 1000;
+}
+
+message AddressAccessed {
+    string address_guid = 1;
+    UserMetadata user_data = 1000;
+}
+
+message ContactAccessed {
+    string contact_guid = 1;
+    UserMetadata user_data = 1000;
+}
+
+message AddressesAccessed {
+    string account_guid = 1;
+    UserMetadata user_data = 1000;
+}
+
+message ContactsAccessed {
+    string account_guid = 1;
+    UserMetadata user_data = 1000;
+}
+
+message AddressVerified {
+    string address_guid = 1;
+    string address_verification_guid = 2;
+    UserMetadata user_data = 1000;
+}
+
+message ContactQualified {
+    string contact_guid = 1;
+    string contact_qualification_guid = 2;
+    UserMetadata user_data = 1000;
+}
