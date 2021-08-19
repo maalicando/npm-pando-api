@@ -1,0 +1,250 @@
+syntax = "proto3";
+
+// do not change the package name
+package pando.api.template.v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+import "pando/api/extensions.proto";
+import "pando/api/shared.proto";
+
+// these must be the same in all 'pando.template.v1' proto files
+option csharp_namespace = "Pando.Api.Template.V1";
+option java_multiple_files = true;
+option java_package = "com.pando.api.template.v1";
+option ruby_package = "Pando::Api::Template::v1";
+
+service TemplateAdminBetaService {
+    option (pando.api.service).required_scope = "template:admin";
+
+    rpc GetCheckbox(GetCheckboxRequest) returns (Checkbox) {
+        option (pando.api.method).required_claim = "template,read";
+        option (google.api.http) = {
+            get: "/api/v1/beta/document/template/checkbox"
+        };
+    }
+
+    rpc GetCheckboxes(GetCheckboxesRequest) returns (GetCheckboxesResponse) {
+        option (pando.api.method).required_claim = "template,read";
+        option (google.api.http) = {
+            get: "/api/v1/beta/document/template/checkboxes"
+        };
+    }
+
+    rpc CreateOrUpdateCheckbox(CreateOrUpdateCheckboxRequest) returns (Checkbox) {
+        option (pando.api.method).required_claim = "template,write";
+        option (google.api.http) = {
+            post: "/api/v1/beta/document/template/checkbox"
+        };
+    }
+
+    rpc DeleteCheckbox(DeleteCheckboxRequest) returns (pando.api.Empty) {
+        option (pando.api.method).required_claim = "template,delete";
+        option (google.api.http) = {
+            delete: "/api/v1/beta/document/template/checkbox"
+        };
+    }
+
+    rpc GetTextField(GetTextFieldRequest) returns (TextField) {
+        option (pando.api.method).required_claim = "template,read";
+        option (google.api.http) = {
+            get: "/api/v1/beta/document/template/text-field"
+        };
+    }
+
+    rpc GetTextFields(GetTextFieldsRequest) returns (GetTextFieldsResponse) {
+        option (pando.api.method).required_claim = "template,read";
+        option (google.api.http) = {
+            get: "/api/v1/beta/document/template/text-fields"
+        };
+    }
+
+    rpc CreateOrUpdateTextField(CreateOrUpdateTextFieldRequest) returns (TextField) {
+        option (pando.api.method).required_claim = "template,write";
+        option (google.api.http) = {
+            post: "/api/v1/beta/document/template/text-field"
+        };
+    }
+
+    rpc DeleteTextField(DeleteTextFieldRequest) returns (pando.api.Empty) {
+        option (pando.api.method).required_claim = "template,delete";
+        option (google.api.http) = {
+            delete: "/api/v1/beta/document/template/text-field"
+        };
+    }
+
+    rpc GetStamp(GetStampRequest) returns (Stamp) {
+        option (pando.api.method).required_claim = "template,read";
+        option (google.api.http) = {
+            get: "/api/v1/beta/document/template/stamp"
+        };
+    }
+
+    rpc GetStamps(GetStampsRequest) returns (GetStampsResponse) {
+        option (pando.api.method).required_claim = "template,read";
+        option (google.api.http) = {
+            get: "/api/v1/beta/document/template/stamps"
+        };
+    }
+
+    rpc CreateOrUpdateStamp(CreateOrUpdateStampRequest) returns (Stamp) {
+        option (pando.api.method).required_claim = "template,write";
+        option (google.api.http) = {
+            post: "/api/v1/beta/document/template/stamp"
+        };
+    }
+
+    rpc DeleteStamp(DeleteStampRequest) returns (pando.api.Empty) {
+        option (pando.api.method).required_claim = "template,delete";
+        option (google.api.http) = {
+            delete: "/api/v1/beta/document/template/stamp"
+        };
+    }
+
+    rpc CreateStampPageIndexes(CreateStampPageIndexesRequest) returns (CreateStampPageIndexesResponse) {
+        option (pando.api.method).required_claim = "template,write";
+        option (google.api.http) = {
+            post: "/api/v1/beta/document/template/stamp-page-indexes"
+        };
+    }
+
+    rpc DeleteStampPageIndexes(DeleteStampPageIndexesRequest) returns (pando.api.Empty) {
+        option (pando.api.method).required_claim = "template,delete";
+        option (google.api.http) = {
+            delete: "/api/v1/beta/document/template/stamp-page-indexes"
+        };
+    }
+}
+
+message Checkbox {
+    string guid = 1;
+    string template_version_guid = 2;
+    string variable_guid = 3;
+    string field_name = 4;
+}
+
+message GetCheckboxesRequest {
+    string template_version_guid = 1;
+}
+
+message GetCheckboxRequest {
+    string guid = 1;
+}
+
+message GetCheckboxesResponse {
+    repeated Checkbox checkboxes = 1;
+}
+
+message CreateOrUpdateCheckboxRequest {
+    Checkbox checkbox = 1;
+    google.protobuf.FieldMask update_mask = 2;
+}
+
+message DeleteCheckboxRequest {
+    string guid = 1;
+}
+
+message TextField {
+    string guid = 1;
+    string template_version_guid = 2;
+    string variable_guid = 3;
+    string field_name = 4;
+    FontType font_type = 5;
+    double font_size = 6;
+}
+
+message GetTextFieldsRequest {
+    string template_version_guid = 1;
+}
+
+message GetTextFieldRequest {
+    string guid = 1;
+}
+
+message GetTextFieldsResponse {
+    repeated TextField text_fields = 1;
+}
+
+message CreateOrUpdateTextFieldRequest {
+    TextField text_field = 1;
+    google.protobuf.FieldMask update_mask = 2;
+}
+
+message DeleteTextFieldRequest {
+    string guid = 1;
+}
+
+message Stamp {
+    string guid = 1;
+    string template_version_guid = 2;
+    reserved 3;
+    int32 height = 4;
+    int32 width = 5;
+    oneof bottom_or_top {
+        int32 bottom = 6;
+        int32 top = 7;
+    }
+    oneof left_or_right {
+        int32 left = 8;
+        int32 right = 9;
+    }
+    string html = 10;
+    repeated int32 page_indexes = 11;
+}
+
+message GetStampRequest {
+    string guid = 1;
+    google.protobuf.FieldMask read_mask = 2;
+}
+
+message GetStampsRequest {
+    string template_version_guid = 1;
+    google.protobuf.FieldMask read_mask = 2;
+}
+
+message GetStampsResponse {
+    repeated Stamp stamps = 1;
+}
+
+message CreateOrUpdateStampRequest {
+    Stamp stamp = 1;
+    google.protobuf.FieldMask update_mask = 2;
+}
+
+message DeleteStampRequest {
+    string guid = 1;
+}
+
+message CreateStampPageIndexesRequest {
+    string stamp_guid = 1;
+    repeated int32 page_indexes = 2;
+}
+
+message CreateStampPageIndexesResponse {
+    string stamp_guid = 1;
+    repeated int32 page_indexes = 2;
+}
+
+message DeleteStampPageIndexesRequest {
+    string stamp_guid = 1;
+    repeated int32 page_indexes = 2;
+}
+
+enum FontType {
+    UNSPECIFIED_FONT_TYPE = 0;
+    TIMES_ROMAN = 1;
+    TIMES_BOLD = 2;
+    TIMES_ITALIC = 3;
+    TIMES_BOLD_ITALIC = 4;
+    HELVETICA = 5;
+    HELVETICA_BOLD = 6;
+    HELVETICA_OBLIQUE = 7;
+    HELVETICA_BOLD_OBLIQUE = 8;
+    COURIER = 9;
+    COURIER_BOLD = 10;
+    COURIER_OBLIQUE = 11;
+    COURIER_BOLD_OBLIQUE = 12;
+    SYMBOL = 13;
+    ZAPF_DINGBATS = 14;
+}

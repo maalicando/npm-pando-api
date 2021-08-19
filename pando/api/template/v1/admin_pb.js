@@ -30,11 +30,13 @@ goog.exportSymbol('proto.pando.api.template.v1.DeleteVariableItemRequest', null,
 goog.exportSymbol('proto.pando.api.template.v1.GetVariableItemRequest', null, global);
 goog.exportSymbol('proto.pando.api.template.v1.GetVariableItemsRequest', null, global);
 goog.exportSymbol('proto.pando.api.template.v1.Template', null, global);
+goog.exportSymbol('proto.pando.api.template.v1.Template.ContentCase', null, global);
 goog.exportSymbol('proto.pando.api.template.v1.TemplateList', null, global);
 goog.exportSymbol('proto.pando.api.template.v1.TemplateListRequest', null, global);
 goog.exportSymbol('proto.pando.api.template.v1.TemplateRequest', null, global);
 goog.exportSymbol('proto.pando.api.template.v1.TemplateRequest.TemplateCase', null, global);
 goog.exportSymbol('proto.pando.api.template.v1.TemplateShort', null, global);
+goog.exportSymbol('proto.pando.api.template.v1.TemplateType', null, global);
 goog.exportSymbol('proto.pando.api.template.v1.TemplateVariable', null, global);
 goog.exportSymbol('proto.pando.api.template.v1.TemplateVariableWithType', null, global);
 goog.exportSymbol('proto.pando.api.template.v1.TemplateVariables', null, global);
@@ -182,7 +184,7 @@ if (goog.DEBUG && !COMPILED) {
  * @constructor
  */
 proto.pando.api.template.v1.Template = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, proto.pando.api.template.v1.Template.repeatedFields_, null);
+  jspb.Message.initialize(this, opt_data, 0, -1, proto.pando.api.template.v1.Template.repeatedFields_, proto.pando.api.template.v1.Template.oneofGroups_);
 };
 goog.inherits(proto.pando.api.template.v1.Template, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
@@ -979,7 +981,8 @@ proto.pando.api.template.v1.TemplateShort.toObject = function(includeInstance, m
     templateVersionsList: jspb.Message.toObjectList(msg.getTemplateVersionsList(),
     proto.pando.api.template.v1.TemplateVersion.toObject, includeInstance),
     name: jspb.Message.getFieldWithDefault(msg, 3, ""),
-    description: jspb.Message.getFieldWithDefault(msg, 4, "")
+    description: jspb.Message.getFieldWithDefault(msg, 4, ""),
+    templateType: jspb.Message.getFieldWithDefault(msg, 5, 0)
   };
 
   if (includeInstance) {
@@ -1032,6 +1035,10 @@ proto.pando.api.template.v1.TemplateShort.deserializeBinaryFromReader = function
     case 4:
       var value = /** @type {string} */ (reader.readString());
       msg.setDescription(value);
+      break;
+    case 5:
+      var value = /** @type {!proto.pando.api.template.v1.TemplateType} */ (reader.readEnum());
+      msg.setTemplateType(value);
       break;
     default:
       reader.skipField();
@@ -1088,6 +1095,13 @@ proto.pando.api.template.v1.TemplateShort.serializeBinaryToWriter = function(mes
   if (f.length > 0) {
     writer.writeString(
       4,
+      f
+    );
+  }
+  f = message.getTemplateType();
+  if (f !== 0.0) {
+    writer.writeEnum(
+      5,
       f
     );
   }
@@ -1183,6 +1197,24 @@ proto.pando.api.template.v1.TemplateShort.prototype.getDescription = function() 
  */
 proto.pando.api.template.v1.TemplateShort.prototype.setDescription = function(value) {
   return jspb.Message.setProto3StringField(this, 4, value);
+};
+
+
+/**
+ * optional TemplateType template_type = 5;
+ * @return {!proto.pando.api.template.v1.TemplateType}
+ */
+proto.pando.api.template.v1.TemplateShort.prototype.getTemplateType = function() {
+  return /** @type {!proto.pando.api.template.v1.TemplateType} */ (jspb.Message.getFieldWithDefault(this, 5, 0));
+};
+
+
+/**
+ * @param {!proto.pando.api.template.v1.TemplateType} value
+ * @return {!proto.pando.api.template.v1.TemplateShort} returns this
+ */
+proto.pando.api.template.v1.TemplateShort.prototype.setTemplateType = function(value) {
+  return jspb.Message.setProto3EnumField(this, 5, value);
 };
 
 
@@ -1597,6 +1629,32 @@ proto.pando.api.template.v1.TemplateRequest.prototype.hasTemplateVersionId = fun
  */
 proto.pando.api.template.v1.Template.repeatedFields_ = [6];
 
+/**
+ * Oneof group definitions for this message. Each group defines the field
+ * numbers belonging to that group. When of these fields' value is set, all
+ * other fields in the group are cleared. During deserialization, if multiple
+ * fields are encountered for a group, only the last value seen will be kept.
+ * @private {!Array<!Array<number>>}
+ * @const
+ */
+proto.pando.api.template.v1.Template.oneofGroups_ = [[5,7]];
+
+/**
+ * @enum {number}
+ */
+proto.pando.api.template.v1.Template.ContentCase = {
+  CONTENT_NOT_SET: 0,
+  TEMPLATE_HTML: 5,
+  TEMPLATE_PDF_BYTES: 7
+};
+
+/**
+ * @return {proto.pando.api.template.v1.Template.ContentCase}
+ */
+proto.pando.api.template.v1.Template.prototype.getContentCase = function() {
+  return /** @type {proto.pando.api.template.v1.Template.ContentCase} */(jspb.Message.computeOneofCase(this, proto.pando.api.template.v1.Template.oneofGroups_[0]));
+};
+
 
 
 if (jspb.Message.GENERATE_TO_OBJECT) {
@@ -1633,8 +1691,10 @@ proto.pando.api.template.v1.Template.toObject = function(includeInstance, msg) {
     description: jspb.Message.getFieldWithDefault(msg, 3, ""),
     organizationCode: jspb.Message.getFieldWithDefault(msg, 4, ""),
     templateHtml: jspb.Message.getFieldWithDefault(msg, 5, ""),
+    templatePdfBytes: msg.getTemplatePdfBytes_asB64(),
     variablesList: jspb.Message.toObjectList(msg.getVariablesList(),
-    proto.pando.api.template.v1.TemplateVariable.toObject, includeInstance)
+    proto.pando.api.template.v1.TemplateVariable.toObject, includeInstance),
+    templateType: jspb.Message.getFieldWithDefault(msg, 8, 0)
   };
 
   if (includeInstance) {
@@ -1691,10 +1751,18 @@ proto.pando.api.template.v1.Template.deserializeBinaryFromReader = function(msg,
       var value = /** @type {string} */ (reader.readString());
       msg.setTemplateHtml(value);
       break;
+    case 7:
+      var value = /** @type {!Uint8Array} */ (reader.readBytes());
+      msg.setTemplatePdfBytes(value);
+      break;
     case 6:
       var value = new proto.pando.api.template.v1.TemplateVariable;
       reader.readMessage(value,proto.pando.api.template.v1.TemplateVariable.deserializeBinaryFromReader);
       msg.addVariables(value);
+      break;
+    case 8:
+      var value = /** @type {!proto.pando.api.template.v1.TemplateType} */ (reader.readEnum());
+      msg.setTemplateType(value);
       break;
     default:
       reader.skipField();
@@ -1753,10 +1821,17 @@ proto.pando.api.template.v1.Template.serializeBinaryToWriter = function(message,
       f
     );
   }
-  f = message.getTemplateHtml();
-  if (f.length > 0) {
+  f = /** @type {string} */ (jspb.Message.getField(message, 5));
+  if (f != null) {
     writer.writeString(
       5,
+      f
+    );
+  }
+  f = /** @type {!(string|Uint8Array)} */ (jspb.Message.getField(message, 7));
+  if (f != null) {
+    writer.writeBytes(
+      7,
       f
     );
   }
@@ -1766,6 +1841,13 @@ proto.pando.api.template.v1.Template.serializeBinaryToWriter = function(message,
       6,
       f,
       proto.pando.api.template.v1.TemplateVariable.serializeBinaryToWriter
+    );
+  }
+  f = message.getTemplateType();
+  if (f !== 0.0) {
+    writer.writeEnum(
+      8,
+      f
     );
   }
 };
@@ -1857,7 +1939,85 @@ proto.pando.api.template.v1.Template.prototype.getTemplateHtml = function() {
  * @return {!proto.pando.api.template.v1.Template} returns this
  */
 proto.pando.api.template.v1.Template.prototype.setTemplateHtml = function(value) {
-  return jspb.Message.setProto3StringField(this, 5, value);
+  return jspb.Message.setOneofField(this, 5, proto.pando.api.template.v1.Template.oneofGroups_[0], value);
+};
+
+
+/**
+ * Clears the field making it undefined.
+ * @return {!proto.pando.api.template.v1.Template} returns this
+ */
+proto.pando.api.template.v1.Template.prototype.clearTemplateHtml = function() {
+  return jspb.Message.setOneofField(this, 5, proto.pando.api.template.v1.Template.oneofGroups_[0], undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.pando.api.template.v1.Template.prototype.hasTemplateHtml = function() {
+  return jspb.Message.getField(this, 5) != null;
+};
+
+
+/**
+ * optional bytes template_pdf_bytes = 7;
+ * @return {string}
+ */
+proto.pando.api.template.v1.Template.prototype.getTemplatePdfBytes = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 7, ""));
+};
+
+
+/**
+ * optional bytes template_pdf_bytes = 7;
+ * This is a type-conversion wrapper around `getTemplatePdfBytes()`
+ * @return {string}
+ */
+proto.pando.api.template.v1.Template.prototype.getTemplatePdfBytes_asB64 = function() {
+  return /** @type {string} */ (jspb.Message.bytesAsB64(
+      this.getTemplatePdfBytes()));
+};
+
+
+/**
+ * optional bytes template_pdf_bytes = 7;
+ * Note that Uint8Array is not supported on all browsers.
+ * @see http://caniuse.com/Uint8Array
+ * This is a type-conversion wrapper around `getTemplatePdfBytes()`
+ * @return {!Uint8Array}
+ */
+proto.pando.api.template.v1.Template.prototype.getTemplatePdfBytes_asU8 = function() {
+  return /** @type {!Uint8Array} */ (jspb.Message.bytesAsU8(
+      this.getTemplatePdfBytes()));
+};
+
+
+/**
+ * @param {!(string|Uint8Array)} value
+ * @return {!proto.pando.api.template.v1.Template} returns this
+ */
+proto.pando.api.template.v1.Template.prototype.setTemplatePdfBytes = function(value) {
+  return jspb.Message.setOneofField(this, 7, proto.pando.api.template.v1.Template.oneofGroups_[0], value);
+};
+
+
+/**
+ * Clears the field making it undefined.
+ * @return {!proto.pando.api.template.v1.Template} returns this
+ */
+proto.pando.api.template.v1.Template.prototype.clearTemplatePdfBytes = function() {
+  return jspb.Message.setOneofField(this, 7, proto.pando.api.template.v1.Template.oneofGroups_[0], undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.pando.api.template.v1.Template.prototype.hasTemplatePdfBytes = function() {
+  return jspb.Message.getField(this, 7) != null;
 };
 
 
@@ -1896,6 +2056,24 @@ proto.pando.api.template.v1.Template.prototype.addVariables = function(opt_value
  */
 proto.pando.api.template.v1.Template.prototype.clearVariablesList = function() {
   return this.setVariablesList([]);
+};
+
+
+/**
+ * optional TemplateType template_type = 8;
+ * @return {!proto.pando.api.template.v1.TemplateType}
+ */
+proto.pando.api.template.v1.Template.prototype.getTemplateType = function() {
+  return /** @type {!proto.pando.api.template.v1.TemplateType} */ (jspb.Message.getFieldWithDefault(this, 8, 0));
+};
+
+
+/**
+ * @param {!proto.pando.api.template.v1.TemplateType} value
+ * @return {!proto.pando.api.template.v1.Template} returns this
+ */
+proto.pando.api.template.v1.Template.prototype.setTemplateType = function(value) {
+  return jspb.Message.setProto3EnumField(this, 8, value);
 };
 
 
@@ -4212,5 +4390,13 @@ proto.pando.api.template.v1.TemplateVariablesWithTypeResponse.prototype.hasPagin
   return jspb.Message.getField(this, 100) != null;
 };
 
+
+/**
+ * @enum {number}
+ */
+proto.pando.api.template.v1.TemplateType = {
+  HTML: 0,
+  PDF: 1
+};
 
 goog.object.extend(exports, proto.pando.api.template.v1);

@@ -49,7 +49,7 @@ service TemplateAdminService {
     rpc GetVariables(GetVariableItemsRequest) returns (VariableItemList) {
         option (pando.api.method).required_claim = "template,read";
         option (google.api.http) = {
-            get: "/api/v1/document/template/variables-with-type"
+            get: "/api/v1/template/variable/list"
         };
     }
 
@@ -117,6 +117,7 @@ message TemplateShort {
     repeated TemplateVersion template_versions = 2;
     string name = 3;
     string description = 4;
+    TemplateType template_type = 5;
 }
 
 message TemplateVersion {
@@ -136,8 +137,12 @@ message Template {
     string name = 2;
     string description = 3;
     string organization_code = 4;
-    string template_html = 5;
+    oneof content {
+        string template_html = 5;
+        bytes template_pdf_bytes = 7;
+    }
     repeated TemplateVariable variables = 6;
+    TemplateType template_type = 8;
 }
 
 message TemplateVariable {
@@ -207,4 +212,9 @@ message TemplateVariableWithType{
 message TemplateVariablesWithTypeResponse {
     repeated TemplateVariableWithType template_variables = 1;
     PaginationResult pagination = 100;
+}
+
+enum TemplateType {
+    HTML = 0;
+    PDF = 1;
 }

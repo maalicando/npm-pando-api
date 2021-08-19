@@ -12,4 +12,4 @@ https://github.com/protocolbuffers/protobuf/releases
 10. Execute install
         npm install
 11. Run the following commands to generate js files
-        npm run-script buildnpm 
+        npm run-script build
