@@ -157,7 +157,7 @@ message GetESignRequest {
 message GetESignRequestList {
     string user_id = 1;
     string organization_code = 2;
-    bool include_completed = 3;
+    bool is_completed = 3;
     bool include_deleted = 4;
     google.protobuf.Timestamp start = 5;
     google.protobuf.Timestamp end = 6;

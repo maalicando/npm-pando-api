@@ -18,59 +18,31 @@ option ruby_package = "Pando::Api::Template::v1";
 service TemplateAdminBetaService {
     option (pando.api.service).required_scope = "template:admin";
 
-    rpc GetCheckbox(GetCheckboxRequest) returns (Checkbox) {
+    rpc GetFormField(GetFormFieldRequest) returns (FormField) {
         option (pando.api.method).required_claim = "template,read";
         option (google.api.http) = {
-            get: "/api/v1/beta/document/template/checkbox"
+            get: "/api/v1/beta/document/template/form-field"
         };
     }
 
-    rpc GetCheckboxes(GetCheckboxesRequest) returns (GetCheckboxesResponse) {
+    rpc GetFormFields(GetFormFieldsRequest) returns (GetFormFieldsResponse) {
         option (pando.api.method).required_claim = "template,read";
         option (google.api.http) = {
-            get: "/api/v1/beta/document/template/checkboxes"
+            get: "/api/v1/beta/document/template/form-fields"
         };
     }
 
-    rpc CreateOrUpdateCheckbox(CreateOrUpdateCheckboxRequest) returns (Checkbox) {
+    rpc CreateOrUpdateFormField(CreateOrUpdateFormFieldRequest) returns (FormField) {
         option (pando.api.method).required_claim = "template,write";
         option (google.api.http) = {
-            post: "/api/v1/beta/document/template/checkbox"
+            post: "/api/v1/beta/document/template/form-field"
         };
     }
 
-    rpc DeleteCheckbox(DeleteCheckboxRequest) returns (pando.api.Empty) {
+    rpc DeleteFormField(DeleteFormFieldRequest) returns (pando.api.Empty) {
         option (pando.api.method).required_claim = "template,delete";
         option (google.api.http) = {
-            delete: "/api/v1/beta/document/template/checkbox"
-        };
-    }
-
-    rpc GetTextField(GetTextFieldRequest) returns (TextField) {
-        option (pando.api.method).required_claim = "template,read";
-        option (google.api.http) = {
-            get: "/api/v1/beta/document/template/text-field"
-        };
-    }
-
-    rpc GetTextFields(GetTextFieldsRequest) returns (GetTextFieldsResponse) {
-        option (pando.api.method).required_claim = "template,read";
-        option (google.api.http) = {
-            get: "/api/v1/beta/document/template/text-fields"
-        };
-    }
-
-    rpc CreateOrUpdateTextField(CreateOrUpdateTextFieldRequest) returns (TextField) {
-        option (pando.api.method).required_claim = "template,write";
-        option (google.api.http) = {
-            post: "/api/v1/beta/document/template/text-field"
-        };
-    }
-
-    rpc DeleteTextField(DeleteTextFieldRequest) returns (pando.api.Empty) {
-        option (pando.api.method).required_claim = "template,delete";
-        option (google.api.http) = {
-            delete: "/api/v1/beta/document/template/text-field"
+            delete: "/api/v1/beta/document/template/form-field"
         };
     }
 
@@ -115,64 +87,52 @@ service TemplateAdminBetaService {
             delete: "/api/v1/beta/document/template/stamp-page-indexes"
         };
     }
+
+    rpc ExecPublishTemplate(ExecPublishTemplateRequest) returns (pando.api.Empty) {
+        option (pando.api.method).required_claim = "template,write";
+        option (google.api.http) = {
+            post: "/api/v1/beta/document/template/publish"
+        };
+    }
 }
 
-message Checkbox {
+message GetFormFieldsRequest {
+    oneof template {
+        string template_id = 1;
+        string template_version_id = 2;
+    }
+}
+
+message GetFormFieldRequest {
+    string guid = 1;
+}
+
+message GetTemplateFormFieldRequest {
+    string template_version_guid = 1;
+    string field_name = 2;
+}
+
+message GetFormFieldsResponse {
+    repeated FormField form_fields = 1;
+}
+
+message CreateOrUpdateFormFieldRequest {
+    FormField form_field = 1;
+    google.protobuf.FieldMask update_mask = 2;
+}
+
+message DeleteFormFieldRequest {
+    string guid = 1;
+}
+
+message FormField {
     string guid = 1;
     string template_version_guid = 2;
     string variable_guid = 3;
     string field_name = 4;
-}
-
-message GetCheckboxesRequest {
-    string template_version_guid = 1;
-}
-
-message GetCheckboxRequest {
-    string guid = 1;
-}
-
-message GetCheckboxesResponse {
-    repeated Checkbox checkboxes = 1;
-}
-
-message CreateOrUpdateCheckboxRequest {
-    Checkbox checkbox = 1;
-    google.protobuf.FieldMask update_mask = 2;
-}
-
-message DeleteCheckboxRequest {
-    string guid = 1;
-}
-
-message TextField {
-    string guid = 1;
-    string template_version_guid = 2;
-    string variable_guid = 3;
-    string field_name = 4;
-    FontType font_type = 5;
-    double font_size = 6;
-}
-
-message GetTextFieldsRequest {
-    string template_version_guid = 1;
-}
-
-message GetTextFieldRequest {
-    string guid = 1;
-}
-
-message GetTextFieldsResponse {
-    repeated TextField text_fields = 1;
-}
-
-message CreateOrUpdateTextFieldRequest {
-    TextField text_field = 1;
-    google.protobuf.FieldMask update_mask = 2;
-}
-
-message DeleteTextFieldRequest {
-    string guid = 1;
+    FormFieldType form_field_type = 5;
+    FontType font_type = 6;
+    double font_size = 7;
 }
 
 message Stamp {
@@ -231,6 +191,13 @@ message DeleteStampPageIndexesRequest {
     repeated int32 page_indexes = 2;
 }
 
+message ExecPublishTemplateRequest {
+    oneof template {
+        string template_id = 1;
+        string template_version_id = 2;
+    }
+}
+
 enum FontType {
     UNSPECIFIED_FONT_TYPE = 0;
     TIMES_ROMAN = 1;
@@ -247,4 +214,11 @@ enum FontType {
     COURIER_BOLD_OBLIQUE = 12;
     SYMBOL = 13;
     ZAPF_DINGBATS = 14;
+}
+
+enum FormFieldType {
+    UNSPECIFIED_FORM_FIELD_TYPE = 0;
+    CHECKBOX = 1;
+    COMBO_BOX = 2;
+    TEXT_FIELD = 3;
 }

@@ -1406,7 +1406,7 @@ proto.pando.api.esign.v1.GetESignRequestList.toObject = function(includeInstance
   var f, obj = {
     userId: jspb.Message.getFieldWithDefault(msg, 1, ""),
     organizationCode: jspb.Message.getFieldWithDefault(msg, 2, ""),
-    includeCompleted: jspb.Message.getBooleanFieldWithDefault(msg, 3, false),
+    isCompleted: jspb.Message.getBooleanFieldWithDefault(msg, 3, false),
     includeDeleted: jspb.Message.getBooleanFieldWithDefault(msg, 4, false),
     start: (f = msg.getStart()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f),
     end: (f = msg.getEnd()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f),
@@ -1458,7 +1458,7 @@ proto.pando.api.esign.v1.GetESignRequestList.deserializeBinaryFromReader = funct
       break;
     case 3:
       var value = /** @type {boolean} */ (reader.readBool());
-      msg.setIncludeCompleted(value);
+      msg.setIsCompleted(value);
       break;
     case 4:
       var value = /** @type {boolean} */ (reader.readBool());
@@ -1525,7 +1525,7 @@ proto.pando.api.esign.v1.GetESignRequestList.serializeBinaryToWriter = function(
       f
     );
   }
-  f = message.getIncludeCompleted();
+  f = message.getIsCompleted();
   if (f) {
     writer.writeBool(
       3,
@@ -1609,10 +1609,10 @@ proto.pando.api.esign.v1.GetESignRequestList.prototype.setOrganizationCode = fun
 
 
 /**
- * optional bool include_completed = 3;
+ * optional bool is_completed = 3;
  * @return {boolean}
  */
-proto.pando.api.esign.v1.GetESignRequestList.prototype.getIncludeCompleted = function() {
+proto.pando.api.esign.v1.GetESignRequestList.prototype.getIsCompleted = function() {
   return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 3, false));
 };
 
@@ -1621,7 +1621,7 @@ proto.pando.api.esign.v1.GetESignRequestList.prototype.getIncludeCompleted = fun
  * @param {boolean} value
  * @return {!proto.pando.api.esign.v1.GetESignRequestList} returns this
  */
-proto.pando.api.esign.v1.GetESignRequestList.prototype.setIncludeCompleted = function(value) {
+proto.pando.api.esign.v1.GetESignRequestList.prototype.setIsCompleted = function(value) {
   return jspb.Message.setProto3BooleanField(this, 3, value);
 };
 

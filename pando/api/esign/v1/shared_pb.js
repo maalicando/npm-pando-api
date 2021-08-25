@@ -1206,7 +1206,8 @@ proto.pando.api.esign.v1.DocumentListItem.toObject = function(includeInstance, m
     signatoryGuid: jspb.Message.getFieldWithDefault(msg, 9, ""),
     signatoryName: jspb.Message.getFieldWithDefault(msg, 10, ""),
     dateCreatedUtc: (f = msg.getDateCreatedUtc()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f),
-    vaultDocumentGuid: jspb.Message.getFieldWithDefault(msg, 12, "")
+    vaultDocumentGuid: jspb.Message.getFieldWithDefault(msg, 12, ""),
+    dateCompletedUtc: (f = msg.getDateCompletedUtc()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -1291,6 +1292,11 @@ proto.pando.api.esign.v1.DocumentListItem.deserializeBinaryFromReader = function
     case 12:
       var value = /** @type {string} */ (reader.readString());
       msg.setVaultDocumentGuid(value);
+      break;
+    case 13:
+      var value = new google_protobuf_timestamp_pb.Timestamp;
+      reader.readMessage(value,google_protobuf_timestamp_pb.Timestamp.deserializeBinaryFromReader);
+      msg.setDateCompletedUtc(value);
       break;
     default:
       reader.skipField();
@@ -1404,6 +1410,14 @@ proto.pando.api.esign.v1.DocumentListItem.serializeBinaryToWriter = function(mes
     writer.writeString(
       12,
       f
+    );
+  }
+  f = message.getDateCompletedUtc();
+  if (f != null) {
+    writer.writeMessage(
+      13,
+      f,
+      google_protobuf_timestamp_pb.Timestamp.serializeBinaryToWriter
     );
   }
 };
@@ -1641,6 +1655,43 @@ proto.pando.api.esign.v1.DocumentListItem.prototype.getVaultDocumentGuid = funct
  */
 proto.pando.api.esign.v1.DocumentListItem.prototype.setVaultDocumentGuid = function(value) {
   return jspb.Message.setProto3StringField(this, 12, value);
+};
+
+
+/**
+ * optional google.protobuf.Timestamp date_completed_utc = 13;
+ * @return {?proto.google.protobuf.Timestamp}
+ */
+proto.pando.api.esign.v1.DocumentListItem.prototype.getDateCompletedUtc = function() {
+  return /** @type{?proto.google.protobuf.Timestamp} */ (
+    jspb.Message.getWrapperField(this, google_protobuf_timestamp_pb.Timestamp, 13));
+};
+
+
+/**
+ * @param {?proto.google.protobuf.Timestamp|undefined} value
+ * @return {!proto.pando.api.esign.v1.DocumentListItem} returns this
+*/
+proto.pando.api.esign.v1.DocumentListItem.prototype.setDateCompletedUtc = function(value) {
+  return jspb.Message.setWrapperField(this, 13, value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
+ * @return {!proto.pando.api.esign.v1.DocumentListItem} returns this
+ */
+proto.pando.api.esign.v1.DocumentListItem.prototype.clearDateCompletedUtc = function() {
+  return this.setDateCompletedUtc(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.pando.api.esign.v1.DocumentListItem.prototype.hasDateCompletedUtc = function() {
+  return jspb.Message.getField(this, 13) != null;
 };
 
 
@@ -2420,7 +2471,8 @@ proto.pando.api.esign.v1.ESignRequestList.prototype.toObject = function(opt_incl
 proto.pando.api.esign.v1.ESignRequestList.toObject = function(includeInstance, msg) {
   var f, obj = {
     esignRequestsList: jspb.Message.toObjectList(msg.getEsignRequestsList(),
-    proto.pando.api.esign.v1.ESignRequest.toObject, includeInstance)
+    proto.pando.api.esign.v1.ESignRequest.toObject, includeInstance),
+    pagination: (f = msg.getPagination()) && pando_api_shared_pb.PaginationResult.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -2462,6 +2514,11 @@ proto.pando.api.esign.v1.ESignRequestList.deserializeBinaryFromReader = function
       reader.readMessage(value,proto.pando.api.esign.v1.ESignRequest.deserializeBinaryFromReader);
       msg.addEsignRequests(value);
       break;
+    case 100:
+      var value = new pando_api_shared_pb.PaginationResult;
+      reader.readMessage(value,pando_api_shared_pb.PaginationResult.deserializeBinaryFromReader);
+      msg.setPagination(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -2497,6 +2554,14 @@ proto.pando.api.esign.v1.ESignRequestList.serializeBinaryToWriter = function(mes
       1,
       f,
       proto.pando.api.esign.v1.ESignRequest.serializeBinaryToWriter
+    );
+  }
+  f = message.getPagination();
+  if (f != null) {
+    writer.writeMessage(
+      100,
+      f,
+      pando_api_shared_pb.PaginationResult.serializeBinaryToWriter
     );
   }
 };
@@ -2537,6 +2602,43 @@ proto.pando.api.esign.v1.ESignRequestList.prototype.addEsignRequests = function(
  */
 proto.pando.api.esign.v1.ESignRequestList.prototype.clearEsignRequestsList = function() {
   return this.setEsignRequestsList([]);
+};
+
+
+/**
+ * optional pando.api.PaginationResult pagination = 100;
+ * @return {?proto.pando.api.PaginationResult}
+ */
+proto.pando.api.esign.v1.ESignRequestList.prototype.getPagination = function() {
+  return /** @type{?proto.pando.api.PaginationResult} */ (
+    jspb.Message.getWrapperField(this, pando_api_shared_pb.PaginationResult, 100));
+};
+
+
+/**
+ * @param {?proto.pando.api.PaginationResult|undefined} value
+ * @return {!proto.pando.api.esign.v1.ESignRequestList} returns this
+*/
+proto.pando.api.esign.v1.ESignRequestList.prototype.setPagination = function(value) {
+  return jspb.Message.setWrapperField(this, 100, value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
+ * @return {!proto.pando.api.esign.v1.ESignRequestList} returns this
+ */
+proto.pando.api.esign.v1.ESignRequestList.prototype.clearPagination = function() {
+  return this.setPagination(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.pando.api.esign.v1.ESignRequestList.prototype.hasPagination = function() {
+  return jspb.Message.getField(this, 100) != null;
 };
 
 

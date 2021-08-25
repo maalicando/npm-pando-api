@@ -86,256 +86,256 @@ proto.pando.api.template.v1.TemplateAdminBetaServicePromiseClient =
 /**
  * @const
  * @type {!grpc.web.MethodDescriptor<
- *   !proto.pando.api.template.v1.GetCheckboxRequest,
- *   !proto.pando.api.template.v1.Checkbox>}
+ *   !proto.pando.api.template.v1.GetFormFieldRequest,
+ *   !proto.pando.api.template.v1.FormField>}
  */
-const methodDescriptor_TemplateAdminBetaService_GetCheckbox = new grpc.web.MethodDescriptor(
-  '/pando.api.template.v1.TemplateAdminBetaService/GetCheckbox',
+const methodDescriptor_TemplateAdminBetaService_GetFormField = new grpc.web.MethodDescriptor(
+  '/pando.api.template.v1.TemplateAdminBetaService/GetFormField',
   grpc.web.MethodType.UNARY,
-  proto.pando.api.template.v1.GetCheckboxRequest,
-  proto.pando.api.template.v1.Checkbox,
+  proto.pando.api.template.v1.GetFormFieldRequest,
+  proto.pando.api.template.v1.FormField,
   /**
-   * @param {!proto.pando.api.template.v1.GetCheckboxRequest} request
+   * @param {!proto.pando.api.template.v1.GetFormFieldRequest} request
    * @return {!Uint8Array}
    */
   function(request) {
     return request.serializeBinary();
   },
-  proto.pando.api.template.v1.Checkbox.deserializeBinary
+  proto.pando.api.template.v1.FormField.deserializeBinary
 );
 
 
 /**
  * @const
  * @type {!grpc.web.AbstractClientBase.MethodInfo<
- *   !proto.pando.api.template.v1.GetCheckboxRequest,
- *   !proto.pando.api.template.v1.Checkbox>}
+ *   !proto.pando.api.template.v1.GetFormFieldRequest,
+ *   !proto.pando.api.template.v1.FormField>}
  */
-const methodInfo_TemplateAdminBetaService_GetCheckbox = new grpc.web.AbstractClientBase.MethodInfo(
-  proto.pando.api.template.v1.Checkbox,
+const methodInfo_TemplateAdminBetaService_GetFormField = new grpc.web.AbstractClientBase.MethodInfo(
+  proto.pando.api.template.v1.FormField,
   /**
-   * @param {!proto.pando.api.template.v1.GetCheckboxRequest} request
+   * @param {!proto.pando.api.template.v1.GetFormFieldRequest} request
    * @return {!Uint8Array}
    */
   function(request) {
     return request.serializeBinary();
   },
-  proto.pando.api.template.v1.Checkbox.deserializeBinary
+  proto.pando.api.template.v1.FormField.deserializeBinary
 );
 
 
 /**
- * @param {!proto.pando.api.template.v1.GetCheckboxRequest} request The
+ * @param {!proto.pando.api.template.v1.GetFormFieldRequest} request The
  *     request proto
  * @param {?Object<string, string>} metadata User defined
  *     call metadata
- * @param {function(?grpc.web.Error, ?proto.pando.api.template.v1.Checkbox)}
+ * @param {function(?grpc.web.Error, ?proto.pando.api.template.v1.FormField)}
  *     callback The callback function(error, response)
- * @return {!grpc.web.ClientReadableStream<!proto.pando.api.template.v1.Checkbox>|undefined}
+ * @return {!grpc.web.ClientReadableStream<!proto.pando.api.template.v1.FormField>|undefined}
  *     The XHR Node Readable Stream
  */
-proto.pando.api.template.v1.TemplateAdminBetaServiceClient.prototype.getCheckbox =
+proto.pando.api.template.v1.TemplateAdminBetaServiceClient.prototype.getFormField =
     function(request, metadata, callback) {
   return this.client_.rpcCall(this.hostname_ +
-      '/pando.api.template.v1.TemplateAdminBetaService/GetCheckbox',
+      '/pando.api.template.v1.TemplateAdminBetaService/GetFormField',
       request,
       metadata || {},
-      methodDescriptor_TemplateAdminBetaService_GetCheckbox,
+      methodDescriptor_TemplateAdminBetaService_GetFormField,
       callback);
 };
 
 
 /**
- * @param {!proto.pando.api.template.v1.GetCheckboxRequest} request The
+ * @param {!proto.pando.api.template.v1.GetFormFieldRequest} request The
  *     request proto
  * @param {?Object<string, string>} metadata User defined
  *     call metadata
- * @return {!Promise<!proto.pando.api.template.v1.Checkbox>}
+ * @return {!Promise<!proto.pando.api.template.v1.FormField>}
  *     Promise that resolves to the response
  */
-proto.pando.api.template.v1.TemplateAdminBetaServicePromiseClient.prototype.getCheckbox =
+proto.pando.api.template.v1.TemplateAdminBetaServicePromiseClient.prototype.getFormField =
     function(request, metadata) {
   return this.client_.unaryCall(this.hostname_ +
-      '/pando.api.template.v1.TemplateAdminBetaService/GetCheckbox',
+      '/pando.api.template.v1.TemplateAdminBetaService/GetFormField',
       request,
       metadata || {},
-      methodDescriptor_TemplateAdminBetaService_GetCheckbox);
+      methodDescriptor_TemplateAdminBetaService_GetFormField);
 };
 
 
 /**
  * @const
  * @type {!grpc.web.MethodDescriptor<
- *   !proto.pando.api.template.v1.GetCheckboxesRequest,
- *   !proto.pando.api.template.v1.GetCheckboxesResponse>}
+ *   !proto.pando.api.template.v1.GetFormFieldsRequest,
+ *   !proto.pando.api.template.v1.GetFormFieldsResponse>}
  */
-const methodDescriptor_TemplateAdminBetaService_GetCheckboxes = new grpc.web.MethodDescriptor(
-  '/pando.api.template.v1.TemplateAdminBetaService/GetCheckboxes',
+const methodDescriptor_TemplateAdminBetaService_GetFormFields = new grpc.web.MethodDescriptor(
+  '/pando.api.template.v1.TemplateAdminBetaService/GetFormFields',
   grpc.web.MethodType.UNARY,
-  proto.pando.api.template.v1.GetCheckboxesRequest,
-  proto.pando.api.template.v1.GetCheckboxesResponse,
+  proto.pando.api.template.v1.GetFormFieldsRequest,
+  proto.pando.api.template.v1.GetFormFieldsResponse,
   /**
-   * @param {!proto.pando.api.template.v1.GetCheckboxesRequest} request
+   * @param {!proto.pando.api.template.v1.GetFormFieldsRequest} request
    * @return {!Uint8Array}
    */
   function(request) {
     return request.serializeBinary();
   },
-  proto.pando.api.template.v1.GetCheckboxesResponse.deserializeBinary
+  proto.pando.api.template.v1.GetFormFieldsResponse.deserializeBinary
 );
 
 
 /**
  * @const
  * @type {!grpc.web.AbstractClientBase.MethodInfo<
- *   !proto.pando.api.template.v1.GetCheckboxesRequest,
- *   !proto.pando.api.template.v1.GetCheckboxesResponse>}
+ *   !proto.pando.api.template.v1.GetFormFieldsRequest,
+ *   !proto.pando.api.template.v1.GetFormFieldsResponse>}
  */
-const methodInfo_TemplateAdminBetaService_GetCheckboxes = new grpc.web.AbstractClientBase.MethodInfo(
-  proto.pando.api.template.v1.GetCheckboxesResponse,
+const methodInfo_TemplateAdminBetaService_GetFormFields = new grpc.web.AbstractClientBase.MethodInfo(
+  proto.pando.api.template.v1.GetFormFieldsResponse,
   /**
-   * @param {!proto.pando.api.template.v1.GetCheckboxesRequest} request
+   * @param {!proto.pando.api.template.v1.GetFormFieldsRequest} request
    * @return {!Uint8Array}
    */
   function(request) {
     return request.serializeBinary();
   },
-  proto.pando.api.template.v1.GetCheckboxesResponse.deserializeBinary
+  proto.pando.api.template.v1.GetFormFieldsResponse.deserializeBinary
 );
 
 
 /**
- * @param {!proto.pando.api.template.v1.GetCheckboxesRequest} request The
+ * @param {!proto.pando.api.template.v1.GetFormFieldsRequest} request The
  *     request proto
  * @param {?Object<string, string>} metadata User defined
  *     call metadata
- * @param {function(?grpc.web.Error, ?proto.pando.api.template.v1.GetCheckboxesResponse)}
+ * @param {function(?grpc.web.Error, ?proto.pando.api.template.v1.GetFormFieldsResponse)}
  *     callback The callback function(error, response)
- * @return {!grpc.web.ClientReadableStream<!proto.pando.api.template.v1.GetCheckboxesResponse>|undefined}
+ * @return {!grpc.web.ClientReadableStream<!proto.pando.api.template.v1.GetFormFieldsResponse>|undefined}
  *     The XHR Node Readable Stream
  */
-proto.pando.api.template.v1.TemplateAdminBetaServiceClient.prototype.getCheckboxes =
+proto.pando.api.template.v1.TemplateAdminBetaServiceClient.prototype.getFormFields =
     function(request, metadata, callback) {
   return this.client_.rpcCall(this.hostname_ +
-      '/pando.api.template.v1.TemplateAdminBetaService/GetCheckboxes',
+      '/pando.api.template.v1.TemplateAdminBetaService/GetFormFields',
       request,
       metadata || {},
-      methodDescriptor_TemplateAdminBetaService_GetCheckboxes,
+      methodDescriptor_TemplateAdminBetaService_GetFormFields,
       callback);
 };
 
 
 /**
- * @param {!proto.pando.api.template.v1.GetCheckboxesRequest} request The
+ * @param {!proto.pando.api.template.v1.GetFormFieldsRequest} request The
  *     request proto
  * @param {?Object<string, string>} metadata User defined
  *     call metadata
- * @return {!Promise<!proto.pando.api.template.v1.GetCheckboxesResponse>}
+ * @return {!Promise<!proto.pando.api.template.v1.GetFormFieldsResponse>}
  *     Promise that resolves to the response
  */
-proto.pando.api.template.v1.TemplateAdminBetaServicePromiseClient.prototype.getCheckboxes =
+proto.pando.api.template.v1.TemplateAdminBetaServicePromiseClient.prototype.getFormFields =
     function(request, metadata) {
   return this.client_.unaryCall(this.hostname_ +
-      '/pando.api.template.v1.TemplateAdminBetaService/GetCheckboxes',
+      '/pando.api.template.v1.TemplateAdminBetaService/GetFormFields',
       request,
       metadata || {},
-      methodDescriptor_TemplateAdminBetaService_GetCheckboxes);
+      methodDescriptor_TemplateAdminBetaService_GetFormFields);
 };
 
 
 /**
  * @const
  * @type {!grpc.web.MethodDescriptor<
- *   !proto.pando.api.template.v1.CreateOrUpdateCheckboxRequest,
- *   !proto.pando.api.template.v1.Checkbox>}
+ *   !proto.pando.api.template.v1.CreateOrUpdateFormFieldRequest,
+ *   !proto.pando.api.template.v1.FormField>}
  */
-const methodDescriptor_TemplateAdminBetaService_CreateOrUpdateCheckbox = new grpc.web.MethodDescriptor(
-  '/pando.api.template.v1.TemplateAdminBetaService/CreateOrUpdateCheckbox',
+const methodDescriptor_TemplateAdminBetaService_CreateOrUpdateFormField = new grpc.web.MethodDescriptor(
+  '/pando.api.template.v1.TemplateAdminBetaService/CreateOrUpdateFormField',
   grpc.web.MethodType.UNARY,
-  proto.pando.api.template.v1.CreateOrUpdateCheckboxRequest,
-  proto.pando.api.template.v1.Checkbox,
+  proto.pando.api.template.v1.CreateOrUpdateFormFieldRequest,
+  proto.pando.api.template.v1.FormField,
   /**
-   * @param {!proto.pando.api.template.v1.CreateOrUpdateCheckboxRequest} request
+   * @param {!proto.pando.api.template.v1.CreateOrUpdateFormFieldRequest} request
    * @return {!Uint8Array}
    */
   function(request) {
     return request.serializeBinary();
   },
-  proto.pando.api.template.v1.Checkbox.deserializeBinary
+  proto.pando.api.template.v1.FormField.deserializeBinary
 );
 
 
 /**
  * @const
  * @type {!grpc.web.AbstractClientBase.MethodInfo<
- *   !proto.pando.api.template.v1.CreateOrUpdateCheckboxRequest,
- *   !proto.pando.api.template.v1.Checkbox>}
+ *   !proto.pando.api.template.v1.CreateOrUpdateFormFieldRequest,
+ *   !proto.pando.api.template.v1.FormField>}
  */
-const methodInfo_TemplateAdminBetaService_CreateOrUpdateCheckbox = new grpc.web.AbstractClientBase.MethodInfo(
-  proto.pando.api.template.v1.Checkbox,
+const methodInfo_TemplateAdminBetaService_CreateOrUpdateFormField = new grpc.web.AbstractClientBase.MethodInfo(
+  proto.pando.api.template.v1.FormField,
   /**
-   * @param {!proto.pando.api.template.v1.CreateOrUpdateCheckboxRequest} request
+   * @param {!proto.pando.api.template.v1.CreateOrUpdateFormFieldRequest} request
    * @return {!Uint8Array}
    */
   function(request) {
     return request.serializeBinary();
   },
-  proto.pando.api.template.v1.Checkbox.deserializeBinary
+  proto.pando.api.template.v1.FormField.deserializeBinary
 );
 
 
 /**
- * @param {!proto.pando.api.template.v1.CreateOrUpdateCheckboxRequest} request The
+ * @param {!proto.pando.api.template.v1.CreateOrUpdateFormFieldRequest} request The
  *     request proto
  * @param {?Object<string, string>} metadata User defined
  *     call metadata
- * @param {function(?grpc.web.Error, ?proto.pando.api.template.v1.Checkbox)}
+ * @param {function(?grpc.web.Error, ?proto.pando.api.template.v1.FormField)}
  *     callback The callback function(error, response)
- * @return {!grpc.web.ClientReadableStream<!proto.pando.api.template.v1.Checkbox>|undefined}
+ * @return {!grpc.web.ClientReadableStream<!proto.pando.api.template.v1.FormField>|undefined}
  *     The XHR Node Readable Stream
  */
-proto.pando.api.template.v1.TemplateAdminBetaServiceClient.prototype.createOrUpdateCheckbox =
+proto.pando.api.template.v1.TemplateAdminBetaServiceClient.prototype.createOrUpdateFormField =
     function(request, metadata, callback) {
   return this.client_.rpcCall(this.hostname_ +
-      '/pando.api.template.v1.TemplateAdminBetaService/CreateOrUpdateCheckbox',
+      '/pando.api.template.v1.TemplateAdminBetaService/CreateOrUpdateFormField',
       request,
       metadata || {},
-      methodDescriptor_TemplateAdminBetaService_CreateOrUpdateCheckbox,
+      methodDescriptor_TemplateAdminBetaService_CreateOrUpdateFormField,
       callback);
 };
 
 
 /**
- * @param {!proto.pando.api.template.v1.CreateOrUpdateCheckboxRequest} request The
+ * @param {!proto.pando.api.template.v1.CreateOrUpdateFormFieldRequest} request The
  *     request proto
  * @param {?Object<string, string>} metadata User defined
  *     call metadata
- * @return {!Promise<!proto.pando.api.template.v1.Checkbox>}
+ * @return {!Promise<!proto.pando.api.template.v1.FormField>}
  *     Promise that resolves to the response
  */
-proto.pando.api.template.v1.TemplateAdminBetaServicePromiseClient.prototype.createOrUpdateCheckbox =
+proto.pando.api.template.v1.TemplateAdminBetaServicePromiseClient.prototype.createOrUpdateFormField =
     function(request, metadata) {
   return this.client_.unaryCall(this.hostname_ +
-      '/pando.api.template.v1.TemplateAdminBetaService/CreateOrUpdateCheckbox',
+      '/pando.api.template.v1.TemplateAdminBetaService/CreateOrUpdateFormField',
       request,
       metadata || {},
-      methodDescriptor_TemplateAdminBetaService_CreateOrUpdateCheckbox);
+      methodDescriptor_TemplateAdminBetaService_CreateOrUpdateFormField);
 };
 
 
 /**
  * @const
  * @type {!grpc.web.MethodDescriptor<
- *   !proto.pando.api.template.v1.DeleteCheckboxRequest,
+ *   !proto.pando.api.template.v1.DeleteFormFieldRequest,
  *   !proto.pando.api.Empty>}
  */
-const methodDescriptor_TemplateAdminBetaService_DeleteCheckbox = new grpc.web.MethodDescriptor(
-  '/pando.api.template.v1.TemplateAdminBetaService/DeleteCheckbox',
+const methodDescriptor_TemplateAdminBetaService_DeleteFormField = new grpc.web.MethodDescriptor(
+  '/pando.api.template.v1.TemplateAdminBetaService/DeleteFormField',
   grpc.web.MethodType.UNARY,
-  proto.pando.api.template.v1.DeleteCheckboxRequest,
+  proto.pando.api.template.v1.DeleteFormFieldRequest,
   pando_api_shared_pb.Empty,
   /**
-   * @param {!proto.pando.api.template.v1.DeleteCheckboxRequest} request
+   * @param {!proto.pando.api.template.v1.DeleteFormFieldRequest} request
    * @return {!Uint8Array}
    */
   function(request) {
@@ -348,13 +348,13 @@ const methodDescriptor_TemplateAdminBetaService_DeleteCheckbox = new grpc.web.Me
 /**
  * @const
  * @type {!grpc.web.AbstractClientBase.MethodInfo<
- *   !proto.pando.api.template.v1.DeleteCheckboxRequest,
+ *   !proto.pando.api.template.v1.DeleteFormFieldRequest,
  *   !proto.pando.api.Empty>}
  */
-const methodInfo_TemplateAdminBetaService_DeleteCheckbox = new grpc.web.AbstractClientBase.MethodInfo(
+const methodInfo_TemplateAdminBetaService_DeleteFormField = new grpc.web.AbstractClientBase.MethodInfo(
   pando_api_shared_pb.Empty,
   /**
-   * @param {!proto.pando.api.template.v1.DeleteCheckboxRequest} request
+   * @param {!proto.pando.api.template.v1.DeleteFormFieldRequest} request
    * @return {!Uint8Array}
    */
   function(request) {
@@ -365,7 +365,7 @@ const methodInfo_TemplateAdminBetaService_DeleteCheckbox = new grpc.web.Abstract
 
 
 /**
- * @param {!proto.pando.api.template.v1.DeleteCheckboxRequest} request The
+ * @param {!proto.pando.api.template.v1.DeleteFormFieldRequest} request The
  *     request proto
  * @param {?Object<string, string>} metadata User defined
  *     call metadata
@@ -374,352 +374,32 @@ const methodInfo_TemplateAdminBetaService_DeleteCheckbox = new grpc.web.Abstract
  * @return {!grpc.web.ClientReadableStream<!proto.pando.api.Empty>|undefined}
  *     The XHR Node Readable Stream
  */
-proto.pando.api.template.v1.TemplateAdminBetaServiceClient.prototype.deleteCheckbox =
+proto.pando.api.template.v1.TemplateAdminBetaServiceClient.prototype.deleteFormField =
     function(request, metadata, callback) {
   return this.client_.rpcCall(this.hostname_ +
-      '/pando.api.template.v1.TemplateAdminBetaService/DeleteCheckbox',
+      '/pando.api.template.v1.TemplateAdminBetaService/DeleteFormField',
       request,
       metadata || {},
-      methodDescriptor_TemplateAdminBetaService_DeleteCheckbox,
+      methodDescriptor_TemplateAdminBetaService_DeleteFormField,
       callback);
 };
 
 
 /**
- * @param {!proto.pando.api.template.v1.DeleteCheckboxRequest} request The
+ * @param {!proto.pando.api.template.v1.DeleteFormFieldRequest} request The
  *     request proto
  * @param {?Object<string, string>} metadata User defined
  *     call metadata
  * @return {!Promise<!proto.pando.api.Empty>}
  *     Promise that resolves to the response
  */
-proto.pando.api.template.v1.TemplateAdminBetaServicePromiseClient.prototype.deleteCheckbox =
+proto.pando.api.template.v1.TemplateAdminBetaServicePromiseClient.prototype.deleteFormField =
     function(request, metadata) {
   return this.client_.unaryCall(this.hostname_ +
-      '/pando.api.template.v1.TemplateAdminBetaService/DeleteCheckbox',
+      '/pando.api.template.v1.TemplateAdminBetaService/DeleteFormField',
       request,
       metadata || {},
-      methodDescriptor_TemplateAdminBetaService_DeleteCheckbox);
-};
-
-
-/**
- * @const
- * @type {!grpc.web.MethodDescriptor<
- *   !proto.pando.api.template.v1.GetTextFieldRequest,
- *   !proto.pando.api.template.v1.TextField>}
- */
-const methodDescriptor_TemplateAdminBetaService_GetTextField = new grpc.web.MethodDescriptor(
-  '/pando.api.template.v1.TemplateAdminBetaService/GetTextField',
-  grpc.web.MethodType.UNARY,
-  proto.pando.api.template.v1.GetTextFieldRequest,
-  proto.pando.api.template.v1.TextField,
-  /**
-   * @param {!proto.pando.api.template.v1.GetTextFieldRequest} request
-   * @return {!Uint8Array}
-   */
-  function(request) {
-    return request.serializeBinary();
-  },
-  proto.pando.api.template.v1.TextField.deserializeBinary
-);
-
-
-/**
- * @const
- * @type {!grpc.web.AbstractClientBase.MethodInfo<
- *   !proto.pando.api.template.v1.GetTextFieldRequest,
- *   !proto.pando.api.template.v1.TextField>}
- */
-const methodInfo_TemplateAdminBetaService_GetTextField = new grpc.web.AbstractClientBase.MethodInfo(
-  proto.pando.api.template.v1.TextField,
-  /**
-   * @param {!proto.pando.api.template.v1.GetTextFieldRequest} request
-   * @return {!Uint8Array}
-   */
-  function(request) {
-    return request.serializeBinary();
-  },
-  proto.pando.api.template.v1.TextField.deserializeBinary
-);
-
-
-/**
- * @param {!proto.pando.api.template.v1.GetTextFieldRequest} request The
- *     request proto
- * @param {?Object<string, string>} metadata User defined
- *     call metadata
- * @param {function(?grpc.web.Error, ?proto.pando.api.template.v1.TextField)}
- *     callback The callback function(error, response)
- * @return {!grpc.web.ClientReadableStream<!proto.pando.api.template.v1.TextField>|undefined}
- *     The XHR Node Readable Stream
- */
-proto.pando.api.template.v1.TemplateAdminBetaServiceClient.prototype.getTextField =
-    function(request, metadata, callback) {
-  return this.client_.rpcCall(this.hostname_ +
-      '/pando.api.template.v1.TemplateAdminBetaService/GetTextField',
-      request,
-      metadata || {},
-      methodDescriptor_TemplateAdminBetaService_GetTextField,
-      callback);
-};
-
-
-/**
- * @param {!proto.pando.api.template.v1.GetTextFieldRequest} request The
- *     request proto
- * @param {?Object<string, string>} metadata User defined
- *     call metadata
- * @return {!Promise<!proto.pando.api.template.v1.TextField>}
- *     Promise that resolves to the response
- */
-proto.pando.api.template.v1.TemplateAdminBetaServicePromiseClient.prototype.getTextField =
-    function(request, metadata) {
-  return this.client_.unaryCall(this.hostname_ +
-      '/pando.api.template.v1.TemplateAdminBetaService/GetTextField',
-      request,
-      metadata || {},
-      methodDescriptor_TemplateAdminBetaService_GetTextField);
-};
-
-
-/**
- * @const
- * @type {!grpc.web.MethodDescriptor<
- *   !proto.pando.api.template.v1.GetTextFieldsRequest,
- *   !proto.pando.api.template.v1.GetTextFieldsResponse>}
- */
-const methodDescriptor_TemplateAdminBetaService_GetTextFields = new grpc.web.MethodDescriptor(
-  '/pando.api.template.v1.TemplateAdminBetaService/GetTextFields',
-  grpc.web.MethodType.UNARY,
-  proto.pando.api.template.v1.GetTextFieldsRequest,
-  proto.pando.api.template.v1.GetTextFieldsResponse,
-  /**
-   * @param {!proto.pando.api.template.v1.GetTextFieldsRequest} request
-   * @return {!Uint8Array}
-   */
-  function(request) {
-    return request.serializeBinary();
-  },
-  proto.pando.api.template.v1.GetTextFieldsResponse.deserializeBinary
-);
-
-
-/**
- * @const
- * @type {!grpc.web.AbstractClientBase.MethodInfo<
- *   !proto.pando.api.template.v1.GetTextFieldsRequest,
- *   !proto.pando.api.template.v1.GetTextFieldsResponse>}
- */
-const methodInfo_TemplateAdminBetaService_GetTextFields = new grpc.web.AbstractClientBase.MethodInfo(
-  proto.pando.api.template.v1.GetTextFieldsResponse,
-  /**
-   * @param {!proto.pando.api.template.v1.GetTextFieldsRequest} request
-   * @return {!Uint8Array}
-   */
-  function(request) {
-    return request.serializeBinary();
-  },
-  proto.pando.api.template.v1.GetTextFieldsResponse.deserializeBinary
-);
-
-
-/**
- * @param {!proto.pando.api.template.v1.GetTextFieldsRequest} request The
- *     request proto
- * @param {?Object<string, string>} metadata User defined
- *     call metadata
- * @param {function(?grpc.web.Error, ?proto.pando.api.template.v1.GetTextFieldsResponse)}
- *     callback The callback function(error, response)
- * @return {!grpc.web.ClientReadableStream<!proto.pando.api.template.v1.GetTextFieldsResponse>|undefined}
- *     The XHR Node Readable Stream
- */
-proto.pando.api.template.v1.TemplateAdminBetaServiceClient.prototype.getTextFields =
-    function(request, metadata, callback) {
-  return this.client_.rpcCall(this.hostname_ +
-      '/pando.api.template.v1.TemplateAdminBetaService/GetTextFields',
-      request,
-      metadata || {},
-      methodDescriptor_TemplateAdminBetaService_GetTextFields,
-      callback);
-};
-
-
-/**
- * @param {!proto.pando.api.template.v1.GetTextFieldsRequest} request The
- *     request proto
- * @param {?Object<string, string>} metadata User defined
- *     call metadata
- * @return {!Promise<!proto.pando.api.template.v1.GetTextFieldsResponse>}
- *     Promise that resolves to the response
- */
-proto.pando.api.template.v1.TemplateAdminBetaServicePromiseClient.prototype.getTextFields =
-    function(request, metadata) {
-  return this.client_.unaryCall(this.hostname_ +
-      '/pando.api.template.v1.TemplateAdminBetaService/GetTextFields',
-      request,
-      metadata || {},
-      methodDescriptor_TemplateAdminBetaService_GetTextFields);
-};
-
-
-/**
- * @const
- * @type {!grpc.web.MethodDescriptor<
- *   !proto.pando.api.template.v1.CreateOrUpdateTextFieldRequest,
- *   !proto.pando.api.template.v1.TextField>}
- */
-const methodDescriptor_TemplateAdminBetaService_CreateOrUpdateTextField = new grpc.web.MethodDescriptor(
-  '/pando.api.template.v1.TemplateAdminBetaService/CreateOrUpdateTextField',
-  grpc.web.MethodType.UNARY,
-  proto.pando.api.template.v1.CreateOrUpdateTextFieldRequest,
-  proto.pando.api.template.v1.TextField,
-  /**
-   * @param {!proto.pando.api.template.v1.CreateOrUpdateTextFieldRequest} request
-   * @return {!Uint8Array}
-   */
-  function(request) {
-    return request.serializeBinary();
-  },
-  proto.pando.api.template.v1.TextField.deserializeBinary
-);
-
-
-/**
- * @const
- * @type {!grpc.web.AbstractClientBase.MethodInfo<
- *   !proto.pando.api.template.v1.CreateOrUpdateTextFieldRequest,
- *   !proto.pando.api.template.v1.TextField>}
- */
-const methodInfo_TemplateAdminBetaService_CreateOrUpdateTextField = new grpc.web.AbstractClientBase.MethodInfo(
-  proto.pando.api.template.v1.TextField,
-  /**
-   * @param {!proto.pando.api.template.v1.CreateOrUpdateTextFieldRequest} request
-   * @return {!Uint8Array}
-   */
-  function(request) {
-    return request.serializeBinary();
-  },
-  proto.pando.api.template.v1.TextField.deserializeBinary
-);
-
-
-/**
- * @param {!proto.pando.api.template.v1.CreateOrUpdateTextFieldRequest} request The
- *     request proto
- * @param {?Object<string, string>} metadata User defined
- *     call metadata
- * @param {function(?grpc.web.Error, ?proto.pando.api.template.v1.TextField)}
- *     callback The callback function(error, response)
- * @return {!grpc.web.ClientReadableStream<!proto.pando.api.template.v1.TextField>|undefined}
- *     The XHR Node Readable Stream
- */
-proto.pando.api.template.v1.TemplateAdminBetaServiceClient.prototype.createOrUpdateTextField =
-    function(request, metadata, callback) {
-  return this.client_.rpcCall(this.hostname_ +
-      '/pando.api.template.v1.TemplateAdminBetaService/CreateOrUpdateTextField',
-      request,
-      metadata || {},
-      methodDescriptor_TemplateAdminBetaService_CreateOrUpdateTextField,
-      callback);
-};
-
-
-/**
- * @param {!proto.pando.api.template.v1.CreateOrUpdateTextFieldRequest} request The
- *     request proto
- * @param {?Object<string, string>} metadata User defined
- *     call metadata
- * @return {!Promise<!proto.pando.api.template.v1.TextField>}
- *     Promise that resolves to the response
- */
-proto.pando.api.template.v1.TemplateAdminBetaServicePromiseClient.prototype.createOrUpdateTextField =
-    function(request, metadata) {
-  return this.client_.unaryCall(this.hostname_ +
-      '/pando.api.template.v1.TemplateAdminBetaService/CreateOrUpdateTextField',
-      request,
-      metadata || {},
-      methodDescriptor_TemplateAdminBetaService_CreateOrUpdateTextField);
-};
-
-
-/**
- * @const
- * @type {!grpc.web.MethodDescriptor<
- *   !proto.pando.api.template.v1.DeleteTextFieldRequest,
- *   !proto.pando.api.Empty>}
- */
-const methodDescriptor_TemplateAdminBetaService_DeleteTextField = new grpc.web.MethodDescriptor(
-  '/pando.api.template.v1.TemplateAdminBetaService/DeleteTextField',
-  grpc.web.MethodType.UNARY,
-  proto.pando.api.template.v1.DeleteTextFieldRequest,
-  pando_api_shared_pb.Empty,
-  /**
-   * @param {!proto.pando.api.template.v1.DeleteTextFieldRequest} request
-   * @return {!Uint8Array}
-   */
-  function(request) {
-    return request.serializeBinary();
-  },
-  pando_api_shared_pb.Empty.deserializeBinary
-);
-
-
-/**
- * @const
- * @type {!grpc.web.AbstractClientBase.MethodInfo<
- *   !proto.pando.api.template.v1.DeleteTextFieldRequest,
- *   !proto.pando.api.Empty>}
- */
-const methodInfo_TemplateAdminBetaService_DeleteTextField = new grpc.web.AbstractClientBase.MethodInfo(
-  pando_api_shared_pb.Empty,
-  /**
-   * @param {!proto.pando.api.template.v1.DeleteTextFieldRequest} request
-   * @return {!Uint8Array}
-   */
-  function(request) {
-    return request.serializeBinary();
-  },
-  pando_api_shared_pb.Empty.deserializeBinary
-);
-
-
-/**
- * @param {!proto.pando.api.template.v1.DeleteTextFieldRequest} request The
- *     request proto
- * @param {?Object<string, string>} metadata User defined
- *     call metadata
- * @param {function(?grpc.web.Error, ?proto.pando.api.Empty)}
- *     callback The callback function(error, response)
- * @return {!grpc.web.ClientReadableStream<!proto.pando.api.Empty>|undefined}
- *     The XHR Node Readable Stream
- */
-proto.pando.api.template.v1.TemplateAdminBetaServiceClient.prototype.deleteTextField =
-    function(request, metadata, callback) {
-  return this.client_.rpcCall(this.hostname_ +
-      '/pando.api.template.v1.TemplateAdminBetaService/DeleteTextField',
-      request,
-      metadata || {},
-      methodDescriptor_TemplateAdminBetaService_DeleteTextField,
-      callback);
-};
-
-
-/**
- * @param {!proto.pando.api.template.v1.DeleteTextFieldRequest} request The
- *     request proto
- * @param {?Object<string, string>} metadata User defined
- *     call metadata
- * @return {!Promise<!proto.pando.api.Empty>}
- *     Promise that resolves to the response
- */
-proto.pando.api.template.v1.TemplateAdminBetaServicePromiseClient.prototype.deleteTextField =
-    function(request, metadata) {
-  return this.client_.unaryCall(this.hostname_ +
-      '/pando.api.template.v1.TemplateAdminBetaService/DeleteTextField',
-      request,
-      metadata || {},
-      methodDescriptor_TemplateAdminBetaService_DeleteTextField);
+      methodDescriptor_TemplateAdminBetaService_DeleteFormField);
 };
 
 
@@ -1200,6 +880,86 @@ proto.pando.api.template.v1.TemplateAdminBetaServicePromiseClient.prototype.dele
       request,
       metadata || {},
       methodDescriptor_TemplateAdminBetaService_DeleteStampPageIndexes);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.pando.api.template.v1.ExecPublishTemplateRequest,
+ *   !proto.pando.api.Empty>}
+ */
+const methodDescriptor_TemplateAdminBetaService_ExecPublishTemplate = new grpc.web.MethodDescriptor(
+  '/pando.api.template.v1.TemplateAdminBetaService/ExecPublishTemplate',
+  grpc.web.MethodType.UNARY,
+  proto.pando.api.template.v1.ExecPublishTemplateRequest,
+  pando_api_shared_pb.Empty,
+  /**
+   * @param {!proto.pando.api.template.v1.ExecPublishTemplateRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  pando_api_shared_pb.Empty.deserializeBinary
+);
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.pando.api.template.v1.ExecPublishTemplateRequest,
+ *   !proto.pando.api.Empty>}
+ */
+const methodInfo_TemplateAdminBetaService_ExecPublishTemplate = new grpc.web.AbstractClientBase.MethodInfo(
+  pando_api_shared_pb.Empty,
+  /**
+   * @param {!proto.pando.api.template.v1.ExecPublishTemplateRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  pando_api_shared_pb.Empty.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.pando.api.template.v1.ExecPublishTemplateRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.pando.api.Empty)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.pando.api.Empty>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.pando.api.template.v1.TemplateAdminBetaServiceClient.prototype.execPublishTemplate =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/pando.api.template.v1.TemplateAdminBetaService/ExecPublishTemplate',
+      request,
+      metadata || {},
+      methodDescriptor_TemplateAdminBetaService_ExecPublishTemplate,
+      callback);
+};
+
+
+/**
+ * @param {!proto.pando.api.template.v1.ExecPublishTemplateRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.pando.api.Empty>}
+ *     Promise that resolves to the response
+ */
+proto.pando.api.template.v1.TemplateAdminBetaServicePromiseClient.prototype.execPublishTemplate =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/pando.api.template.v1.TemplateAdminBetaService/ExecPublishTemplate',
+      request,
+      metadata || {},
+      methodDescriptor_TemplateAdminBetaService_ExecPublishTemplate);
 };
 
 
