@@ -33,6 +33,14 @@ enum SignatureType {
     NOT_SET = 2;
 }
 
+enum ActionType{
+    ACKNOWLEDGE = 0;
+    DECLINE = 1;
+    OPTIN = 2;
+    OPTOUT = 3;
+    SIGN = 4;
+}
+
 message DocumentOrTemplate {
     oneof data {
         string template_guid = 1;
@@ -78,6 +86,7 @@ message DocumentListItem {
     google.protobuf.Timestamp date_created_utc = 11;
     string vault_document_guid = 12;
     google.protobuf.Timestamp date_completed_utc = 13;
+    ActionType action_type = 14;
 }
 
 message DocumentList {

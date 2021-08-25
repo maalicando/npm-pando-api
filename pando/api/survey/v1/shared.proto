@@ -117,10 +117,9 @@ message PlaybackData {
     int32 timestamp = 7;
     bool is_deleted = 8;
     FileType file_type = 9;
-    oneof media_or_variable_guid {
-        string media_guid = 5;
-        string variable_guid = 10;
-    }
+    string media_guid = 5;
+    string variable_guid = 10;
+    string media_name = 11;
 }
 
 message Question {

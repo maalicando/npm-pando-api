@@ -21,6 +21,7 @@ var pando_api_extensions_pb = require('../../../../pando/api/extensions_pb.js');
 goog.object.extend(proto, pando_api_extensions_pb);
 var pando_api_shared_pb = require('../../../../pando/api/shared_pb.js');
 goog.object.extend(proto, pando_api_shared_pb);
+goog.exportSymbol('proto.pando.api.esign.v1.ActionType', null, global);
 goog.exportSymbol('proto.pando.api.esign.v1.ChartData', null, global);
 goog.exportSymbol('proto.pando.api.esign.v1.Document', null, global);
 goog.exportSymbol('proto.pando.api.esign.v1.DocumentList', null, global);
@@ -1207,7 +1208,8 @@ proto.pando.api.esign.v1.DocumentListItem.toObject = function(includeInstance, m
     signatoryName: jspb.Message.getFieldWithDefault(msg, 10, ""),
     dateCreatedUtc: (f = msg.getDateCreatedUtc()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f),
     vaultDocumentGuid: jspb.Message.getFieldWithDefault(msg, 12, ""),
-    dateCompletedUtc: (f = msg.getDateCompletedUtc()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f)
+    dateCompletedUtc: (f = msg.getDateCompletedUtc()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f),
+    actionType: jspb.Message.getFieldWithDefault(msg, 14, 0)
   };
 
   if (includeInstance) {
@@ -1297,6 +1299,10 @@ proto.pando.api.esign.v1.DocumentListItem.deserializeBinaryFromReader = function
       var value = new google_protobuf_timestamp_pb.Timestamp;
       reader.readMessage(value,google_protobuf_timestamp_pb.Timestamp.deserializeBinaryFromReader);
       msg.setDateCompletedUtc(value);
+      break;
+    case 14:
+      var value = /** @type {!proto.pando.api.esign.v1.ActionType} */ (reader.readEnum());
+      msg.setActionType(value);
       break;
     default:
       reader.skipField();
@@ -1418,6 +1424,13 @@ proto.pando.api.esign.v1.DocumentListItem.serializeBinaryToWriter = function(mes
       13,
       f,
       google_protobuf_timestamp_pb.Timestamp.serializeBinaryToWriter
+    );
+  }
+  f = message.getActionType();
+  if (f !== 0.0) {
+    writer.writeEnum(
+      14,
+      f
     );
   }
 };
@@ -1692,6 +1705,24 @@ proto.pando.api.esign.v1.DocumentListItem.prototype.clearDateCompletedUtc = func
  */
 proto.pando.api.esign.v1.DocumentListItem.prototype.hasDateCompletedUtc = function() {
   return jspb.Message.getField(this, 13) != null;
+};
+
+
+/**
+ * optional ActionType action_type = 14;
+ * @return {!proto.pando.api.esign.v1.ActionType}
+ */
+proto.pando.api.esign.v1.DocumentListItem.prototype.getActionType = function() {
+  return /** @type {!proto.pando.api.esign.v1.ActionType} */ (jspb.Message.getFieldWithDefault(this, 14, 0));
+};
+
+
+/**
+ * @param {!proto.pando.api.esign.v1.ActionType} value
+ * @return {!proto.pando.api.esign.v1.DocumentListItem} returns this
+ */
+proto.pando.api.esign.v1.DocumentListItem.prototype.setActionType = function(value) {
+  return jspb.Message.setProto3EnumField(this, 14, value);
 };
 
 
@@ -3763,6 +3794,17 @@ proto.pando.api.esign.v1.SignatureType = {
   GENERATED: 0,
   HANDWRITTEN: 1,
   NOT_SET: 2
+};
+
+/**
+ * @enum {number}
+ */
+proto.pando.api.esign.v1.ActionType = {
+  ACKNOWLEDGE: 0,
+  DECLINE: 1,
+  OPTIN: 2,
+  OPTOUT: 3,
+  SIGN: 4
 };
 
 goog.object.extend(exports, proto.pando.api.esign.v1);

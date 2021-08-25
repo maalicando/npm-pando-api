@@ -41,7 +41,6 @@ goog.exportSymbol('proto.pando.api.survey.v1.MediaInfo', null, global);
 goog.exportSymbol('proto.pando.api.survey.v1.MediaList', null, global);
 goog.exportSymbol('proto.pando.api.survey.v1.MediaLocation', null, global);
 goog.exportSymbol('proto.pando.api.survey.v1.PlaybackData', null, global);
-goog.exportSymbol('proto.pando.api.survey.v1.PlaybackData.MediaOrVariableGuidCase', null, global);
 goog.exportSymbol('proto.pando.api.survey.v1.PlaybackDataList', null, global);
 goog.exportSymbol('proto.pando.api.survey.v1.Question', null, global);
 goog.exportSymbol('proto.pando.api.survey.v1.QuestionWithPlaybackData', null, global);
@@ -217,7 +216,7 @@ if (goog.DEBUG && !COMPILED) {
  * @constructor
  */
 proto.pando.api.survey.v1.PlaybackData = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, null, proto.pando.api.survey.v1.PlaybackData.oneofGroups_);
+  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
 goog.inherits(proto.pando.api.survey.v1.PlaybackData, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
@@ -2361,32 +2360,6 @@ proto.pando.api.survey.v1.SurveyList.prototype.hasPagination = function() {
 
 
 
-/**
- * Oneof group definitions for this message. Each group defines the field
- * numbers belonging to that group. When of these fields' value is set, all
- * other fields in the group are cleared. During deserialization, if multiple
- * fields are encountered for a group, only the last value seen will be kept.
- * @private {!Array<!Array<number>>}
- * @const
- */
-proto.pando.api.survey.v1.PlaybackData.oneofGroups_ = [[5,10]];
-
-/**
- * @enum {number}
- */
-proto.pando.api.survey.v1.PlaybackData.MediaOrVariableGuidCase = {
-  MEDIA_OR_VARIABLE_GUID_NOT_SET: 0,
-  MEDIA_GUID: 5,
-  VARIABLE_GUID: 10
-};
-
-/**
- * @return {proto.pando.api.survey.v1.PlaybackData.MediaOrVariableGuidCase}
- */
-proto.pando.api.survey.v1.PlaybackData.prototype.getMediaOrVariableGuidCase = function() {
-  return /** @type {proto.pando.api.survey.v1.PlaybackData.MediaOrVariableGuidCase} */(jspb.Message.computeOneofCase(this, proto.pando.api.survey.v1.PlaybackData.oneofGroups_[0]));
-};
-
 
 
 if (jspb.Message.GENERATE_TO_OBJECT) {
@@ -2425,7 +2398,8 @@ proto.pando.api.survey.v1.PlaybackData.toObject = function(includeInstance, msg)
     isDeleted: jspb.Message.getBooleanFieldWithDefault(msg, 8, false),
     fileType: jspb.Message.getFieldWithDefault(msg, 9, 0),
     mediaGuid: jspb.Message.getFieldWithDefault(msg, 5, ""),
-    variableGuid: jspb.Message.getFieldWithDefault(msg, 10, "")
+    variableGuid: jspb.Message.getFieldWithDefault(msg, 10, ""),
+    mediaName: jspb.Message.getFieldWithDefault(msg, 11, "")
   };
 
   if (includeInstance) {
@@ -2493,6 +2467,10 @@ proto.pando.api.survey.v1.PlaybackData.deserializeBinaryFromReader = function(ms
     case 10:
       var value = /** @type {string} */ (reader.readString());
       msg.setVariableGuid(value);
+      break;
+    case 11:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setMediaName(value);
       break;
     default:
       reader.skipField();
@@ -2565,17 +2543,24 @@ proto.pando.api.survey.v1.PlaybackData.serializeBinaryToWriter = function(messag
       f
     );
   }
-  f = /** @type {string} */ (jspb.Message.getField(message, 5));
-  if (f != null) {
+  f = message.getMediaGuid();
+  if (f.length > 0) {
     writer.writeString(
       5,
       f
     );
   }
-  f = /** @type {string} */ (jspb.Message.getField(message, 10));
-  if (f != null) {
+  f = message.getVariableGuid();
+  if (f.length > 0) {
     writer.writeString(
       10,
+      f
+    );
+  }
+  f = message.getMediaName();
+  if (f.length > 0) {
+    writer.writeString(
+      11,
       f
     );
   }
@@ -2704,25 +2689,7 @@ proto.pando.api.survey.v1.PlaybackData.prototype.getMediaGuid = function() {
  * @return {!proto.pando.api.survey.v1.PlaybackData} returns this
  */
 proto.pando.api.survey.v1.PlaybackData.prototype.setMediaGuid = function(value) {
-  return jspb.Message.setOneofField(this, 5, proto.pando.api.survey.v1.PlaybackData.oneofGroups_[0], value);
-};
-
-
-/**
- * Clears the field making it undefined.
- * @return {!proto.pando.api.survey.v1.PlaybackData} returns this
- */
-proto.pando.api.survey.v1.PlaybackData.prototype.clearMediaGuid = function() {
-  return jspb.Message.setOneofField(this, 5, proto.pando.api.survey.v1.PlaybackData.oneofGroups_[0], undefined);
-};
-
-
-/**
- * Returns whether this field is set.
- * @return {boolean}
- */
-proto.pando.api.survey.v1.PlaybackData.prototype.hasMediaGuid = function() {
-  return jspb.Message.getField(this, 5) != null;
+  return jspb.Message.setProto3StringField(this, 5, value);
 };
 
 
@@ -2740,25 +2707,25 @@ proto.pando.api.survey.v1.PlaybackData.prototype.getVariableGuid = function() {
  * @return {!proto.pando.api.survey.v1.PlaybackData} returns this
  */
 proto.pando.api.survey.v1.PlaybackData.prototype.setVariableGuid = function(value) {
-  return jspb.Message.setOneofField(this, 10, proto.pando.api.survey.v1.PlaybackData.oneofGroups_[0], value);
+  return jspb.Message.setProto3StringField(this, 10, value);
 };
 
 
 /**
- * Clears the field making it undefined.
+ * optional string media_name = 11;
+ * @return {string}
+ */
+proto.pando.api.survey.v1.PlaybackData.prototype.getMediaName = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 11, ""));
+};
+
+
+/**
+ * @param {string} value
  * @return {!proto.pando.api.survey.v1.PlaybackData} returns this
  */
-proto.pando.api.survey.v1.PlaybackData.prototype.clearVariableGuid = function() {
-  return jspb.Message.setOneofField(this, 10, proto.pando.api.survey.v1.PlaybackData.oneofGroups_[0], undefined);
-};
-
-
-/**
- * Returns whether this field is set.
- * @return {boolean}
- */
-proto.pando.api.survey.v1.PlaybackData.prototype.hasVariableGuid = function() {
-  return jspb.Message.getField(this, 10) != null;
+proto.pando.api.survey.v1.PlaybackData.prototype.setMediaName = function(value) {
+  return jspb.Message.setProto3StringField(this, 11, value);
 };
 
 
