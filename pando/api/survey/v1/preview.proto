@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+// do not change the package name
+package pando.api.survey.v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+import "pando/api/extensions.proto";
+import "pando/api/shared.proto";
+import "pando/api/survey/v1/shared.proto";
+
+// these must be the same in all 'pando.survey.v1' proto files
+option csharp_namespace = "Pando.Api.Survey.V1";
+option java_multiple_files = true;
+option java_package = "com.pando.api.survey.v1";
+option ruby_package = "Pando::Api::Survey::V1";
+
+// /api/v1/preview
+service PreviewService {
+    option (pando.api.service).required_scope = "survey";
+    option (pando.api.service).required_scope = "personal_info";
+
+    rpc GetNextQuestionPreview(GetNextQuestionPreviewRequest) returns (GetNextQuestionPreviewResponse) {
+        option (pando.api.method).required_claim = "survey:instance,read";
+        option (google.api.http) = {
+            get: "/api/v1/preview/question-preview/next"
+        };
+    }
+}
+
+message GetNextQuestionPreviewRequest {
+    map<string, string> question_answers = 1;
+    string question_guid = 2;
+    string survey_version_guid = 3;
+    DataRecord data_record = 4;
+}
+
+message GetNextQuestionPreviewResponse {
+    string question_guid = 1;
+}

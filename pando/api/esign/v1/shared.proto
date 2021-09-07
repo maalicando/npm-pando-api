@@ -127,6 +127,7 @@ message Template {
 
 message TemplateList {
     repeated Template templates = 1;
+    PaginationResult pagination = 100;
 }
 
 message SignatoryInfo {

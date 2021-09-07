@@ -1,0 +1,41 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+    	<TargetFrameworks>netstandard2.0;netcoreapp3.1;net5.0</TargetFrameworks>
+		<Authors>Pando Holdings LLC</Authors>
+		<Company>Pando Holdings LLC</Company>
+		<Product>Pando Public API</Product>
+		<RepositoryUrl>https://bitbucket.org/pandodev/public-api/</RepositoryUrl>
+		<Version>1.3.0-develop.4</Version>
+		<PackageProjectUrl>https://bitbucket.org/pandodev/public-api/</PackageProjectUrl>
+		<Description>Pando Public API pre-compiled gRPC Client librarires.</Description>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+	  <DocumentationFile>..\Pando.Api.xml</DocumentationFile>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+	  <DocumentationFile>..\Pando.Api.xml</DocumentationFile>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Protobuf Include="../../../pando/**/*.proto" ProtoRoot="../../../" GrpcServices="Both" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Google.Api.Gax.Grpc" Version="3.2.0" />
+		<PackageReference Include="Grpc.Core" Version="2.37.0" />
+		<PackageReference Include="Grpc.Tools" Version="2.36.4">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="NuGet.CommandLine" Version="5.10.0">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Pando.Api.Core" Version="1.2.5" />
+	</ItemGroup>
+
+</Project>

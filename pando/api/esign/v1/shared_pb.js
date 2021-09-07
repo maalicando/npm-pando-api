@@ -2993,7 +2993,8 @@ proto.pando.api.esign.v1.TemplateList.prototype.toObject = function(opt_includeI
 proto.pando.api.esign.v1.TemplateList.toObject = function(includeInstance, msg) {
   var f, obj = {
     templatesList: jspb.Message.toObjectList(msg.getTemplatesList(),
-    proto.pando.api.esign.v1.Template.toObject, includeInstance)
+    proto.pando.api.esign.v1.Template.toObject, includeInstance),
+    pagination: (f = msg.getPagination()) && pando_api_shared_pb.PaginationResult.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -3035,6 +3036,11 @@ proto.pando.api.esign.v1.TemplateList.deserializeBinaryFromReader = function(msg
       reader.readMessage(value,proto.pando.api.esign.v1.Template.deserializeBinaryFromReader);
       msg.addTemplates(value);
       break;
+    case 100:
+      var value = new pando_api_shared_pb.PaginationResult;
+      reader.readMessage(value,pando_api_shared_pb.PaginationResult.deserializeBinaryFromReader);
+      msg.setPagination(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -3070,6 +3076,14 @@ proto.pando.api.esign.v1.TemplateList.serializeBinaryToWriter = function(message
       1,
       f,
       proto.pando.api.esign.v1.Template.serializeBinaryToWriter
+    );
+  }
+  f = message.getPagination();
+  if (f != null) {
+    writer.writeMessage(
+      100,
+      f,
+      pando_api_shared_pb.PaginationResult.serializeBinaryToWriter
     );
   }
 };
@@ -3110,6 +3124,43 @@ proto.pando.api.esign.v1.TemplateList.prototype.addTemplates = function(opt_valu
  */
 proto.pando.api.esign.v1.TemplateList.prototype.clearTemplatesList = function() {
   return this.setTemplatesList([]);
+};
+
+
+/**
+ * optional pando.api.PaginationResult pagination = 100;
+ * @return {?proto.pando.api.PaginationResult}
+ */
+proto.pando.api.esign.v1.TemplateList.prototype.getPagination = function() {
+  return /** @type{?proto.pando.api.PaginationResult} */ (
+    jspb.Message.getWrapperField(this, pando_api_shared_pb.PaginationResult, 100));
+};
+
+
+/**
+ * @param {?proto.pando.api.PaginationResult|undefined} value
+ * @return {!proto.pando.api.esign.v1.TemplateList} returns this
+*/
+proto.pando.api.esign.v1.TemplateList.prototype.setPagination = function(value) {
+  return jspb.Message.setWrapperField(this, 100, value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
+ * @return {!proto.pando.api.esign.v1.TemplateList} returns this
+ */
+proto.pando.api.esign.v1.TemplateList.prototype.clearPagination = function() {
+  return this.setPagination(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.pando.api.esign.v1.TemplateList.prototype.hasPagination = function() {
+  return jspb.Message.getField(this, 100) != null;
 };
 
 
