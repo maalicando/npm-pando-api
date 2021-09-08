@@ -106,10 +106,14 @@ message CreateOrUpdateTemplateRequest {
 
 message TemplateListRequest {
     string organization_code = 1;
+    string filter = 2;
+    int32 page = 100;
+    int32 results_per_page = 101;
 }
 
 message TemplateList {
     repeated TemplateShort templates = 1;
+    PaginationResult pagination = 2;
 }
 
 message TemplateShort {
