@@ -15,7 +15,6 @@ import esignAdmin from "./pando/api/esign/v1/admin_pb.js";
 import template from "./pando/api/template/v1/template_pb.js";
 import templateAdmin from "./pando/api/template/v1/admin_pb.js";
 import shared from "./pando/api/shared_pb.js";
-import esignShared from "./pando/api/esign/v1/shared_pb.js";
 
 export {
     adminService,
@@ -33,6 +32,5 @@ export {
     esignAdmin,
     template,
     templateAdmin,
-    shared,
-    esignShared
+    shared
 };
