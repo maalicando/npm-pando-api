@@ -680,7 +680,10 @@ proto.pando.api.template.v1.TemplateListRequest.prototype.toObject = function(op
  */
 proto.pando.api.template.v1.TemplateListRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-    organizationCode: jspb.Message.getFieldWithDefault(msg, 1, "")
+    organizationCode: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    filter: jspb.Message.getFieldWithDefault(msg, 2, ""),
+    page: jspb.Message.getFieldWithDefault(msg, 100, 0),
+    resultsPerPage: jspb.Message.getFieldWithDefault(msg, 101, 0)
   };
 
   if (includeInstance) {
@@ -721,6 +724,18 @@ proto.pando.api.template.v1.TemplateListRequest.deserializeBinaryFromReader = fu
       var value = /** @type {string} */ (reader.readString());
       msg.setOrganizationCode(value);
       break;
+    case 2:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setFilter(value);
+      break;
+    case 100:
+      var value = /** @type {number} */ (reader.readInt32());
+      msg.setPage(value);
+      break;
+    case 101:
+      var value = /** @type {number} */ (reader.readInt32());
+      msg.setResultsPerPage(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -757,6 +772,27 @@ proto.pando.api.template.v1.TemplateListRequest.serializeBinaryToWriter = functi
       f
     );
   }
+  f = message.getFilter();
+  if (f.length > 0) {
+    writer.writeString(
+      2,
+      f
+    );
+  }
+  f = message.getPage();
+  if (f !== 0) {
+    writer.writeInt32(
+      100,
+      f
+    );
+  }
+  f = message.getResultsPerPage();
+  if (f !== 0) {
+    writer.writeInt32(
+      101,
+      f
+    );
+  }
 };
 
 
@@ -775,6 +811,60 @@ proto.pando.api.template.v1.TemplateListRequest.prototype.getOrganizationCode = 
  */
 proto.pando.api.template.v1.TemplateListRequest.prototype.setOrganizationCode = function(value) {
   return jspb.Message.setProto3StringField(this, 1, value);
+};
+
+
+/**
+ * optional string filter = 2;
+ * @return {string}
+ */
+proto.pando.api.template.v1.TemplateListRequest.prototype.getFilter = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.pando.api.template.v1.TemplateListRequest} returns this
+ */
+proto.pando.api.template.v1.TemplateListRequest.prototype.setFilter = function(value) {
+  return jspb.Message.setProto3StringField(this, 2, value);
+};
+
+
+/**
+ * optional int32 page = 100;
+ * @return {number}
+ */
+proto.pando.api.template.v1.TemplateListRequest.prototype.getPage = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 100, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.pando.api.template.v1.TemplateListRequest} returns this
+ */
+proto.pando.api.template.v1.TemplateListRequest.prototype.setPage = function(value) {
+  return jspb.Message.setProto3IntField(this, 100, value);
+};
+
+
+/**
+ * optional int32 results_per_page = 101;
+ * @return {number}
+ */
+proto.pando.api.template.v1.TemplateListRequest.prototype.getResultsPerPage = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 101, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.pando.api.template.v1.TemplateListRequest} returns this
+ */
+proto.pando.api.template.v1.TemplateListRequest.prototype.setResultsPerPage = function(value) {
+  return jspb.Message.setProto3IntField(this, 101, value);
 };
 
 
@@ -818,7 +908,8 @@ proto.pando.api.template.v1.TemplateList.prototype.toObject = function(opt_inclu
 proto.pando.api.template.v1.TemplateList.toObject = function(includeInstance, msg) {
   var f, obj = {
     templatesList: jspb.Message.toObjectList(msg.getTemplatesList(),
-    proto.pando.api.template.v1.TemplateShort.toObject, includeInstance)
+    proto.pando.api.template.v1.TemplateShort.toObject, includeInstance),
+    pagination: (f = msg.getPagination()) && pando_api_shared_pb.PaginationResult.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -860,6 +951,11 @@ proto.pando.api.template.v1.TemplateList.deserializeBinaryFromReader = function(
       reader.readMessage(value,proto.pando.api.template.v1.TemplateShort.deserializeBinaryFromReader);
       msg.addTemplates(value);
       break;
+    case 2:
+      var value = new pando_api_shared_pb.PaginationResult;
+      reader.readMessage(value,pando_api_shared_pb.PaginationResult.deserializeBinaryFromReader);
+      msg.setPagination(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -895,6 +991,14 @@ proto.pando.api.template.v1.TemplateList.serializeBinaryToWriter = function(mess
       1,
       f,
       proto.pando.api.template.v1.TemplateShort.serializeBinaryToWriter
+    );
+  }
+  f = message.getPagination();
+  if (f != null) {
+    writer.writeMessage(
+      2,
+      f,
+      pando_api_shared_pb.PaginationResult.serializeBinaryToWriter
     );
   }
 };
@@ -935,6 +1039,43 @@ proto.pando.api.template.v1.TemplateList.prototype.addTemplates = function(opt_v
  */
 proto.pando.api.template.v1.TemplateList.prototype.clearTemplatesList = function() {
   return this.setTemplatesList([]);
+};
+
+
+/**
+ * optional pando.api.PaginationResult pagination = 2;
+ * @return {?proto.pando.api.PaginationResult}
+ */
+proto.pando.api.template.v1.TemplateList.prototype.getPagination = function() {
+  return /** @type{?proto.pando.api.PaginationResult} */ (
+    jspb.Message.getWrapperField(this, pando_api_shared_pb.PaginationResult, 2));
+};
+
+
+/**
+ * @param {?proto.pando.api.PaginationResult|undefined} value
+ * @return {!proto.pando.api.template.v1.TemplateList} returns this
+*/
+proto.pando.api.template.v1.TemplateList.prototype.setPagination = function(value) {
+  return jspb.Message.setWrapperField(this, 2, value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
+ * @return {!proto.pando.api.template.v1.TemplateList} returns this
+ */
+proto.pando.api.template.v1.TemplateList.prototype.clearPagination = function() {
+  return this.setPagination(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.pando.api.template.v1.TemplateList.prototype.hasPagination = function() {
+  return jspb.Message.getField(this, 2) != null;
 };
 
 

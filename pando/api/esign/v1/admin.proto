@@ -148,6 +148,7 @@ message GetTemplateListRequest {
     bool include_deleted = 2;
     int32 page = 100;
     int32 results_per_page = 101;
+    string filter = 102;
 }
 
 message GetESignRequest {

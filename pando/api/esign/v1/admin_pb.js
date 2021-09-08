@@ -1057,7 +1057,8 @@ proto.pando.api.esign.v1.GetTemplateListRequest.toObject = function(includeInsta
     organizationCode: jspb.Message.getFieldWithDefault(msg, 1, ""),
     includeDeleted: jspb.Message.getBooleanFieldWithDefault(msg, 2, false),
     page: jspb.Message.getFieldWithDefault(msg, 100, 0),
-    resultsPerPage: jspb.Message.getFieldWithDefault(msg, 101, 0)
+    resultsPerPage: jspb.Message.getFieldWithDefault(msg, 101, 0),
+    filter: jspb.Message.getFieldWithDefault(msg, 102, "")
   };
 
   if (includeInstance) {
@@ -1109,6 +1110,10 @@ proto.pando.api.esign.v1.GetTemplateListRequest.deserializeBinaryFromReader = fu
     case 101:
       var value = /** @type {number} */ (reader.readInt32());
       msg.setResultsPerPage(value);
+      break;
+    case 102:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setFilter(value);
       break;
     default:
       reader.skipField();
@@ -1164,6 +1169,13 @@ proto.pando.api.esign.v1.GetTemplateListRequest.serializeBinaryToWriter = functi
   if (f !== 0) {
     writer.writeInt32(
       101,
+      f
+    );
+  }
+  f = message.getFilter();
+  if (f.length > 0) {
+    writer.writeString(
+      102,
       f
     );
   }
@@ -1239,6 +1251,24 @@ proto.pando.api.esign.v1.GetTemplateListRequest.prototype.getResultsPerPage = fu
  */
 proto.pando.api.esign.v1.GetTemplateListRequest.prototype.setResultsPerPage = function(value) {
   return jspb.Message.setProto3IntField(this, 101, value);
+};
+
+
+/**
+ * optional string filter = 102;
+ * @return {string}
+ */
+proto.pando.api.esign.v1.GetTemplateListRequest.prototype.getFilter = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 102, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.pando.api.esign.v1.GetTemplateListRequest} returns this
+ */
+proto.pando.api.esign.v1.GetTemplateListRequest.prototype.setFilter = function(value) {
+  return jspb.Message.setProto3StringField(this, 102, value);
 };
 
 
