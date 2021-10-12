@@ -627,13 +627,11 @@ message CreateInstanceRequest {
       DataRecord data = 2;
       string record_guid = 3;
   }
-  oneof user_info {
-      option (pando.api.oneof).request_required = true;
-      ContactInfo contact_info = 4;
-      UserContactInfo user_contact_info = 5;
-  }
+  ContactInfo contact_info = 4 [(pando.api.field).request_required = true];
+  reserved 5;
   string respondent_name = 6 [(pando.api.field).request_required = true];
   bool send_link = 7;
+  string user_id = 8; // if empty, a new User will be generated
 }
 
 message SurveyESignTemplate {

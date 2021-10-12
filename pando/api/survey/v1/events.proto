@@ -22,60 +22,195 @@ option ruby_package = "Pando::Api::TPV::Survey::V1::Events";
     Some Data payloads are repetitive; this is to allow for future expansion.
 */
 
+enum EventTypes {
+    // Instance
+    INSTANCE_CREATED = 0;
+    INSTANCE_RETRIEVED = 1;
+    INSTANCE_DELETED = 2;
+    INSTANCE_COMPLETED = 3;
+
+    // Attempt
+    ATTEMPT_CREATED = 10;
+    ATTEMPT_RETRIEVED = 11;
+    ATTEMPT_COMPLETED = 12;
+
+    // SurveyMedia
+    SURVEY_MEDIA_CREATED = 20;
+    SURVEY_MEDIA_RETRIEVED = 21;
+    SURVEY_MEDIA_DELETED = 22;
+    
+    // AnswerMedia
+    ANSWER_MEDIA_CREATED = 30;
+    ANSWER_MEDIA_RETRIEVED = 31;
+    ANSWER_MEDIA_COMPLETED = 32;
+
+    // Answer
+    ANSWER_CREATED = 40;
+    ANSWER_UPDATED = 41;
+    ANSWER_COMPLETED = 42;
+
+    // Survey
+    SURVEY_CREATED = 50;
+    SURVEY_RETRIEVED = 51;
+    SURVEY_DELETED = 52;
+    SURVEY_UPDATED = 53;
+
+    // Question
+    QUESTION_CREATED = 60;
+    QUESTION_RETRIEVED = 61;
+    QUESTION_DELETED = 62;
+    QUESTION_UPDATED = 63;
+
+    // QuestionDestination
+    QUESTION_DESTINATION_CREATED = 70;
+    QUESTION_DESTINATION_RETRIEVED = 71;
+    QUESTION_DESTINATION_DELETED = 72;
+    QUESTION_DESTINATION_UPDATED = 73;
+
+    // AnswerOption
+    ANSWER_OPTION_CREATED = 80;
+    ANSWER_OPTION_RETRIEVED = 81;
+    ANSWER_OPTION_DELETED = 82;
+    ANSWER_OPTION_UPDATED = 83;
+
+    // PlaybackData
+    PLAYBACK_DATA_CREATED = 90;
+    PLAYBACK_DATA_RETRIEVED = 91;
+    PLAYBACK_DATA_DELETED = 92;
+    PLAYBACK_DATA_UPDATED = 93;
+
+    // Variable
+    VARIABLE_CREATED = 100;
+    VARIABLE_RETRIEVED = 101;
+    VARIABLE_DELETED = 102;
+    VARIABLE_UPDATED = 103;
+
+    // SurveyVariable
+    SURVEY_VARIABLE_CREATED = 110;
+    SURVEY_VARIABLE_RETRIEVED = 111;
+    SURVEY_VARIABLE_DELETED = 112;
+
+    // SurveyVersion
+    SURVEY_VERSION_CREATED = 120;
+
+    // SendInstanceLink
+    SEND_SURVEY_REQUEST = 130;
+
+    // InstanceOwner
+    INSTANCE_OWNER_CREATED = 140;
+    INSTANCE_OWNER_DELETED = 141;
+
+    // InstanceESignSignatory
+    INSTANCE_ESIGN_SIGNATORY_CREATED = 150;
+    INSTANCE_ESIGN_SIGNATORY_DELETED = 151;
+
+    // SurveyESignTemplate
+    SURVEY_ESIGN_TEMPLATE_CREATED = 160;
+    SURVEY_ESIGN_TEMPLATE_DELETED = 161;
+
+    // VariableMedia
+    VARIABLE_MEDIA_CREATED = 170;
+    VARIABLE_MEDIA_DELETED = 171;
+}
+
 /* Survey Execution and Playback */
 
-message SendSurveyRequest{
-    string user_id = 1;
-    string instance_guid = 2;
-    ContactType contact_type = 3;
-    string contact_info = 4;
-    bool contact_overridden = 5;
-    UserMetadata requested_by = 6;
-}
+// Instance
 
-message SurveyCompleted {
-    string survey_id = 1;
-    CompletionType completion_type = 2;
-    UserMetadata user_data = 1000;
-}
-
-message SurveyMediaAccessed {
-    string survey_id = 1;
-    string media_id = 2;
-    UserMetadata user_data = 1000;
-}
-
-message SurveyInstanceAccessed {
-    string instance_id = 1;
-    UserMetadata user_data = 1000;
-}
-
+// INSTANCE_CREATED
 message SurveyInstanceCreated {
     string instance_id = 1;
     UserMetadata user_data = 1000;
 }
 
-message SurveyInstanceClaimed {
+// INSTANCE_RETRIEVED
+message SurveyInstanceAccessed {
     string instance_id = 1;
     UserMetadata user_data = 1000;
 }
 
+// INSTANCE_DELETED
+message SurveyInstanceDeleted {
+    string instance_id = 1;
+    UserMetadata user_data = 1000;
+}
+
+// INSTANCE_COMPLETED
+message SurveyInstanceCompleted {
+    string instance_id = 1;
+    CompletionType completion_type = 2;
+    UserMetadata user_data = 1000;
+}
+
+// Attempt
+
+// ATTEMPT_CREATED
 message SurveyAttemptStarted {
     string attempt_id = 1;
     UserMetadata user_data = 1000;
 }
 
+// ATTEMPT_RETRIEVED
+message SurveyAttemptRetrieved {
+    string attempt_id = 1;
+    UserMetadata user_data = 1000;
+}
+
+// ATTEMPT_COMPLETED
 message SurveyAttemptCompleted {
     string attempt_id = 1;
     CompletionType completion_type = 2;
     UserMetadata user_data = 1000;
 }
 
+// SurveyMedia
+
+// SURVEY_MEDIA_RETRIEVED
+message SurveyMediaAccessed {
+    string survey_id = 1;
+    string media_id = 2;
+    UserMetadata user_data = 1000;
+}
+
+// AnswerMedia
+
+// ANSWER_MEDIA_CREATED
+// event triggered when an individual Survey Answer media file is uploaded.
+message SurveyAnswerMediaUploaded {
+    string answer_id = 1;
+    string media_id = 2;
+    UserMetadata user_data = 1000;
+}
+
+// ANSWER_MEDIA_RETRIEVED
 message SurveyAnswerMediaAccessed {
+    string media_id = 1;
+    UserMetadata user_data = 1000;
+}
+
+// ANSWER_MEDIA_COMPLETED
+// event triggered when all Survey Answer media files for a survey attempt have been uploaded.
+message SurveyAnswerUploadCompleted {
+    string attempt_id = 1;
+    CompletionType attempt_completion_type = 2;
+    UserMetadata user_data = 1000;
+}
+
+// Answer
+
+// ANSWER_CREATED
+message SurveyAnswerCreated {
     string answer_id = 1;
     UserMetadata user_data = 1000;
 }
 
+// ANSWER_RETRIEVED
+message SurveyAnswerRetrieved {
+    string answer_id = 1;
+    UserMetadata user_data = 1000;
+}
+
+// ANSWER_UPDATED
 message SurveyAnswerSaved {
     string answer_id = 1;
     string answer_text = 2;
@@ -84,17 +219,40 @@ message SurveyAnswerSaved {
     UserMetadata user_data = 1000;
 }
 
-// event triggered when an individual Survey Answer media file is uploaded.
-message SurveyAnswerMediaUploaded {
+// ANSWER_COMPLETED
+message SurveyAnswerCompleted {
     string answer_id = 1;
-    string media_id = 2;
+    CompletionType completion_type = 2;
     UserMetadata user_data = 1000;
 }
 
-// event triggered when all Survey Answer media files for a survey attempt have been uploaded.
-message SurveyAnswerUploadCompleted {
-    string attempt_id = 1;
-    CompletionType attempt_completion_type = 2;
+// SendInstanceLink
+
+// SEND_SURVEY_REQUEST
+message SendSurveyRequest {
+    string user_id = 1;
+    string instance_guid = 2;
+    ContactType contact_type = 3;
+    string contact_info = 4;
+    bool contact_overridden = 5;
+    UserMetadata requested_by = 6;
+}
+
+// InstanceOwner
+
+// INSTANCE_OWNER_CREATED
+message InstanceOwnerCreated {
+    string instance_id = 1;
+    repeated string user_ids = 2;
+    repeated string client_ids = 3;
+    UserMetadata user_data = 1000;
+}
+
+// INSTANCE_OWNER_DELETED
+message InstanceOwnerDeleted {
+    string instance_id = 1;
+    repeated string user_ids = 2;
+    repeated string client_ids = 3;
     UserMetadata user_data = 1000;
 }
 
@@ -102,16 +260,43 @@ message SurveyAnswerUploadCompleted {
 
 // "Accessed" events fire when accessed via the Tools UI only.
 
-message SurveyAccessed {
+// SurveyMedia
+
+// SURVEY_MEDIA_CREATED
+message SurveyMediaUploaded {
     string survey_id = 1;
+    string media_id = 2;
     UserMetadata user_data = 1000;
 }
 
+// SURVEY_MEDIA_DELETED
+message SurveyMediaDeleted {
+    string survey_id = 1;
+    string media_id = 2;
+    UserMetadata user_data = 1000;
+}
+
+// Survey
+
+// SURVEY_CREATED
 message SurveyCreated {
     string survey_id = 1;
     UserMetadata user_data = 1000;
 }
 
+// SURVEY_RETRIEVED
+message SurveyAccessed {
+    string survey_id = 1;
+    UserMetadata user_data = 1000;
+}
+
+// SURVEY_DELETED
+message SurveyDeleted {
+    string survey_id = 1;
+    UserMetadata user_data = 1000;
+}
+
+// SURVEY_UPDATED
 message SurveyChanged {
     string survey_id = 1;
     Survey old_model = 2;
@@ -119,21 +304,27 @@ message SurveyChanged {
     UserMetadata user_data = 1000;
 }
 
-message SurveyDeleted {
-    string survey_id = 1;
-    UserMetadata user_data = 1000;
-}
+// Question
 
-message SurveyQuestionAccessed {
-    string question_id = 1;
-    UserMetadata user_data = 1000;
-}
-
+// QUESTION_CREATED
 message SurveyQuestionCreated {
     string question_id = 1;
     UserMetadata user_data = 1000;
 }
 
+// QUESTION_RETRIEVED
+message SurveyQuestionAccessed {
+    string question_id = 1;
+    UserMetadata user_data = 1000;
+}
+
+// QUESTION_DELETED
+message SurveyQuestionDeleted {
+    string question_id = 1;
+    UserMetadata user_data = 1000;
+}
+
+// QUESTION_UPDATED
 message SurveyQuestionChanged {
     string question_id = 1;
     Question old_model = 2;
@@ -141,21 +332,27 @@ message SurveyQuestionChanged {
     UserMetadata user_data = 1000;
 }
 
-message SurveyQuestionDeleted {
-    string question_id = 1;
-    UserMetadata user_data = 1000;
-}
+// QuestionDestination
 
-message SurveyQuestionDestinationAccessed {
-    string survey_question_destination_id = 1;
-    UserMetadata user_data = 1000;
-}
-
+// QUESTION_DESTINATION_CREATED
 message SurveyQuestionDestinationCreated {
     string survey_question_destination_id = 1;
     UserMetadata user_data = 1000;
 }
 
+// QUESTION_DESTINATION_RETRIEVED
+message SurveyQuestionDestinationAccessed {
+    string survey_question_destination_id = 1;
+    UserMetadata user_data = 1000;
+}
+
+// QUESTION_DESTINATION_DELETED
+message SurveyQuestionDestinationDeleted {
+    string survey_question_destination_id = 1;
+    UserMetadata user_data = 1000;
+}
+
+// QUESTION_DESTINATION_UPDATED
 message SurveyQuestionDestinationChanged {
     string survey_question_destination_id = 1;
     SurveyQuestionDestination old_model = 2;
@@ -163,57 +360,58 @@ message SurveyQuestionDestinationChanged {
     UserMetadata user_data = 1000;
 }
 
-message SurveyQuestionDestinationDeleted {
-    string survey_question_destination_id = 1;
-    UserMetadata user_data = 1000;
-}
+// AnswerOption
 
-message AnswerOptionAccessed {
-    string answer_option_id = 1;
-    UserMetadata user_data = 1000;
-}
-
+// ANSWER_OPTION_CREATED
 message AnswerOptionCreated {
     string answer_option_id = 1;
     UserMetadata user_data = 1000;
 }
 
-message AnswerOptionChanged {
+// ANSWER_OPTION_RETRIEVED
+message AnswerOptionAccessed {
     string answer_option_id = 1;
-    SurveyQuestionDestination old_model = 2;
-    SurveyQuestionDestination new_model = 3;
     UserMetadata user_data = 1000;
 }
 
+// ANSWER_OPTION_DELETED
 message AnswerOptionDeleted {
     string answer_option_id = 1;
     UserMetadata user_data = 1000;
 }
 
-message SurveyMediaUploaded {
-    string survey_media_id = 1;
-    string media_id = 2;
+// ANSWER_OPTION_UPDATED
+message AnswerOptionChanged {
+    string answer_option_id = 1;
+    AnswerOption old_model = 2;
+    AnswerOption new_model = 3;
     UserMetadata user_data = 1000;
 }
 
-message SurveyMediaDeleted {
-    string survey_media_id = 1;
-    string media_id = 2;
-    UserMetadata user_data = 1000;
-}
+// PlaybackData
 
-message PlaybackDataAccessed {
-    string playback_data_id = 1;
-    string question_id = 2;
-    UserMetadata user_data = 1000;
-}
-
+// PLAYBACK_DATA_CREATED
 message PlaybackDataCreated {
     string playback_data_id = 1;
     string question_id = 2;
     UserMetadata user_data = 1000;
 }
 
+// PLAYBACK_DATA_RETRIEVED
+message PlaybackDataAccessed {
+    string playback_data_id = 1;
+    string question_id = 2;
+    UserMetadata user_data = 1000;
+}
+
+// PLAYBACK_DATA_DELETED
+message PlaybackDataDeleted {
+    string question_id = 1;
+    string playback_data_id = 2;
+    UserMetadata user_data = 1000;
+}
+
+// PLAYBACK_DATA_UPDATED
 message PlaybackDataChanged {
     string playback_data_id = 1;
     string question_id = 2;
@@ -222,30 +420,112 @@ message PlaybackDataChanged {
     UserMetadata user_data = 1000;
 }
 
-message PlaybackDataDeleted {
-    string question_id = 1;
-    string playback_data_id = 2;
-    UserMetadata user_data = 1000;
-}
+// Variable
 
-message SurveyVariableAccessed {
+// VARIABLE_CREATED
+message VariableCreated {
     string variable_id = 1;
     UserMetadata user_data = 1000;
 }
 
-message SurveyVariableCreated {
+// VARIABLE_RETRIEVED
+message VariableRetrieved {
     string variable_id = 1;
     UserMetadata user_data = 1000;
 }
 
-message SurveyVariableChanged {
+// VARIABLE_DELETED
+message VariableDeleted {
+    string variable_id = 1;
+    UserMetadata user_data = 1000;
+}
+
+// VARIABLE_UPDATED
+message VariableUpdated {
     string variable_id = 1;
     Variable old_model = 2;
     Variable new_model = 3;
     UserMetadata user_data = 1000;
 }
 
+// SurveyVariable
+
+// SURVEY_VARIABLE_CREATED
+message SurveyVariableCreated {
+    string variable_id = 1;
+    string survey_id = 2;
+    UserMetadata user_data = 1000;
+}
+
+
+// SURVEY_VARIABLE_RETRIEVED
+message SurveyVariableAccessed {
+    string variable_id = 1;
+    string survey_id = 2;
+    UserMetadata user_data = 1000;
+}
+
+// SURVEY_VARIABLE_DELETED
 message SurveyVariableDeleted {
     string variable_id = 1;
+    string survey_id = 2;
+    UserMetadata user_data = 1000;
+}
+
+// SurveyVersion
+
+// SURVEY_VERSION_CREATED
+message SurveyVersionCreated {
+    string version_id = 1;
+    string survey_id = 2;
+    UserMetadata user_data = 1000;
+}
+
+// InstanceESignSignatory
+
+// INSTANCE_ESIGN_SIGNATORY_CREATED
+message InstanceESignSignatoryCreated {
+    string instance_id = 1;
+    string signatory_id = 2;
+    UserMetadata user_data = 1000;
+}
+
+// INSTANCE_ESIGN_SIGNATORY_DELETED
+message InstanceESignSignatoryDeleted {
+    string instance_id = 1;
+    UserMetadata user_data = 1000;
+}
+
+// SurveyESignTemplate
+
+// SURVEY_ESIGN_TEMPLATE_CREATED
+message SurveyESignTemplateCreated {
+    string survey_id = 1;
+    string template_id = 2;
+    UserMetadata user_data = 1000;
+}
+
+// SURVEY_ESIGN_TEMPLATE_DELETED
+message SurveyESignTemplateDeleted {
+    string survey_id = 1;
+    string template_id = 2;
+    UserMetadata user_data = 1000;
+}
+
+// VariableMedia
+
+// VARIABLE_MEDIA_CREATED
+message VariableMediaCreated {
+    string variable_id = 1;
+    string media_id = 2;
+    string variable_value = 3;
+    UserMetadata user_data = 1000;
+}
+
+// VARIABLE_MEDIA_DELETED
+message VariableMediaDeleted {
+    string variable_id = 1;
+    string media_id = 2;
+    string variable_value = 3;
     UserMetadata user_data = 1000;
 }

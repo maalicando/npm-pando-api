@@ -1,0 +1,142 @@
+syntax = "proto3";
+
+// do not change the package name
+package pando.api.communication.v1.events;
+
+import "pando/api/shared.proto";
+
+// these must be the same in all 'pando.api.communication.v1' proto files
+option csharp_namespace = "Pando.Api.Communication.V1.Events";
+option java_multiple_files = true;
+option java_package = "com.pando.api.communication.v1.events";
+option ruby_package = "Pando::Api::Communication::V1::Events";
+
+/* This file does not define a service */
+
+/*
+    Pando events conform to the CloudEvents specification (https://github.com/cloudevents/spec)
+
+    These messages define the event Data, which is the payload a consumer may expect.
+
+    Some Data payloads are repetitive; this is to allow for future expansion.
+*/
+
+enum EventTypes {
+    // Message
+    MESSAGE_CREATED = 0;
+    MESSAGE_SENT = 1;
+    // Message could not be sent to a recipient.
+    MESSAGE_UNDELIVERABLE = 2;
+    // Error occured before attempting to send the message to any recipients.
+    MESSAGE_ERROR = 3;
+
+    // OrganizationContactInfo
+    ORGANIZATION_CONTACT_INFO_CREATED = 10;
+    ORGANIZATION_CONTACT_INFO_RETRIEVED = 11;
+    ORGANIZATION_CONTACT_INFO_DELETED = 12;
+
+    // DefaultOrganizationContactInfo
+    DEFAULT_ORGANIZATION_CONTACT_INFO_CREATED = 20;
+    DEFAULT_ORGANIZATION_CONTACT_INFO_RETRIEVED = 21;
+    DEFAULT_ORGANIZATION_CONTACT_INFO_UPDATED = 22;
+
+    // Template
+    TEMPLATE_CREATED = 30;
+    TEMPLATE_RETRIEVED = 31;
+    TEMPLATE_UPDATED = 32;
+    TEMPLATE_DELETED = 33;
+}
+
+// Message
+
+// MESSAGE_CREATED
+message MessageCreated {
+    string message_id = 1;
+    UserMetadata user_data = 1000;
+}
+
+// MESSAGE_SENT
+message MessageSent {
+    string message_id = 1;
+    UserMetadata user_data = 1000;
+}
+
+// MESSAGE_UNDELIVERABLE
+message MessageUndeliverable {
+    string message_id = 1;
+    string error_message = 2;
+    UserMetadata user_data = 1000;
+}
+
+// MESSAGE_ERROR
+message MessageError {
+    string message_id = 1;
+    string error_message = 2;
+    UserMetadata user_data = 1000;
+}
+
+// OrganizationContactInfo
+
+// ORGANIZATION_CONTACT_INFO_CREATED
+message OrganizationContactInfoCreated {
+    string contact_info_id = 1;
+    UserMetadata user_data = 1000;
+}
+
+// ORGANIZATION_CONTACT_INFO_RETRIEVED
+message OrganizationContactInfoRetrieved {
+    string contact_info_id = 1;
+    UserMetadata user_data = 1000;
+}
+
+// ORGANIZATION_CONTACT_INFO_DELETED
+message OrganizationContactInfoDeleted {
+    string contact_info_id = 1;
+    UserMetadata user_data = 1000;
+}
+
+// DefaultOrganizationContactInfo
+
+// DEFAULT_ORGANIZATION_CONTACT_INFO_CREATED
+message DefaultOrganizationContactInfoCreated {
+    string organization_code = 1;
+    UserMetadata user_data = 1000;
+}
+
+// DEFAULT_ORGANIZATION_CONTACT_INFO_RETRIEVED
+message DefaultOrganizationContactInfoRetrieved {
+    string organization_code = 1;
+    UserMetadata user_data = 1000;
+}
+
+// DEFAULT_ORGANIZATION_CONTACT_INFO_UPDATED
+message DefaultOrganizationContactInfoUpdated {
+    string organization_code = 1;
+    UserMetadata user_data = 1000;
+}
+
+// Template
+
+// TEMPLATE_CREATED
+message TemplateCreated {
+    string template_id = 1;
+    UserMetadata user_data = 1000;
+}
+
+// TEMPLATE_RETRIEVED
+message TemplateRetrieved {
+    string template_id = 1;
+    UserMetadata user_data = 1000;
+}
+
+// TEMPLATE_UPDATED
+message TemplateUpdated {
+    string template_id = 1;
+    UserMetadata user_data = 1000;
+}
+
+// TEMPLATE_DELETED
+message TemplateDeleted {
+    string template_id = 1;
+    UserMetadata user_data = 1000;
+}

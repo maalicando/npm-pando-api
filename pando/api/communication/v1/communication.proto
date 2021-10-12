@@ -1,0 +1,78 @@
+syntax = "proto3";
+
+// do not change the package name
+package pando.api.communication.v1;
+
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+import "pando/api/extensions.proto";
+import "pando/api/shared.proto";
+
+// these must be the same in all 'pando.api.communication.v1' proto files
+option csharp_namespace = "Pando.Api.Communication.V1";
+option java_multiple_files = true;
+option java_package = "com.pando.api.communication.v1";
+option ruby_package = "Pando::Api::Communication::V1";
+
+service CommunicationService {
+	option (pando.api.service).required_scope = "communication";
+	
+	rpc ExecSendMessage(SendMessageRequest) returns (SendMessageResponse) {
+		option (pando.api.method).required_claim = "communication:send_message";
+		option (google.api.http) = {
+			post: "/api/v1/communication/message/send",
+			body: "*"
+		};
+	}
+}
+
+message SendMessageRequest {
+	string template_id = 1 [(pando.api.field).request_required = true];
+	// Message is sent immediately if not populated.
+	google.protobuf.Timestamp date_to_send = 2 [(pando.api.field).request_required = false];
+	// Uses default organization phone number if nothing is provided.
+	oneof from_phone_option {
+		string from_phone_id = 3 [(pando.api.field).request_required = false];
+		string from_phone = 4 [(pando.api.field).request_required = false];
+	}
+	// Uses default organization email address if nothing is provided.
+	oneof from_email_option {
+		string from_email_id = 5 [(pando.api.field).request_required = false];
+		string from_email = 6 [(pando.api.field).request_required = false];
+	}
+	oneof data_source {
+		string vault_record_id = 7 [(pando.api.field).request_required = false];
+		DataRecord data_record = 8 [(pando.api.field).request_required = false];
+		KeyValueMap key_values = 9 [(pando.api.field).request_required = false];
+	}
+	// Either recipient_group_id or recipient_list is required.
+	oneof recipients {
+		string recipient_group_id = 10;
+		RecipientList recipient_list = 11;
+	}
+}
+
+message RecipientList {
+	repeated Recipient recipients = 1;
+}
+
+message Recipient {
+	ContactInfo contact_info = 1;
+	EmailType email_type = 2;
+}
+
+message SendMessageResponse {
+	string message_id = 1;
+	string recipient_group_id = 2;
+}
+
+message KeyValueMap {
+    map<string, string> key_values = 1;
+}
+
+enum EmailType {
+	UNSET_EMAIL_TYPE = 0;
+	TO = 1;
+	CC = 2;
+	BCC = 3;
+}

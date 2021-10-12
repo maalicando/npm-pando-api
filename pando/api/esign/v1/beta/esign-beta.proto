@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+// do not change the package name
+package pando.api.esign.v1;
+
+import "google/api/annotations.proto";
+import "pando/api/extensions.proto";
+import "pando/api/shared.proto";
+
+// these must be the same in all 'pando.api.esign.v1' proto files
+option csharp_namespace = "Pando.Api.ESign.V1";
+option java_multiple_files = true;
+option java_package = "com.pando.api.esign.v1";
+option ruby_package = "Pando::Api::ESign::V1";
+
+// /api/v1/beta/esign
+service ESignBetaService {
+    option (pando.api.service).required_scope = "esign";
+    option (pando.api.service).required_scope = "personal_info";
+
+    rpc ExecClaimSignatory(ExecClaimSignatoryRequest) returns (pando.api.Empty) {
+        option (google.api.http) = {
+            post: "/api/v1/beta/esign/signatory/claim"
+        };
+    }
+}
+
+message ExecClaimSignatoryRequest {
+    string signatory_guid = 1;
+    string claim_code = 2;
+}

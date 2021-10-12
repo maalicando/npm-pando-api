@@ -1768,7 +1768,7 @@ proto.pando.api.template.v1.TemplateRequest.prototype.hasTemplateVersionId = fun
  * @private {!Array<number>}
  * @const
  */
-proto.pando.api.template.v1.Template.repeatedFields_ = [6];
+proto.pando.api.template.v1.Template.repeatedFields_ = [6,10];
 
 /**
  * Oneof group definitions for this message. Each group defines the field
@@ -1835,7 +1835,9 @@ proto.pando.api.template.v1.Template.toObject = function(includeInstance, msg) {
     templatePdfBytes: msg.getTemplatePdfBytes_asB64(),
     variablesList: jspb.Message.toObjectList(msg.getVariablesList(),
     proto.pando.api.template.v1.TemplateVariable.toObject, includeInstance),
-    templateType: jspb.Message.getFieldWithDefault(msg, 8, 0)
+    templateType: jspb.Message.getFieldWithDefault(msg, 8, 0),
+    templateVersionId: jspb.Message.getFieldWithDefault(msg, 9, ""),
+    referencedTemplateVersionIdsList: (f = jspb.Message.getRepeatedField(msg, 10)) == null ? undefined : f
   };
 
   if (includeInstance) {
@@ -1904,6 +1906,14 @@ proto.pando.api.template.v1.Template.deserializeBinaryFromReader = function(msg,
     case 8:
       var value = /** @type {!proto.pando.api.template.v1.TemplateType} */ (reader.readEnum());
       msg.setTemplateType(value);
+      break;
+    case 9:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setTemplateVersionId(value);
+      break;
+    case 10:
+      var value = /** @type {string} */ (reader.readString());
+      msg.addReferencedTemplateVersionIds(value);
       break;
     default:
       reader.skipField();
@@ -1988,6 +1998,20 @@ proto.pando.api.template.v1.Template.serializeBinaryToWriter = function(message,
   if (f !== 0.0) {
     writer.writeEnum(
       8,
+      f
+    );
+  }
+  f = message.getTemplateVersionId();
+  if (f.length > 0) {
+    writer.writeString(
+      9,
+      f
+    );
+  }
+  f = message.getReferencedTemplateVersionIdsList();
+  if (f.length > 0) {
+    writer.writeRepeatedString(
+      10,
       f
     );
   }
@@ -2215,6 +2239,61 @@ proto.pando.api.template.v1.Template.prototype.getTemplateType = function() {
  */
 proto.pando.api.template.v1.Template.prototype.setTemplateType = function(value) {
   return jspb.Message.setProto3EnumField(this, 8, value);
+};
+
+
+/**
+ * optional string template_version_id = 9;
+ * @return {string}
+ */
+proto.pando.api.template.v1.Template.prototype.getTemplateVersionId = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 9, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.pando.api.template.v1.Template} returns this
+ */
+proto.pando.api.template.v1.Template.prototype.setTemplateVersionId = function(value) {
+  return jspb.Message.setProto3StringField(this, 9, value);
+};
+
+
+/**
+ * repeated string referenced_template_version_ids = 10;
+ * @return {!Array<string>}
+ */
+proto.pando.api.template.v1.Template.prototype.getReferencedTemplateVersionIdsList = function() {
+  return /** @type {!Array<string>} */ (jspb.Message.getRepeatedField(this, 10));
+};
+
+
+/**
+ * @param {!Array<string>} value
+ * @return {!proto.pando.api.template.v1.Template} returns this
+ */
+proto.pando.api.template.v1.Template.prototype.setReferencedTemplateVersionIdsList = function(value) {
+  return jspb.Message.setField(this, 10, value || []);
+};
+
+
+/**
+ * @param {string} value
+ * @param {number=} opt_index
+ * @return {!proto.pando.api.template.v1.Template} returns this
+ */
+proto.pando.api.template.v1.Template.prototype.addReferencedTemplateVersionIds = function(value, opt_index) {
+  return jspb.Message.addToRepeatedField(this, 10, value, opt_index);
+};
+
+
+/**
+ * Clears the list making it empty but non-null.
+ * @return {!proto.pando.api.template.v1.Template} returns this
+ */
+proto.pando.api.template.v1.Template.prototype.clearReferencedTemplateVersionIdsList = function() {
+  return this.setReferencedTemplateVersionIdsList([]);
 };
 
 

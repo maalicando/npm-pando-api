@@ -1,0 +1,170 @@
+syntax = "proto3";
+
+// do not change the package name
+package pando.api.communication.v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/field_mask.proto";
+import "pando/api/extensions.proto";
+import "pando/api/shared.proto";
+
+// these must be the same in all 'pando.api.communication.v1' proto files
+option csharp_namespace = "Pando.Api.Communication.V1";
+option java_multiple_files = true;
+option java_package = "com.pando.api.communication.v1";
+option ruby_package = "Pando::Api::Communication::V1";
+
+service CommunicationAdminService {
+	option (pando.api.service).required_scope = "communication:admin";
+
+	// Create/Update
+	rpc CreateOrganizationContactInfo(OrganizationContactInfo) returns (OrganizationContactInfo) {
+		option (pando.api.method).required_claim = "communication:contact_info,write";
+		option (google.api.http) = {
+			post: "/api/v1/communication/organization/contact-info",
+			body: "*"
+		};
+	}
+
+	rpc CreateOrUpdateDefaultOrganizationContactInfo(CreateOrUpdateDefaultOrganizationContactInfoRequest) returns (DefaultOrganizationContactInfo) {
+		option (pando.api.method).required_claim = "communication:contact_info,write";
+		option (google.api.http) = {
+			post: "/api/v1/communication/organization/default-contact-info",
+			body: "*"
+		};
+	}
+
+	rpc CreateOrUpdateTemplate(CreateOrUpdateTemplateRequest) returns (Template) {
+		option (pando.api.method).required_claim = "communication:template,write";
+		option (google.api.http) = {
+			post: "/api/v1/communication/template",
+			body: "*"
+		};
+	}
+
+	// Read
+	rpc GetOrganizationContactInfo(GetOrganizationContactInfoRequest) returns (OrganizationContactInfo) {
+		option (pando.api.method).required_claim = "communication:contact_info,read";
+		option (google.api.http) = {
+			get: "/api/v1/communication/organization/contact-info"
+		};
+	}
+
+	rpc GetOrganizationContactInfoList(GetOrganizationContactInfoListRequest) returns (OrganizationContactInfoList) {
+		option (pando.api.method).required_claim = "communication:contact_info,read";
+		option (google.api.http) = {
+			get: "/api/v1/communication/organization/contact-info-list"
+		};
+	}
+
+	rpc GetDefaultOrganizationContactInfo(GetDefaultOrganizationContactInfoRequest) returns (DefaultOrganizationContactInfo) {
+		option (pando.api.method).required_claim = "communication:contact_info,read";
+		option (google.api.http) = {
+			get: "/api/v1/communication/organization/default-contact-info"
+		};
+	}
+
+	rpc GetTemplate(GetTemplateRequest) returns (Template) {
+		option (pando.api.method).required_claim = "communication:template,read";
+		option (google.api.http) = {
+			get: "/api/v1/communication/template"
+		};
+	}
+
+	rpc GetTemplates(GetTemplatesRequest) returns (TemplateList) {
+		option (pando.api.method).required_claim = "communication:template,read";
+		option (google.api.http) = {
+			get: "/api/v1/communication/templates"
+		};
+	}
+
+	// Delete
+	rpc DeleteOrganizationContactInfo(GetOrganizationContactInfoRequest) returns (OrganizationContactInfo) {
+		option (pando.api.method).required_claim = "communication:contact_info,delete";
+		option (google.api.http) = {
+			delete: "/api/v1/communication/organization/contact-info"
+		};
+	}
+
+	rpc DeleteTemplate(DeleteTemplateRequest) returns (pando.api.Empty) {
+		option (pando.api.method).required_claim = "communication:template,delete";
+		option (google.api.http) = {
+			delete: "/api/v1/communication/template"
+		};
+	}
+}
+
+// OrganizationContactInfo
+message OrganizationContactInfo {
+	string id = 1;
+	string organization_code = 2;
+	ContactInfo contact_info = 3;
+	bool is_default = 4;
+}
+
+message DefaultOrganizationContactInfo {
+	string organization_code = 1;
+	string email_address = 2;
+	string phone_number = 3;
+}
+
+message GetOrganizationContactInfoRequest {
+	string contact_info_id = 1;
+}
+
+message GetOrganizationContactInfoListRequest {
+	string organization_code = 1;
+}
+
+message DeleteOrganizationContactInfoRequest {
+	string contact_info_id = 1;
+}
+
+message GetDefaultOrganizationContactInfoRequest {
+	string organization_code = 1;
+}
+
+message CreateOrUpdateDefaultOrganizationContactInfoRequest {
+	DefaultOrganizationContactInfo default_organization_contact_info = 1;
+	google.protobuf.FieldMask update_mask = 2;
+}
+
+message OrganizationContactInfoList {
+	repeated OrganizationContactInfo organization_contact_info_list = 1;
+}
+
+// Template
+message Template {
+	string id = 1;
+	string name = 2;
+	string desciption = 3;
+	string organization_code = 4;
+	string text_message = 5;
+	string email_id = 6;
+}
+
+message GetTemplateRequest {
+	string template_id = 1;
+	google.protobuf.FieldMask read_mask = 2;
+}
+
+message GetTemplatesRequest {
+	string organization_code = 1;
+	google.protobuf.FieldMask read_mask = 2;
+	int32 page = 100;
+	int32 results_per_page = 101;
+	string filter = 102;
+}
+
+message CreateOrUpdateTemplateRequest {
+	Template template = 1;
+	google.protobuf.FieldMask update_mask = 2;
+}
+
+message DeleteTemplateRequest {
+	string template_id = 1;
+}
+
+message TemplateList {
+	repeated Template templates = 1;
+}

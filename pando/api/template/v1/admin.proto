@@ -147,6 +147,8 @@ message Template {
     }
     repeated TemplateVariable variables = 6;
     TemplateType template_type = 8;
+    string template_version_id = 9;
+    repeated string referenced_template_version_ids = 10;
 }
 
 message TemplateVariable {

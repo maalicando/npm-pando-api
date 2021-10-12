@@ -27,7 +27,6 @@ var pando_api_survey_v1_shared_pb = require('../../../../pando/api/survey/v1/sha
 goog.object.extend(proto, pando_api_survey_v1_shared_pb);
 goog.exportSymbol('proto.pando.api.survey.v1.CreateInstanceRequest', null, global);
 goog.exportSymbol('proto.pando.api.survey.v1.CreateInstanceRequest.DataSourceCase', null, global);
-goog.exportSymbol('proto.pando.api.survey.v1.CreateInstanceRequest.UserInfoCase', null, global);
 goog.exportSymbol('proto.pando.api.survey.v1.CreateSurveyVersionRequest', null, global);
 goog.exportSymbol('proto.pando.api.survey.v1.CreateVariablesRequest', null, global);
 goog.exportSymbol('proto.pando.api.survey.v1.DeleteAnswerOptionRequest', null, global);
@@ -8028,7 +8027,7 @@ proto.pando.api.survey.v1.SurveyVariable.prototype.setRequired = function(value)
  * @private {!Array<!Array<number>>}
  * @const
  */
-proto.pando.api.survey.v1.CreateInstanceRequest.oneofGroups_ = [[2,3],[4,5]];
+proto.pando.api.survey.v1.CreateInstanceRequest.oneofGroups_ = [[2,3]];
 
 /**
  * @enum {number}
@@ -8044,22 +8043,6 @@ proto.pando.api.survey.v1.CreateInstanceRequest.DataSourceCase = {
  */
 proto.pando.api.survey.v1.CreateInstanceRequest.prototype.getDataSourceCase = function() {
   return /** @type {proto.pando.api.survey.v1.CreateInstanceRequest.DataSourceCase} */(jspb.Message.computeOneofCase(this, proto.pando.api.survey.v1.CreateInstanceRequest.oneofGroups_[0]));
-};
-
-/**
- * @enum {number}
- */
-proto.pando.api.survey.v1.CreateInstanceRequest.UserInfoCase = {
-  USER_INFO_NOT_SET: 0,
-  CONTACT_INFO: 4,
-  USER_CONTACT_INFO: 5
-};
-
-/**
- * @return {proto.pando.api.survey.v1.CreateInstanceRequest.UserInfoCase}
- */
-proto.pando.api.survey.v1.CreateInstanceRequest.prototype.getUserInfoCase = function() {
-  return /** @type {proto.pando.api.survey.v1.CreateInstanceRequest.UserInfoCase} */(jspb.Message.computeOneofCase(this, proto.pando.api.survey.v1.CreateInstanceRequest.oneofGroups_[1]));
 };
 
 
@@ -8097,9 +8080,9 @@ proto.pando.api.survey.v1.CreateInstanceRequest.toObject = function(includeInsta
     data: (f = msg.getData()) && pando_api_shared_pb.DataRecord.toObject(includeInstance, f),
     recordGuid: jspb.Message.getFieldWithDefault(msg, 3, ""),
     contactInfo: (f = msg.getContactInfo()) && pando_api_shared_pb.ContactInfo.toObject(includeInstance, f),
-    userContactInfo: (f = msg.getUserContactInfo()) && pando_api_shared_pb.UserContactInfo.toObject(includeInstance, f),
     respondentName: jspb.Message.getFieldWithDefault(msg, 6, ""),
-    sendLink: jspb.Message.getBooleanFieldWithDefault(msg, 7, false)
+    sendLink: jspb.Message.getBooleanFieldWithDefault(msg, 7, false),
+    userId: jspb.Message.getFieldWithDefault(msg, 8, "")
   };
 
   if (includeInstance) {
@@ -8154,11 +8137,6 @@ proto.pando.api.survey.v1.CreateInstanceRequest.deserializeBinaryFromReader = fu
       reader.readMessage(value,pando_api_shared_pb.ContactInfo.deserializeBinaryFromReader);
       msg.setContactInfo(value);
       break;
-    case 5:
-      var value = new pando_api_shared_pb.UserContactInfo;
-      reader.readMessage(value,pando_api_shared_pb.UserContactInfo.deserializeBinaryFromReader);
-      msg.setUserContactInfo(value);
-      break;
     case 6:
       var value = /** @type {string} */ (reader.readString());
       msg.setRespondentName(value);
@@ -8166,6 +8144,10 @@ proto.pando.api.survey.v1.CreateInstanceRequest.deserializeBinaryFromReader = fu
     case 7:
       var value = /** @type {boolean} */ (reader.readBool());
       msg.setSendLink(value);
+      break;
+    case 8:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setUserId(value);
       break;
     default:
       reader.skipField();
@@ -8226,14 +8208,6 @@ proto.pando.api.survey.v1.CreateInstanceRequest.serializeBinaryToWriter = functi
       pando_api_shared_pb.ContactInfo.serializeBinaryToWriter
     );
   }
-  f = message.getUserContactInfo();
-  if (f != null) {
-    writer.writeMessage(
-      5,
-      f,
-      pando_api_shared_pb.UserContactInfo.serializeBinaryToWriter
-    );
-  }
   f = message.getRespondentName();
   if (f.length > 0) {
     writer.writeString(
@@ -8245,6 +8219,13 @@ proto.pando.api.survey.v1.CreateInstanceRequest.serializeBinaryToWriter = functi
   if (f) {
     writer.writeBool(
       7,
+      f
+    );
+  }
+  f = message.getUserId();
+  if (f.length > 0) {
+    writer.writeString(
+      8,
       f
     );
   }
@@ -8357,7 +8338,7 @@ proto.pando.api.survey.v1.CreateInstanceRequest.prototype.getContactInfo = funct
  * @return {!proto.pando.api.survey.v1.CreateInstanceRequest} returns this
 */
 proto.pando.api.survey.v1.CreateInstanceRequest.prototype.setContactInfo = function(value) {
-  return jspb.Message.setOneofWrapperField(this, 4, proto.pando.api.survey.v1.CreateInstanceRequest.oneofGroups_[1], value);
+  return jspb.Message.setWrapperField(this, 4, value);
 };
 
 
@@ -8376,43 +8357,6 @@ proto.pando.api.survey.v1.CreateInstanceRequest.prototype.clearContactInfo = fun
  */
 proto.pando.api.survey.v1.CreateInstanceRequest.prototype.hasContactInfo = function() {
   return jspb.Message.getField(this, 4) != null;
-};
-
-
-/**
- * optional pando.api.UserContactInfo user_contact_info = 5;
- * @return {?proto.pando.api.UserContactInfo}
- */
-proto.pando.api.survey.v1.CreateInstanceRequest.prototype.getUserContactInfo = function() {
-  return /** @type{?proto.pando.api.UserContactInfo} */ (
-    jspb.Message.getWrapperField(this, pando_api_shared_pb.UserContactInfo, 5));
-};
-
-
-/**
- * @param {?proto.pando.api.UserContactInfo|undefined} value
- * @return {!proto.pando.api.survey.v1.CreateInstanceRequest} returns this
-*/
-proto.pando.api.survey.v1.CreateInstanceRequest.prototype.setUserContactInfo = function(value) {
-  return jspb.Message.setOneofWrapperField(this, 5, proto.pando.api.survey.v1.CreateInstanceRequest.oneofGroups_[1], value);
-};
-
-
-/**
- * Clears the message field making it undefined.
- * @return {!proto.pando.api.survey.v1.CreateInstanceRequest} returns this
- */
-proto.pando.api.survey.v1.CreateInstanceRequest.prototype.clearUserContactInfo = function() {
-  return this.setUserContactInfo(undefined);
-};
-
-
-/**
- * Returns whether this field is set.
- * @return {boolean}
- */
-proto.pando.api.survey.v1.CreateInstanceRequest.prototype.hasUserContactInfo = function() {
-  return jspb.Message.getField(this, 5) != null;
 };
 
 
@@ -8449,6 +8393,24 @@ proto.pando.api.survey.v1.CreateInstanceRequest.prototype.getSendLink = function
  */
 proto.pando.api.survey.v1.CreateInstanceRequest.prototype.setSendLink = function(value) {
   return jspb.Message.setProto3BooleanField(this, 7, value);
+};
+
+
+/**
+ * optional string user_id = 8;
+ * @return {string}
+ */
+proto.pando.api.survey.v1.CreateInstanceRequest.prototype.getUserId = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 8, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.pando.api.survey.v1.CreateInstanceRequest} returns this
+ */
+proto.pando.api.survey.v1.CreateInstanceRequest.prototype.setUserId = function(value) {
+  return jspb.Message.setProto3StringField(this, 8, value);
 };
 
 

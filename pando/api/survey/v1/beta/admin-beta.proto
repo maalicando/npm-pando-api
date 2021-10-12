@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+// do not change the package name
+package pando.api.survey.v1;
+
+import "google/api/annotations.proto";
+import "pando/api/extensions.proto";
+import "pando/api/survey/v1/shared.proto";
+
+// these must be the same in all 'pando.survey.v1' proto files
+option csharp_namespace = "Pando.Api.Survey.V1";
+option java_multiple_files = true;
+option java_package = "com.pando.api.survey.v1";
+option ruby_package = "Pando::Api::Survey::V1";
+
+// /api/v1/beta/survey
+service SurveyAdminBetaService {
+    rpc ExecPublishSurvey(PublishSurveyRequest) returns (Survey) {
+        option (pando.api.method).required_claim = "survey:template,write";
+        option (google.api.http) = {
+            post: "/api/v1/beta/survey/template/publish",
+            body: "*"
+        };
+    }
+}
+
+message PublishSurveyRequest {
+    string survey_guid = 1;
+}
