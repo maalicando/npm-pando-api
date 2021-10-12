@@ -6,6 +6,8 @@ import esignAdminService from "./pando/api/esign/v1/admin_grpc_web_pb.js";
 import esignService from "./pando/api/esign/v1/esign_grpc_web_pb.js";
 import templateAdminService from "./pando/api/template/v1/admin_grpc_web_pb.js";
 import templateService from "./pando/api/template/v1/template_grpc_web_pb.js";
+import surveyBetaAdminService from "./pando/api/survey/v1/beta/admin-beta_grpc_web_pb.js";
+import surveyBetaService from "./pando/api/survey/v1/beta/survey-beta_grpc_web_pb.js";
 
 import admin from "./pando/api/survey/v1/admin_pb.js";
 import survey from "./pando/api/survey/v1/survey_pb.js";
@@ -18,6 +20,8 @@ import template from "./pando/api/template/v1/template_pb.js";
 import templateAdmin from "./pando/api/template/v1/admin_pb.js";
 import shared from "./pando/api/shared_pb.js";
 import esignshared from "./pando/api/esign/v1/shared_pb.js";
+import surveyBetaAdmin from "./pando/api/survey/v1/beta/admin-beta_pb.js";
+import surveyBeta from "./pando/api/survey/v1/beta/survey-beta_pb.js";
 
 export {
     adminService,
@@ -28,6 +32,8 @@ export {
     esignService,
     templateAdminService,
     templateService,
+    surveyBetaAdminService,
+    surveyBetaService,
     admin,
     survey,
     preview,
@@ -38,5 +44,7 @@ export {
     template,
     templateAdmin,
     shared, 
-    esignshared
+    esignshared,
+    surveyBetaAdmin,
+    surveyBeta
 };
